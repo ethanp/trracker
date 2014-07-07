@@ -16,6 +16,11 @@ group :development, :test do
   # gem 'childprocess', '0.3.6'
 end
 
+# Bootstrap 3
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'
+gem 'font-awesome-sass'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -76,4 +81,4 @@ end
 gem 'quiet_assets', '~> 1.0.3'  # pithier logging
 gem 'bcrypt', '~> 3.1.7'
 gem 'devise'        # simplified authentication
-gem 'simple_form'
+gem 'simple_form', '~> 3.1.0rc'
