@@ -1,6 +1,12 @@
 <h1>Editing task</h1>
 
-<%= render 'form' %>
+<%= simple_form_for @task, url: task_path(@task)  do |f| %>
+    <%= f.input :name%>
+    <%= f.input :duedate %>
+    <%= f.association :category, selected: current_user.categories.first.id %>
+    <%= f.input :complete %>
+    <%= f.button :submit %>
+<% end %>
 
 <%= link_to 'Show', @task %> |
-<%= link_to 'Back', tasks_path %>
+<%= link_to 'Back', category_tasks_path(@task) %>

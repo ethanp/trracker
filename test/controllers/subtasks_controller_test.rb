@@ -44,6 +44,6 @@ class SubtasksControllerTest < ActionController::TestCase
       delete :destroy, id: @subtask
     end
 
-    assert_redirected_to subtasks_path
+    assert_redirected_to task_subtasks_path
   end
 end

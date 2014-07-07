@@ -44,6 +44,6 @@ class TasksControllerTest < ActionController::TestCase
       delete :destroy, id: @task
     end
 
-    assert_redirected_to tasks_path
+    assert_redirected_to category_tasks_path
   end
 end

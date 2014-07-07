@@ -54,9 +54,10 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   # DELETE /tasks/1.json
   def destroy
+    cat = @task.category
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to category_tasks_url(cat), notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

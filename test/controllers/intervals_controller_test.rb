@@ -44,6 +44,6 @@ class IntervalsControllerTest < ActionController::TestCase
       delete :destroy, id: @interval
     end
 
-    assert_redirected_to intervals_path
+    assert_redirected_to task_intervals_path
   end
 end

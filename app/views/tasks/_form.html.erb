@@ -1,33 +1,8 @@
-<%= form_for(@task) do |f| %>
-  <% if @task.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
-
-      <ul>
-      <% @task.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :complete %><br>
-    <%= f.check_box :complete %>
-  </div>
-  <div class="field">
-    <%= f.label :duedate %><br>
-    <%= f.datetime_select :duedate %>
-  </div>
-  <div class="field">
-    <%= f.label :category_id %><br>
-    <%= f.text_field :category_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%# TODO make it skinny ... put it in a skinny grid cell? %>
+<%= simple_form_for @task, url: category_tasks_path  do |f| %>
+    <%= f.input :name%>
+    <%= f.input :duedate %>
+    <%= f.association :category, selected: current_user.categories.first.id %>
+    <%= f.input :complete %>
+    <%= f.button :submit %>
 <% end %>
