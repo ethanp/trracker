@@ -1,10 +1,21 @@
 source 'https://rubygems.org'
 
+ruby "2.1.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+
+group :development, :test do
+  # Use sqlite3 as the database for Active Record locally
+  gem 'sqlite3'
+  gem 'rspec-rails'
+  # The following optional lines are part of the advanced setup.
+  # gem 'guard-rspec'
+  # gem 'spork-rails', '4.0.0'
+  # gem 'guard-spork', '1.5.0'
+  # gem 'childprocess', '0.3.6'
+end
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
