@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start:</strong>
+  <%= @interval.start %>
+</p>
+
+<p>
+  <strong>End:</strong>
+  <%= @interval.end %>
+</p>
+
+<p>
+  <strong>Task:</strong>
+  <%= @interval.task %>
+</p>
+
+<%= link_to 'Edit', edit_interval_path(@interval) %> |
+<%= link_to 'Back', intervals_path %>

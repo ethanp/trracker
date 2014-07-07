@@ -1,0 +1,29 @@
+<h1>Listing subtasks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Name</th>
+      <th>Complete</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @subtasks.each do |subtask| %>
+      <tr>
+        <td><%= subtask.task %></td>
+        <td><%= subtask.name %></td>
+        <td><%= subtask.complete %></td>
+        <td><%= link_to 'Show', subtask %></td>
+        <td><%= link_to 'Edit', edit_subtask_path(subtask) %></td>
+        <td><%= link_to 'Destroy', subtask, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Subtask', new_subtask_path %>

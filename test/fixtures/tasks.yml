@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  complete: false
+  duedate: 2014-07-06 23:38:55
+  category_id: 
+
+two:
+  name: MyString
+  complete: false
+  duedate: 2014-07-06 23:38:55
+  category_id: 
