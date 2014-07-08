@@ -22,3 +22,9 @@ class ApplicationController < ActionController::Base
     end
   end
 end
+
+class Array
+  def to_ids
+    self.map { |x| x.id }
+  end
+end

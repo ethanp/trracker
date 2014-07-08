@@ -11,6 +11,9 @@ class SubtasksController < ApplicationController
   # GET /subtasks/1
   # GET /subtasks/1.json
   def show
+    unless current_user.subtasks.to_ids.include? Integer(params[:id])
+      redirect_to homepage_path
+    end
   end
 
   # GET /subtasks/new

@@ -11,6 +11,9 @@ class TasksController < ApplicationController
   # GET /tasks/1
   # GET /tasks/1.json
   def show
+    unless current_user.tasks.to_ids.include? Integer(params[:id])
+      redirect_to homepage_path
+    end
   end
 
   # GET /tasks/new

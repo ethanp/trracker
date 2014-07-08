@@ -11,6 +11,9 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
+    unless current_user.categories.to_ids.include? Integer(params[:id])
+      redirect_to homepage_path
+    end
   end
 
   # GET /categories/new
