@@ -16,4 +16,8 @@ class User < ActiveRecord::Base
   def subtasks
     tasks.flat_map { |t| t.subtasks }
   end
+
+  def intervals
+    tasks.flat_map { |t| t.intervals }
+  end
 end

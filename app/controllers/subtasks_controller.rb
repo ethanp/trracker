@@ -1,10 +1,11 @@
 class SubtasksController < ApplicationController
   before_action :set_subtask, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /subtasks
   # GET /subtasks.json
   def index
-    @subtasks = Subtask.all
+    @subtasks = current_user.subtasks
   end
 
   # GET /subtasks/1
@@ -15,6 +16,7 @@ class SubtasksController < ApplicationController
   # GET /subtasks/new
   def new
     @subtask = Subtask.new
+    @subtask.task_id = params[:task_id]
   end
 
   # GET /subtasks/1/edit
@@ -54,9 +56,10 @@ class SubtasksController < ApplicationController
   # DELETE /subtasks/1
   # DELETE /subtasks/1.json
   def destroy
+    task = @subtask.task
     @subtask.destroy
     respond_to do |format|
-      format.html { redirect_to subtasks_url, notice: 'Subtask was successfully destroyed.' }
+      format.html { redirect_to task_subtasks_url(task), notice: 'Subtask was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

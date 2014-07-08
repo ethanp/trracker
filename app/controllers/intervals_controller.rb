@@ -1,10 +1,11 @@
 class IntervalsController < ApplicationController
   before_action :set_interval, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /intervals
   # GET /intervals.json
   def index
-    @intervals = Interval.all
+    @intervals = current_user.intervals
   end
 
   # GET /intervals/1
@@ -15,6 +16,7 @@ class IntervalsController < ApplicationController
   # GET /intervals/new
   def new
     @interval = Interval.new
+    @interval.task_id = params[:task_id]
   end
 
   # GET /intervals/1/edit

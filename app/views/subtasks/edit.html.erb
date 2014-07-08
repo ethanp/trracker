@@ -1,6 +1,12 @@
 <h1>Editing subtask</h1>
 
-<%= render 'form' %>
+<%= simple_form_for @subtask, url: subtask_path(@subtask) do |f| %>
+    <%= f.input :task_id %><br>
+    <%= f.input :name %><br>
+    <%= f.input :complete %><br>
+    <%= f.button :submit %>
+<% end %>
+
 
 <%= link_to 'Show', @subtask %> |
-<%= link_to 'Back', task_subtasks_path %>
+<%= link_to 'Back', task_subtasks_path(@subtask) %>
