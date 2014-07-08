@@ -25,6 +25,7 @@ class IntervalsController < ApplicationController
   # POST /intervals.json
   def create
     @interval = Interval.new(interval_params)
+    @interval.task_id = params[:task_id]
 
     respond_to do |format|
       if @interval.save
@@ -54,9 +55,10 @@ class IntervalsController < ApplicationController
   # DELETE /intervals/1
   # DELETE /intervals/1.json
   def destroy
+    task = @interval.task
     @interval.destroy
     respond_to do |format|
-      format.html { redirect_to intervals_url, notice: 'Interval was successfully destroyed.' }
+      format.html { redirect_to task_intervals_url(task), notice: 'Interval was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

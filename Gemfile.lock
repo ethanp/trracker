@@ -203,28 +203,28 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  autoprefixer-rails
+  autoprefixer-rails (~> 2.1.0.20140628)
   bcrypt (~> 3.1.7)
   bootstrap-sass (~> 3.2.0)
-  capybara
+  capybara (~> 2.4.1)
   coffee-rails (~> 4.0.0)
   cucumber-rails (= 1.4.0)
   database_cleaner!
-  devise
-  factory_girl_rails
-  font-awesome-sass
+  devise (~> 3.2.4)
+  factory_girl_rails (~> 4.4.1)
+  font-awesome-sass (~> 4.1.0)
   jbuilder (~> 2.0)
-  jquery-rails
-  pg
+  jquery-rails (~> 3.1.1)
+  pg (~> 0.17.1)
   quiet_assets (~> 1.0.3)
   rails (= 4.1.4)
-  rails_12factor
-  rspec-rails
+  rails_12factor (~> 0.0.2)
+  rspec-rails (~> 3.0.1)
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
-  selenium-webdriver
+  selenium-webdriver (~> 2.42.0)
   simple_form (~> 3.1.0rc)
-  spring
-  sqlite3
-  turbolinks
+  spring (~> 1.1.3)
+  sqlite3 (~> 1.3.9)
+  turbolinks (~> 2.2.2)
   uglifier (>= 1.3.0)

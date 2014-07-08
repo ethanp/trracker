@@ -1,6 +1,10 @@
 <h1>Editing interval</h1>
 
-<%= render 'form' %>
+<%= simple_form_for @interval, url: interval_path(@interval) do |f| %>
+    <%= f.input :start %>
+    <%= f.input :end %>
+    <%= f.button :submit %>
+<% end %>
 
 <%= link_to 'Show', @interval %> |
-<%= link_to 'Back', task_intervals_path %>
+<%= link_to 'Back', task_intervals_path(@interval.task) %>
