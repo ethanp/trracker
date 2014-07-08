@@ -2,7 +2,6 @@
 <%= simple_form_for @task, url: category_tasks_path  do |f| %>
     <%= f.input :name%>
     <%= f.input :duedate %>
-    <%= f.association :category, selected: current_user.categories.first.id %>
     <%= f.input :complete %>
     <%= f.button :submit %>
 <% end %>

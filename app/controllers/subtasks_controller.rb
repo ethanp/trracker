@@ -30,6 +30,7 @@ class SubtasksController < ApplicationController
   # POST /subtasks.json
   def create
     @subtask = Subtask.new(subtask_params)
+    @subtask.task_id = params[:task_id]
 
     respond_to do |format|
       if @subtask.save
