@@ -1,14 +1,42 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @category.name %>
-</p>
+<h1><%= @category.name %> <%= link_to 'Edit Category', edit_category_path(@category), class: 'btn btn-info btn-md' %>
+<%= link_to 'Back', categories_path, class: 'btn btn-default btn-md' %></h1>
 
-<p>
-  <strong>User:</strong>
-  <%= @category.user %>
-</p>
 
-<%= link_to 'Edit', edit_category_path(@category) %> |
-<%= link_to 'Back', categories_path %>
+
+<h2>Tasks</h2>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Duedate</th>
+      <th>Complete</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @category.tasks.each do |task| %>
+      <tr>
+        <td><h4><%= link_to task.name,
+                        task %></h4></td>
+        <td><h5><%= task.duedate.strftime("%A, %B %e at %l:%M %p") %></h5></td>
+        <td><h6 class="text-capitalize"><%= task.complete %></h6></td>
+        <td><%= link_to 'Edit <span class="glyphicon glyphicon-file"></span>'.html_safe,
+                        edit_task_path(task),
+                        class: 'btn btn-warning' %></td>
+        <td><%= link_to '<span class="glyphicon glyphicon-minus"></span>'.html_safe,
+                        task,
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' },
+                        class: 'btn btn-danger' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Task', new_category_task_path(@category), class: 'btn btn-success btn-lg' %>
