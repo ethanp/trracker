@@ -5,7 +5,8 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = current_user.tasks
+    @parent_category = Category.find(params[:category_id])
+    @tasks = @parent_category.tasks
   end
 
   # GET /tasks/1
