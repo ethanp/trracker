@@ -1,27 +1,33 @@
-<h1>Listing categories</h1>
+<h1>My Categories</h1><br/>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="container">
+    <div class="row">
+        <% @categories.each do |category| %>
+            <!-- change this number to change the width of the thingy
+                 recall the whole grid is 12 cols wide -->
+            <div class="col-md-4">
+                <a href="#"><img class="img-responsive img-circle" src="images/image.jpg"></a>
+                <h3 class="text-center text-info"><%= link_to category.name,
+                                category,
+                                class: 'text-center text-info' %></h3>
+                <p class="text-center text-muted">I should add a <code>category.description</code></p>
 
-  <tbody>
-    <% @categories.each do |category| %>
-      <tr>
-        <td><%= category.name %></td>
-        <td><%= category.user.full_name %></td>
-        <td><%= link_to 'Show', category %></td>
-        <td><%= link_to 'Edit', edit_category_path(category) %></td>
-        <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+                <div class="text-center">
 
-<br>
+                    <%= link_to 'Edit',
+                                edit_category_path(category),
+                                class: 'btn btn-warning' %>
+                    <%= link_to 'Destroy',
+                                category,
+                                method: :delete,
+                                data: { confirm: 'Are you sure?' },
+                                class: 'btn btn-danger' %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
 
-<%= link_to 'New Category', new_category_path %>
+<br/><br/><br/>
+
+<%= link_to 'New Category', new_category_path, class: 'btn btn-success btn-lg' %>
