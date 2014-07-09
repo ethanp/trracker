@@ -5,13 +5,20 @@
         <% @categories.each do |category| %>
             <!-- change this number to change the width of the thingy
                  recall the whole grid is 12 cols wide -->
-            <div class="col-md-4">
-                <a href="#"><img class="img-responsive img-circle" src="images/image.jpg"></a>
-                <h3 class="text-center text-info"><%= link_to category.name,
-                                category,
-                                class: 'text-center text-info' %></h3>
-                <p class="text-center text-muted">I should add a <code>category.description</code></p>
-
+            <div class="col-md-4 panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="text-center text-info">
+                        <%= link_to(
+                                    image_tag('Zapatista.jpg',
+                                              class: 'img-responsive img-rounded')+
+                                            category.name,
+                                    category,
+                                    class: 'text-center text-info') %>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <p class="text-center text-muted">I should add a <code>category.description</code></p>
+                </div>
                 <div class="text-center">
 
                     <%= link_to 'Edit',
