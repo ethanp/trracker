@@ -10,7 +10,26 @@
                             boolean: :horizontal_boolean
                     }  do |f| %>
     <%= f.input :name %>
-    <%= f.input :duedate, input_html: { class: 'col-xs-2'}  %>
+    <!--<%= f.input :duedate, input_html: { class: 'col-xs-2 form-group input-group data'}  %>-->
+    <div class="container">
+        <div class="row">
+            <div class='col-xs-3'>
+                <div class="form-group form-horizontal">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <%= f.text_field :duedate, :class => 'form-control' %>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <%= f.input :complete %>
     <%= f.button :submit %>
 <% end %>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+</script>

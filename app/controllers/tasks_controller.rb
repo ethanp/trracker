@@ -30,7 +30,12 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = Task.new(task_params)
+      # TODO I need to convert the text datetime to a Rails-friendly datetime
+    my_params = task_params
+    puts task_params[:duedate]
+    my_params[:duedate] = Time.strptime(task_params[:duedate], "%m/%d/%Y %l:%M %p")
+    puts my_params[:duedate]
+    @task = Task.new(my_params)
     @task.category_id = params[:category_id]
 
     respond_to do |format|

@@ -21,6 +21,10 @@ gem 'bootstrap-sass',     '~> 3.2.0'
 gem 'autoprefixer-rails', '~> 2.1.0.20140628'
 gem 'font-awesome-sass',  '~> 4.1.0'
 
+# https://github.com/TrevorS/bootstrap3-datetimepicker-rails
+gem 'momentjs-rails', '~> 2.5.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 3.0.0.2'
+
 # sass-rails: Use SCSS for stylesheets
 # Use Uglifier as compressor for JavaScript assets
 # Use CoffeeScript for .js.coffee assets and views
