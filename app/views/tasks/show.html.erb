@@ -1,48 +1,82 @@
 <%# TODO maybe some better styling here %>
 <%# TODO like a reference to this Category's background image or something %>
-<h1>Task: <%= @task.name %></h1>
-<h3>Category: <%= link_to @task.category.name, category_path(@task.category) %></h3>
+<div class="row">
+    <div class="container-fluid">
+        <div class="jumbotron">
 
-<p><b><i>
-    <% if @task.complete %>
-        Complete
-    <% else %>
-        Incomplete
-    <% end %>
-</i></b></p>
+            <h1>Task: <%= @task.name %></h1>
+            <h3>Category: <%= link_to @task.category.name, category_path(@task.category) %></h3>
 
-<p>
-    <strong>Duedate:</strong>
-    <%= @task.duedate.strftime("%A, %B %e at %l:%M %p") %>, or
-    <% if @task.duedate > Time.now %>
-        in
-    <% end %>
-    roughly
-    <%= time_ago_in_words(@task.duedate) %>
-    <% if @task.duedate < Time.now %>
-        ago
-    <% end %>
-</p>
+            <p><b><i>
+                <% if @task.complete %>
+                    Complete
+                <% else %>
+                    Incomplete
+                <% end %>
+            </i></b></p>
 
-<%= link_to 'Edit', edit_task_path(@task), class: 'btn btn-info btn-md' %>
+            <p>
+                <strong>Duedate:</strong>
+                <%= @task.duedate.strftime("%A, %B %e at %l:%M %p") %>, or
+                <% if @task.duedate > Time.now %>
+                    in
+                <% end %>
+                roughly
+                <%= time_ago_in_words(@task.duedate) %>
+                <% if @task.duedate < Time.now %>
+                    ago
+                <% end %>
+            </p>
 
-<%# TODO    1. list the intervals %>
-<% if @task.intervals.count > 0 %>
-    <% @task.intervals.each do |interval| %>
-    <% end %>
-<% else %>
-    <p><b>Intervals:</b> None</p>
-<% end %>
+            <%= link_to 'Edit', edit_task_path(@task), class: 'btn btn-info btn-md' %>
+        </div>
+    </div>
+</div>
 
-<%# TODO    2. list the subtasks %>
-<% if @task.subtasks.count > 0 %>
-    <% @task.subtasks.each do |subtask| %>
-    <% end %>
-<% else %>
-    <p><b>Subtasks:</b> None</p>
-<% end %>
-
-<%# TODO    3. add interval manual entry form (eventually, of %>
-<%# TODO       course, the form code shouldn't just be in here) %>
-
-<%# TODO    4. add Start/End Timer button %>
+<br/>
+<!-- TODO there should be a show/hide button for the subtasks and for the intervals -->
+<div class="row">
+    <div class="panel panel-default col-md-4">
+        <div class="panel-heading"><h3>Subtasks</h3></div>
+        <div class="panel-body">
+            <ul class="list-group">
+                <% @task.subtasks.each do |subtask| %>
+                    <li class="list-group-item"><%= subtask.name %></li>
+                <% end %>
+            </ul>
+            <%= link_to 'Add Subtask', new_task_subtask_path(@task),
+                        class: 'btn btn-success btn-md' %>
+        </div>
+    </div>
+    <div class="panel panel-default col-md-1">
+    </div>
+    <div class="panel panel-default col-md-7">
+        <div class="panel-heading"><h3>Intervals</h3></div>
+        <div class="panel-body">
+            <!--TODO This is where the Start/End button should go-->
+            <div class="well well-sm">
+                This is where the Start/End button should go
+            </div>
+            <!--TODO This is where the manual interval entry form should go-->
+            <div class="well well-sm">
+                This is where the manual interval entry form should go
+            </div>
+            <table class="table">
+                <tr>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Time</th>
+                </tr>
+                <% @task.intervals.each do |interval| %>
+                    <tr>
+                        <td><%= interval.start %></td>
+                        <td><%= interval.end %></td>
+                        <td><%= distance_of_time_in_words(interval.end, interval.start) %></td>
+                    </tr>
+                <% end %>
+            </table>
+            <%= link_to 'Add Interval', new_task_interval_path(@task),
+                        class: 'btn btn-primary btn-md' %>
+        </div>
+    </div>
+</div>
