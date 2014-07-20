@@ -1,5 +1,4 @@
-<%# TODO maybe some better styling here %>
-<%# TODO like a reference to this Category's background image or something %>
+<%# TODO maybe a reference to this Category's background image or something %>
 <div class="row">
     <div class="container-fluid">
         <div class="jumbotron">
@@ -33,24 +32,28 @@
     </div>
 </div>
 
-<br/>
-<!-- TODO there should be a show/hide button for the subtasks and for the intervals -->
+<button class="btn btn-warning" onclick="toggleSubtasks()">Toggle Subtasks</button>
+<button class="btn btn-warning" onclick="toggleIntervals()">Toggle Intervals</button>
 <div class="row">
-    <div class="panel panel-default col-md-4">
+    <div class="panel panel-default col-md-4" id="subtasks">
         <div class="panel-heading"><h3>Subtasks</h3></div>
         <div class="panel-body">
             <ul class="list-group">
                 <% @task.subtasks.each do |subtask| %>
+                    <!-- TODO  subtasks should cycle red-yellow-green when you click -->
                     <li class="list-group-item"><%= subtask.name %></li>
                 <% end %>
             </ul>
+            <!-- TODO  This should actually be a little form for posting subtasks -->
+            <!-- TODO  no idea how to do that... -->
+
             <%= link_to 'Add Subtask', new_task_subtask_path(@task),
                         class: 'btn btn-success btn-md' %>
         </div>
     </div>
     <div class="panel panel-default col-md-1">
     </div>
-    <div class="panel panel-default col-md-7">
+    <div class="panel panel-default col-md-7" id="intervals">
         <div class="panel-heading"><h3>Intervals</h3></div>
         <div class="panel-body">
             <!--TODO This is where the Start/End button should go-->
@@ -80,3 +83,11 @@
         </div>
     </div>
 </div>
+<script>
+    function toggleSubtasks() {
+        $('#subtasks').slideToggle('slow');
+    }
+    function toggleIntervals() {
+        $('#intervals').slideToggle('slow');
+    }
+</script>
