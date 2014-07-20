@@ -42,7 +42,12 @@
             <ul class="list-group">
                 <% @task.subtasks.each do |subtask| %>
                     <!-- TODO  subtasks should cycle red-yellow-green when you click -->
-                    <li class="list-group-item"><%= subtask.name %></li>
+                    <li class="list-group-item">
+                        <%= subtask.name %>
+                        <span class="badge">
+                             <%= link_to 'Delete', subtask_path(subtask), method: :delete, style: 'color:white;' %>
+                        </span>
+                    </li>
                 <% end %>
             </ul>
             <!-- TODO  This should actually be a little form for posting subtasks -->
@@ -60,7 +65,6 @@
             <div class="well well-sm">
                 <button class="btn btn-success" id="record" onclick="recordButtonPressed()">Record</button>
                 <button class="btn btn-warning" id="cancel" onclick="cancelRecording()">Cancel</button>
-                <!--TODO make a cancel button that clears the localStorage entry-->
                 <!--TODO This is where the manual interval entry form should go-->
                 This is where the manual interval entry form should go
             </div>
@@ -69,12 +73,14 @@
                     <th>Start</th>
                     <th>End</th>
                     <th>Time</th>
+                    <th></th>
                 </tr>
                 <% @task.intervals.each do |interval| %>
                     <tr>
                         <td><%= interval.start %></td>
                         <td><%= interval.end %></td>
                         <td><%= distance_of_time_in_words(interval.end,interval.start) %></td>
+                        <td><%= link_to 'Delete', interval_path(interval), method: :delete, class: 'btn btn-danger' %></td>
                     </tr>
                 <% end %>
             </table>
