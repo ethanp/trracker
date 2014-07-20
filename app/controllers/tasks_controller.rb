@@ -32,12 +32,7 @@ class TasksController < ApplicationController
   def create
     # convert the text datetime to a Rails-friendly datetime
     # & set the timezone of the duedate to the current timezone
-    my_params = task_params
-    puts task_params[:duedate]
-    my_params[:duedate] = Time.strptime(task_params[:duedate], "%m/%d/%Y %l:%M %p")
-    # TODO clean this up (it only works West of GMT [lol])
-    my_params[:duedate] = my_time.change(offset: "#{(DateTime.now.offset*24).to_i}000")
-    puts my_params[:duedate]
+    my_params = parse_duedate(task_params)
     @task = Task.new(my_params)
     @task.category_id = params[:category_id]
 
@@ -56,8 +51,8 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1.json
   def update
     respond_to do |format|
-      # TODO I believe the timezone crap will be lost at this point
-      if @task.update(task_params)
+      my_params = parse_duedate(task_params)
+      if @task.update(my_params)
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
       else
@@ -86,7 +81,14 @@ class TasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      # TODO I probably need to figure out how to set the timezone within this thing
       params.require(:task).permit(:name, :complete, :duedate, :category_id)
+    end
+
+    def parse_duedate(p)
+      my_params = p
+      my_params[:duedate] = Time.strptime(p[:duedate], "%m/%d/%Y %l:%M %p")
+      puts p[:duedate]
+      puts my_params[:duedate]
+      my_params
     end
 end

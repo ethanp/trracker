@@ -1,8 +1,25 @@
-<h1>Editing task</h1>
+<h1>Editing: <b><%= @task.name %></b></h1>
 
-<%= simple_form_for @task, url: task_path(@task)  do |f| %>
+<%= simple_form_for @task, url: task_path(@task),
+                    html: { class: 'form-horizontal' },
+                    wrapper: :horizontal_form,
+                    wrapper_mappings: {
+                            check_boxes: :horizontal_radio_and_checkboxes,
+                            radio_buttons: :horizontal_radio_and_checkboxes,
+                            file: :horizontal_file_input,
+                            boolean: :horizontal_boolean
+                    }  do |f| %>
     <%= f.input :name%>
-    <%= f.input :duedate %>
+    <div class="form-group form-horizontal duedate">
+        <label class="string duedate col-sm-3 control-label" for="duedate">Duedate</label>
+        <div class='col-sm-3 date' id='datetimepicker1'>
+            <%= f.text_field :duedate, class: 'form-control' %>
+            <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar">
+                        </span>
+                    </span>
+        </div>
+    </div>
     <%= f.association :category, selected: current_user.categories.first.id %>
     <%= f.input :complete %>
     <%= f.button :submit %>
@@ -10,3 +27,8 @@
 
 <%= link_to 'Show', @task %> |
 <%= link_to 'Back', category_tasks_path(@task) %>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+</script>
