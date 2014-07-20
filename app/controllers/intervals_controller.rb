@@ -43,6 +43,22 @@ class IntervalsController < ApplicationController
     end
   end
 
+  def create_from_ajax
+    puts params
+    start_end = params[:interval].split.map { |milli|
+      DateTime.strptime((milli.to_f / 1000).to_s, '%s')
+    }
+    @interval = Interval.new(start: start_end.first,
+                             end: start_end.last,
+                             task_id: params[:task_id])
+    if @interval.save
+      # TODO what this should actually do is respond with the new interval entry for the table
+      redirect_to(Task.find(params[:task_id]), notice: 'Interval was successfully created.')
+    else
+      redirect_to(Task.find(params[:task_id]), notice: 'Problem creating interval.')
+    end
+  end
+
   # PATCH/PUT /intervals/1
   # PATCH/PUT /intervals/1.json
   def update
