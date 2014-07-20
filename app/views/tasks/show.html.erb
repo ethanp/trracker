@@ -1,24 +1,36 @@
-<p id="notice"><%= notice %></p>
+<%# TODO these should be in panels or something %>
+<h1>Task: <%= @task.name %></h1>
+<h3>Category: <%= link_to @task.category.name, category_path(@task.category) %></h3>
 
-<p>
-  <strong>Name:</strong>
-  <%= @task.name %>
-</p>
+<p><b><i>
+<% if @task.complete %>
+    Complete
+<% else %>
+    Incomplete
+<% end %>
+</i></b></p>
 
-<p>
-  <strong>Complete:</strong>
-  <%= @task.complete %>
-</p>
-
+<%# TODO this has a manual correction for my timezone! %>
+<%# TODO what SHOULD be happening, is it saves the duedate IN MY TIMEZONE! %>
 <p>
   <strong>Duedate:</strong>
-  <%= @task.duedate %>
+  <%= @task.duedate.strftime("%A, %B %e at %l:%M %p") %>, this is in
+    <%= ((@task.duedate - DateTime.now)/ 60 / 60 / 24).to_i %> days,
+    <%= ((@task.duedate - DateTime.now)/ 60 / 60 % 24).to_i %> hours,
+    <%= ((@task.duedate - DateTime.now) / 60 % 60).to_i %> minutes
 </p>
 
-<p>
-  <strong>Category:</strong>
-  <%= @task.category %>
-</p>
+<%= link_to 'Edit', edit_task_path(@task), class: 'btn btn-info btn-md' %>
 
-<%= link_to 'Edit', edit_task_path(@task) %> |
-<%= link_to 'Back', category_tasks_path(@task.category) %>
+<%# TODO    1. list the intervals %>
+<% @task.intervals.each do |interval| %>
+<% end %>
+
+<%# TODO    2. list the subtasks %>
+<% @task.subtasks.each do |subtask| %>
+<% end %>
+
+<%# TODO    3. add interval manual entry form (eventually, of %>
+<%# TODO       course, the form code shouldn't just be in here) %>
+
+<%# TODO    4. add Start/End Timer button %>

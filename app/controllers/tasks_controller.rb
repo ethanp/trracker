@@ -30,10 +30,13 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-      # TODO I need to convert the text datetime to a Rails-friendly datetime
+    # convert the text datetime to a Rails-friendly datetime
+    # & set the timezone of the duedate to the current timezone
     my_params = task_params
     puts task_params[:duedate]
     my_params[:duedate] = Time.strptime(task_params[:duedate], "%m/%d/%Y %l:%M %p")
+    # TODO clean this up (it only works West of GMT [lol])
+    my_params[:duedate] = my_time.change(offset: "#{(DateTime.now.offset*24).to_i}000")
     puts my_params[:duedate]
     @task = Task.new(my_params)
     @task.category_id = params[:category_id]
@@ -53,6 +56,7 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1.json
   def update
     respond_to do |format|
+      # TODO I believe the timezone crap will be lost at this point
       if @task.update(task_params)
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
@@ -82,6 +86,7 @@ class TasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
+      # TODO I probably need to figure out how to set the timezone within this thing
       params.require(:task).permit(:name, :complete, :duedate, :category_id)
     end
 end
