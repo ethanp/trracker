@@ -58,9 +58,10 @@
         <div class="panel-heading"><h3>Intervals</h3></div>
         <div class="panel-body">
             <div class="well well-sm">
-                <button class="btn btn-success" id="record" onclick="record()">Record</button>
+                <button class="btn btn-success" id="record" onclick="recordButtonPressed()">Record</button>
+                <button class="btn btn-warning" id="cancel" onclick="cancelRecording()">Cancel</button>
                 <!--TODO make a cancel button that clears the localStorage entry-->
-            <!--TODO This is where the manual interval entry form should go-->
+                <!--TODO This is where the manual interval entry form should go-->
                 This is where the manual interval entry form should go
             </div>
             <table class="table">
@@ -86,36 +87,59 @@
 <!-- omg not the Yavascript -->
 <script>
 
-    function toggleSubtasks() {
-        $('#subtasks').slideToggle('slow');
-    }
+    var currentUrl = window.location.pathname;
+    var recordButton = $('#record');
+    initializeRecordButton();
 
-    function toggleIntervals() {
-        $('#intervals').slideToggle('slow');
-    }
+    function toggleSubtasks() { $('#subtasks').slideToggle('slow'); }
 
-    function record() {
-        var recordButton = $('#record');
-        var notRecording = recordButton.html() == 'Record';
+    function toggleIntervals() { $('#intervals').slideToggle('slow'); }
 
+
+    function recordButtonPressed() {
+        var startingToRecord = recordButton.html() == 'Record';
         recordButton
-                .html(notRecording ? 'Stop' : 'Record')
+                .html(startingToRecord ? 'Stop' : 'Record')
                 .toggleClass('btn-success')
                 .toggleClass('btn-danger');
 
-        var currentUrl = window.location.pathname;
         if (typeof(Storage) !== "undefined") {
-            if (notRecording) {
+            if (startingToRecord) {
                 localStorage.setItem(currentUrl, $.now());
             } else {
-                var timeSpan = {
-                    interval : localStorage.getItem(currentUrl) + " " + $.now()
-                };
+                var timeSpan = { interval : localStorage.getItem(currentUrl) + " " + $.now() };
                 $.post(currentUrl+'/intervals-ajax', timeSpan, function(data) {
                     // TODO this does what it says, but does nothing useful
                     $('#intervals').appendChild($('p').html('Success!'));
                 });
+                localStorage.removeItem(currentUrl);
             }
+        } else {
+            recordButton.html('DISABLED');
+        }
+    }
+
+    function initializeRecordButton() {
+        if (typeof(Storage) !== "undefined") {
+            if (localStorage.getItem(currentUrl) !== null) {
+                recordButton
+                        .html('Stop')
+                        .addClass('btn-danger')
+                        .removeClass('btn-success');
+            } else {
+                cancelRecording();
+            }
+        } else {
+            recordButton.html('DISABLED');
+        }
+    }
+    function cancelRecording() {
+        if (typeof(Storage) !== "undefined") {
+            localStorage.removeItem(currentUrl);
+            recordButton
+                    .html('Record')
+                    .addClass('btn-success')
+                    .removeClass('btn-danger');
         } else {
             recordButton.html('DISABLED');
         }
