@@ -4,7 +4,8 @@
         <div class="jumbotron">
 
             <h1>Task: <%= @task.name %></h1>
-            <h3>Category: <%= link_to @task.category.name, category_path(@task.category) %></h3>
+            <h3>Category: <%= link_to @task.category.name,
+                                      category_path(@task.category) %></h3>
 
             <p><b><i>
                 <% if @task.complete %>
@@ -72,7 +73,7 @@
                     <tr>
                         <td><%= interval.start %></td>
                         <td><%= interval.end %></td>
-                        <td><%= distance_of_time_in_words(interval.end, interval.start) %></td>
+                        <td><%= distance_of_time_in_words(interval.end,interval.start) %></td>
                     </tr>
                 <% end %>
             </table>
@@ -94,25 +95,29 @@
     }
 
     function record() {
-        var r = $('#record');
-        var s = r.html() == 'Record';
-        r.html(s ? 'Stop' : 'Record');
-        r.toggleClass('btn-success');
-        r.toggleClass('btn-danger');
-        var url = window.location.pathname
+        var recordButton = $('#record');
+        var notRecording = recordButton.html() == 'Record';
+
+        recordButton
+                .html(notRecording ? 'Stop' : 'Record')
+                .toggleClass('btn-success')
+                .toggleClass('btn-danger');
+
+        var currentUrl = window.location.pathname;
         if (typeof(Storage) !== "undefined") {
-            if (s) {
-                localStorage.setItem(url, $.now());
+            if (notRecording) {
+                localStorage.setItem(currentUrl, $.now());
             } else {
                 var timeSpan = {
-                    interval : localStorage.getItem(url) + " " + $.now()
+                    interval : localStorage.getItem(currentUrl) + " " + $.now()
                 };
-                $.post(url+'/intervals-ajax', timeSpan, function(data) {
-                    $('#intervals').appendChild($('p').html('Success?'))
-                })
+                $.post(currentUrl+'/intervals-ajax', timeSpan, function(data) {
+                    // TODO this does what it says, but does nothing useful
+                    $('#intervals').appendChild($('p').html('Success!'));
+                });
             }
         } else {
-            r.html('DISABLED');
+            recordButton.html('DISABLED');
         }
     }
 </script>
