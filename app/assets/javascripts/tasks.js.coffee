@@ -24,8 +24,8 @@ ready = ->
           $("#intervals").appendChild $("p").html("Success!")
 
           # one is supposed to have this "empty return" so that you
-          # don't unnecessarily waste memory by returning the result
-          # of your last statement
+          # don't unnecessarily waste memory (and confuse yourself)
+          # by returning the result of your last statement
           return
 
         localStorage.removeItem currentUrl
