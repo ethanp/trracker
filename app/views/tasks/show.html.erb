@@ -33,6 +33,9 @@
     <div class="panel panel-default col-md-4" id="subtasks">
         <div class="panel-heading"><h3>Subtasks</h3></div>
         <div class="panel-body">
+            <div class="well well-sm">
+                    <%= render 'subtasks/form' %>
+            </div>
             <ul class="list-group">
                 <% @task.subtasks.each do |subtask| %>
                     <!-- TODO  subtasks should cycle red-yellow-green when you click -->
@@ -44,11 +47,6 @@
                     </li>
                 <% end %>
             </ul>
-            <!-- TODO  This should actually be a little form for posting subtasks -->
-            <!-- TODO  no idea how to do that... -->
-
-            <%= link_to 'Add Subtask', new_task_subtask_path(@task),
-                        class: 'btn btn-success btn-md' %>
         </div>
     </div>
     <div class="panel panel-default col-md-1">
@@ -81,8 +79,6 @@
                     </tr>
                 <% end %>
             </table>
-            <%= link_to 'Add Interval', new_task_interval_path(@task),
-                        class: 'btn btn-primary btn-md' %>
         </div>
     </div>
 </div>

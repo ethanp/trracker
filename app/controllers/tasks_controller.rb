@@ -16,6 +16,7 @@ class TasksController < ApplicationController
       redirect_to homepage_path
     end
     @interval = Interval.new
+    @subtask = Subtask.new
   end
 
   # GET /tasks/new
