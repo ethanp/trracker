@@ -49,6 +49,13 @@ class TasksController < ApplicationController
     end
   end
 
+  def complete
+    @task = Task.find(params[:task_id])
+    @task.complete = !@task.complete
+    @task.save
+    redirect_to @task
+  end
+
   # PATCH/PUT /tasks/1
   # PATCH/PUT /tasks/1.json
   def update

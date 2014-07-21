@@ -21,8 +21,10 @@
                 <% end %>
             </p>
 
-            <%= link_to 'Edit', edit_task_path(@task), class: 'btn btn-info btn-md' %>
-            <!-- TODO add button to "COMPLETE" the task; will require controller action-->
+            <%= form_for @task, url: complete_task_path(@task), method: :post, html: { style: "display:inline;" } do |f| %>
+                <%= f.submit(@task.complete ? 'Un-Complete' : 'Complete', class: 'btn btn-info btn-lg') %>
+            <% end %>
+            <%= link_to 'Edit', edit_task_path(@task), class: 'btn btn-default btn-lg' %>
         </div>
     </div>
 </div>
@@ -34,11 +36,10 @@
         <div class="panel-heading"><h3>Subtasks</h3></div>
         <div class="panel-body">
             <div class="well well-sm">
-                    <%= render 'subtasks/form' %>
+                <%= render 'subtasks/form' %>
             </div>
             <ul class="list-group">
                 <% @task.subtasks.each do |subtask| %>
-                    <!-- TODO  subtasks should cycle red-yellow-green when you click -->
                     <li class="list-group-item">
                         <%= subtask.name %>
                         <span class="badge">
@@ -75,7 +76,7 @@
                         <td><%= interval.start %></td>
                         <td><%= interval.end %></td>
                         <td><%= distance_of_time_in_words(interval.end,interval.start) %></td>
-                        <td><%= link_to 'Delete', interval_path(interval), method: :delete, class: 'btn btn-danger' %></td>
+                        <td><%= link_to 'Delete', interval_path(interval), method: :delete, class: 'btn btn-danger btn-sm' %></td>
                     </tr>
                 <% end %>
             </table>

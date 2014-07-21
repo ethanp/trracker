@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   get 'static/landing', as: :home
   get 'static/about', as: :about
   get 'static/help'
-
   resources :users
   shallow do
     resources :categories do
@@ -16,8 +15,8 @@ Rails.application.routes.draw do
       end
     end
   end
-  post '/tasks/:task_id/intervals-ajax' => 'intervals#create_from_ajax'
-  # the record button
+  post '/tasks/:task_id/intervals-ajax' => 'intervals#create_from_ajax' # the record button
+  post '/tasks/:task_id/complete' => 'tasks#complete', as: :complete_task
 
 
   # The priority is based upon order of creation: first created -> highest priority.
