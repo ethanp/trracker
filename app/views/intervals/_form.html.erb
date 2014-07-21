@@ -1,17 +1,7 @@
-    <div class="row">
-<%= simple_form_for @interval, url: task_intervals_path(params[:id]) do |f| %>
-
-    <div id='datetimepicker1'>
+<div class="row">
+    <%= simple_form_for @interval, url: task_intervals_path(params[:id]) do |f| %>
         <%= render partial: 'layouts/datetime', locals: {f: f, column: :start} %>
-    </div>
-    <div id='datetimepicker2'>
         <%= render partial: 'layouts/datetime', locals: {f: f, column: :end} %>
-    </div>
-    <%= f.button :submit, 'Create', class: 'btn-primary' %>
-<% end %></div>
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker1').datetimepicker();
-        $('#datetimepicker2').datetimepicker();
-    });
-</script>
+        <%= f.button :submit, 'Create', class: 'btn-primary' %>
+    <% end %>
+</div>
