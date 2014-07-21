@@ -29,12 +29,13 @@ class IntervalsController < ApplicationController
   # POST /intervals
   # POST /intervals.json
   def create
-    @interval = Interval.new(interval_params)
+    my_params = parse_times(interval_params)
+    @interval = Interval.new(my_params)
     @interval.task_id = params[:task_id]
 
     respond_to do |format|
       if @interval.save
-        format.html { redirect_to @interval, notice: 'Interval was successfully created.' }
+        format.html { redirect_to @interval.task, notice: 'Interval was successfully created.' }
         format.json { render :show, status: :created, location: @interval }
       else
         format.html { render :new }
@@ -64,7 +65,7 @@ class IntervalsController < ApplicationController
   def update
     respond_to do |format|
       if @interval.update(interval_params)
-        format.html { redirect_to @interval, notice: 'Interval was successfully updated.' }
+        format.html { redirect_to @interval.task, notice: 'Interval was successfully updated.' }
         format.json { render :show, status: :ok, location: @interval }
       else
         format.html { render :edit }
@@ -79,7 +80,7 @@ class IntervalsController < ApplicationController
     task = @interval.task
     @interval.destroy
     respond_to do |format|
-      format.html { redirect_to task_intervals_url(task), notice: 'Interval was successfully destroyed.' }
+      format.html { redirect_to task_url(task), notice: 'Interval was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -93,5 +94,13 @@ class IntervalsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def interval_params
       params.require(:interval).permit(:start, :end, :task_id)
+    end
+
+
+    def parse_times(p)
+      my_params = p
+      my_params[:start] = parse_datetime_form(p[:start])
+      my_params[:end] = parse_datetime_form(p[:end])
+      my_params
     end
 end

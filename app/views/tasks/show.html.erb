@@ -7,13 +7,7 @@
             <h3>Category: <%= link_to @task.category.name,
                                       category_path(@task.category) %></h3>
 
-            <p><b><i>
-                <% if @task.complete %>
-                    Complete
-                <% else %>
-                    Incomplete
-                <% end %>
-            </i></b></p>
+            <p><b><i><%= @task.complete ? "Complete" : "Incomplete" %></i></b></p>
 
             <p>
                 <strong>Duedate:</strong>
@@ -63,10 +57,13 @@
         <div class="panel-heading"><h3>Intervals</h3></div>
         <div class="panel-body">
             <div class="well well-sm">
-                <button class="btn btn-success" id="record" onclick="recordButtonPressed()">Record</button>
-                <button class="btn btn-warning" id="cancel" onclick="cancelRecording()">Cancel</button>
-                <!--TODO This is where the manual interval entry form should go-->
-                This is where the manual interval entry form should go
+                <div class="row">
+                    <div class="col-md-2">
+                        <button class="btn btn-success" id="record" onclick="recordButtonPressed()">Record</button>
+                        <button class="btn btn-warning" id="cancel" onclick="cancelRecording()">Cancel</button>
+                    </div>
+                    <%= render 'intervals/form' %>
+                </div>
             </div>
             <table class="table">
                 <tr>

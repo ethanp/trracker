@@ -34,7 +34,7 @@ class SubtasksController < ApplicationController
 
     respond_to do |format|
       if @subtask.save
-        format.html { redirect_to @subtask, notice: 'Subtask was successfully created.' }
+        format.html { redirect_to @subtask.task, notice: 'Subtask was successfully created.' }
         format.json { render :show, status: :created, location: @subtask }
       else
         format.html { render :new }
@@ -48,7 +48,7 @@ class SubtasksController < ApplicationController
   def update
     respond_to do |format|
       if @subtask.update(subtask_params)
-        format.html { redirect_to @subtask, notice: 'Subtask was successfully updated.' }
+        format.html { redirect_to @subtask.task, notice: 'Subtask was successfully updated.' }
         format.json { render :show, status: :ok, location: @subtask }
       else
         format.html { render :edit }
@@ -63,7 +63,7 @@ class SubtasksController < ApplicationController
     task = @subtask.task
     @subtask.destroy
     respond_to do |format|
-      format.html { redirect_to task_subtasks_url(task), notice: 'Subtask was successfully destroyed.' }
+      format.html { redirect_to task_url(task), notice: 'Subtask was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

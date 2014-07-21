@@ -21,6 +21,10 @@ class ApplicationController < ActionController::Base
       }
     end
   end
+
+  def parse_datetime_form datetime
+    Time.strptime(datetime, "%m/%d/%Y %l:%M %p")
+  end
 end
 
 class Array

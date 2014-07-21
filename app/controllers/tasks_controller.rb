@@ -15,6 +15,7 @@ class TasksController < ApplicationController
     unless current_user.tasks.to_ids.include? Integer(params[:id])
       redirect_to homepage_path
     end
+    @interval = Interval.new
   end
 
   # GET /tasks/new
@@ -86,9 +87,7 @@ class TasksController < ApplicationController
 
     def parse_duedate(p)
       my_params = p
-      my_params[:duedate] = Time.strptime(p[:duedate], "%m/%d/%Y %l:%M %p")
-      puts p[:duedate]
-      puts my_params[:duedate]
+      my_params[:duedate] = parse_datetime_form(p[:duedate])
       my_params
     end
 end
