@@ -2,6 +2,10 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
+  def all
+
+  end
+
   # GET /tasks
   # GET /tasks.json
   def index
@@ -77,7 +81,7 @@ class TasksController < ApplicationController
     cat = @task.category
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to category_tasks_url(cat), notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to category_url(cat), notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

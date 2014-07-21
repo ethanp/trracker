@@ -6,16 +6,26 @@ ready = ->
 
   recordButtonPressed = ->
     startingToRecord = recordButton.html() is "Record"
-    recordButton.html((if startingToRecord then "Stop" else "Record")).toggleClass("btn-success").toggleClass "btn-danger"
-    if typeof (Storage) isnt "undefined"
+    recordButton
+      .html (if startingToRecord then "Stop" else "Record")
+      .toggleClass "btn-success"
+      .toggleClass "btn-danger"
+
+    if Storage?
       if startingToRecord
         localStorage.setItem currentUrl, $.now()
       else
         timeSpan = interval: localStorage.getItem(currentUrl) + " " + $.now()
         $.post currentUrl + "/intervals-ajax", timeSpan, (data) ->
 
-          # TODO this does what it says, but does nothing useful
+          # TODO this just replaces the <p> tags in the #jumbotron with the given text
+          # it's because it's not /creating/ any /new/ nodes
+          # instead, it's executing the .html() part, which is the command for replacing text
           $("#intervals").appendChild $("p").html("Success!")
+
+          # one is supposed to have this "empty return" so that you
+          # don't unnecessarily waste memory by returning the result
+          # of your last statement
           return
 
         localStorage.removeItem currentUrl
@@ -24,9 +34,12 @@ ready = ->
     return
 
   initializeRecordButton = ->
-    if typeof (Storage) isnt "undefined"
-      if localStorage.getItem(currentUrl) isnt null
-        recordButton.html("Stop").addClass("btn-danger").removeClass "btn-success"
+    if Storage?
+      if localStorage.getItem(currentUrl)?
+        recordButton
+          .html "Stop"
+          .addClass "btn-danger"
+          .removeClass "btn-success"
       else
         cancelRecording()
     else
@@ -34,9 +47,12 @@ ready = ->
     return
 
   cancelRecording = ->
-    if typeof (Storage) isnt "undefined"
+    if Storage?
       localStorage.removeItem currentUrl
-      recordButton.html("Record").addClass("btn-success").removeClass "btn-danger"
+      recordButton
+        .html "Record"
+        .addClass "btn-success"
+        .removeClass "btn-danger"
     else
       recordButton.html "DISABLED"
     return
@@ -49,8 +65,8 @@ ready = ->
   # click handlers
   recordButton.click -> recordButtonPressed()
   $("#cancel").click -> cancelRecording()
-  $("#toggle-intervals").click -> $("#intervals").slideToggle "slow"
-  $("#toggle-subtasks").click -> $("#subtasks").slideToggle "slow"
+  $("#toggle-intervals").click -> $("#intervals").slideToggle("slow")
+  $("#toggle-subtasks").click -> $("#subtasks").slideToggle("slow")
 
 $(document).ready(ready)
-$(document).on('page:load', ready)
+$(document).on 'page:load', ready
