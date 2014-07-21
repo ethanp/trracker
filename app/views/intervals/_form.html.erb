@@ -1,20 +1,14 @@
+    <div class="row">
 <%= simple_form_for @interval, url: task_intervals_path(params[:id]) do |f| %>
-        <div class='col-sm-3 date' id='datetimepicker1'>
-            <%= f.text_field :start, class: 'form-control', value: "" %>
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar">
-                </span>
-            </span>
-        </div>
-        <div class='col-sm-3 date' id='datetimepicker2'>
-            <%= f.text_field :end, class: 'form-control', value: "" %>
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar">
-                </span>
-            </span>
-        </div>
+
+    <div id='datetimepicker1'>
+        <%= render partial: 'layouts/datetime', locals: {f: f, column: :start} %>
+    </div>
+    <div id='datetimepicker2'>
+        <%= render partial: 'layouts/datetime', locals: {f: f, column: :end} %>
+    </div>
     <%= f.button :submit, 'Create', class: 'btn-primary' %>
-<% end %>
+<% end %></div>
 <script type="text/javascript">
     $(function () {
         $('#datetimepicker1').datetimepicker();
