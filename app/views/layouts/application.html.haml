@@ -38,16 +38,17 @@
               Logged in as
               = succeed "." do
                 %strong= current_user.full_name
-              = link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link'
+              = link_to 'Edit profile', edit_user_registration_path, class: 'navbar-link'
               |
-              \#{link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'}
+              = link_to "Logout", destroy_user_session_path, method: :delete, class: 'navbar-link'
             - else
-              = link_to "Sign up", new_user_registration_path, :class => 'navbar-link'
+              = link_to "Sign up", new_user_registration_path, class: 'navbar-link'
               |
-              \#{link_to "Login", new_user_session_path, :class => 'navbar-link'}
+              = link_to "Login", new_user_session_path, class: 'navbar-link'
 
         - if notice
           %p.alert.alert-success= notice
+
         - if alert
           %p.alert.alert-danger= alert
 
@@ -58,7 +59,5 @@
         .container
           .row
             .col-md-4 © 2014 Ethan Petuchowski
-    :javascript
-      $(function () {
-          $('.datetimepicker1').datetimepicker();
-      });
+    :coffee
+      $ -> $(".datetimepicker1").datetimepicker()

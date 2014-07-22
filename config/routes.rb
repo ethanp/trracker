@@ -15,9 +15,11 @@ Rails.application.routes.draw do
       end
     end
   end
-  get  '/tasks' => 'tasks#index', as: :list_tasks
-  post '/tasks/:task_id/intervals-ajax' => 'intervals#create_from_ajax' # the record button
-  post '/tasks/:task_id/complete' => 'tasks#complete', as: :complete_task
+  get   '/tasks' => 'tasks#index', as: :list_tasks
+  post  '/tasks/:task_id/intervals-ajax' => 'intervals#create_from_ajax' # the record button
+
+  # looked this up and PATCH seems to best-describe the situation
+  patch '/tasks/:task_id/complete' => 'tasks#complete', as: :complete_task
 
 
   # The priority is based upon order of creation: first created -> highest priority.
