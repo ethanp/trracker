@@ -4,12 +4,14 @@
       %th Name
       %th Duedate
       %th Category
+      %th Time Spent
       %th
 
   %tbody
     - @tasks.each do |task|
       %tr
         %td= link_to task.name, task_path(task)
-        %td= task.duedate
+        %td= task.duedate.strftime("%A, %B %e at %l:%M %p")
         %td= task.category.name
+        %td TODO
         %td= link_to 'Delete', task, method: :delete, data: { confirm: 'Are you sure?' }
