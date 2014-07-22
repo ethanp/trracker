@@ -43,6 +43,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # bcrypt: Use ActiveModel has_secure_password
 # haml: markup language layered on top of HTML, uses indentation
 # redcarpet: markdown parser
+# datatables: nice <table> formatting through javascript
 gem 'jquery-rails', '~> 3.1.1'
 gem 'turbolinks',   '~> 2.2.2'
 gem 'jbuilder',     '~> 2.0'
@@ -51,6 +52,7 @@ gem 'spring',       '~> 1.1.3',  group: :development
 gem 'bcrypt',       '~> 3.1.7'
 gem 'haml',         '~> 4.0.5'
 gem 'redcarpet',    '~> 3.1.2'
+gem 'jquery-datatables-rails', '~> 2.1.10.0.3'
 
 # Use unicorn as the app server
 # gem 'unicorn'

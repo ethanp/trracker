@@ -9,12 +9,13 @@ Rails.application.routes.draw do
   resources :users
   shallow do
     resources :categories do
-      resources :tasks do
+      resources :tasks, except: [:index] do
         resources :subtasks
         resources :intervals
       end
     end
   end
+  get  '/tasks' => 'tasks#index', as: :list_tasks
   post '/tasks/:task_id/intervals-ajax' => 'intervals#create_from_ajax' # the record button
   post '/tasks/:task_id/complete' => 'tasks#complete', as: :complete_task
 

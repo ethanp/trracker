@@ -1,0 +1,64 @@
+!!!
+%html
+  %head
+    %title Trracker
+    / this is to set the initial width of the page to the width of the device
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    %nav.navbar-wrapper.navbar-default.navbar-fixed-top{role: "navigation"}
+      .container
+        .navbar-header
+          %a.navbar-brand{href: "#"} Trracker
+        / navbar-collapse makes the menu "touch compatible"
+        .collapse.navbar-collapse
+          %ul.nav.navbar-nav
+            - if user_signed_in?
+              / TODO it'd be nice if these <li>s had class="active" when that page was open...
+              %li
+                = link_to                                                               |
+                '<span class="glyphicon glyphicon-home"></span> My Homepage'.html_safe, |
+                  home_path                                                             |
+              %li
+                = link_to                                                                  |
+                '<span class="glyphicon glyphicon-th-large"></span> Categories'.html_safe, |
+                categories_path(current_user)                                              |
+              %li
+                = link_to                                                            |
+                '<span class="glyphicon glyphicon-th-list"></span> Tasks'.html_safe, |
+                  list_tasks_path                                                    |
+            %li
+              = link_to '<span class="glyphicon glyphicon-user"></span> About'.html_safe, |
+                about_path                                                                |
+
+          .navbar-text.pull-right
+            - if user_signed_in?
+              Logged in as
+              = succeed "." do
+                %strong= current_user.full_name
+              = link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link'
+              |
+              \#{link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'}
+            - else
+              = link_to "Sign up", new_user_registration_path, :class => 'navbar-link'
+              |
+              \#{link_to "Login", new_user_session_path, :class => 'navbar-link'}
+
+        - if notice
+          %p.alert.alert-success= notice
+        - if alert
+          %p.alert.alert-danger= alert
+
+        = yield
+
+      %br/
+      %footer
+        .container
+          .row
+            .col-md-4 © 2014 Ethan Petuchowski
+    :javascript
+      $(function () {
+          $('.datetimepicker1').datetimepicker();
+      });

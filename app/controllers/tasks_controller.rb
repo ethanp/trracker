@@ -2,15 +2,10 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
-  def all
-
-  end
-
   # GET /tasks
   # GET /tasks.json
   def index
-    @parent_category = Category.find(params[:category_id])
-    @tasks = @parent_category.tasks
+    @tasks = current_user.tasks
   end
 
   # GET /tasks/1

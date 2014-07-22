@@ -68,5 +68,8 @@ ready = ->
   $("#toggle-intervals").click -> $("#intervals").slideToggle("slow")
   $("#toggle-subtasks").click -> $("#subtasks").slideToggle("slow")
 
+  # enable DataTable
+  $("#tasks-list").dataTable sPaginationType: "bootstrap"
+
 $(document).ready(ready)
 $(document).on 'page:load', ready
