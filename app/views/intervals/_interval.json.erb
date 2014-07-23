@@ -1,0 +1,6 @@
+{
+    "start":"<%= @interval.start %>",
+    "end":"<%= @interval.end %>",
+    "time":"<%= distance_of_time_in_words(interval.end,interval.start) %>",
+    "button":"<%= link_to('Delete', interval_path(@interval), method: :delete, class: 'btn btn-danger btn-sm').gsub(/"/,"'").html_safe %>"
+}

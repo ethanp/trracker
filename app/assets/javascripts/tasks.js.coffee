@@ -16,12 +16,13 @@ ready = ->
         localStorage.setItem currentUrl, $.now()
       else
         timeSpan = interval: localStorage.getItem(currentUrl) + " " + $.now()
-        $.post currentUrl + "/intervals-ajax", timeSpan, (data) ->
-
-          # TODO this just replaces the <p> tags in the #jumbotron with the given text
-          # it's because it's not /creating/ any /new/ nodes
-          # instead, it's executing the .html() part, which is the command for replacing text
-          $("#intervals").appendChild $("p").html("Success!")
+        $.post currentUrl + "/intervals-ajax.json", timeSpan, (data) ->
+          $("#interval-table").append(
+            $("<tr>").append(
+              $('<td>').text(data.start),
+              $('<td>').text(data.end),
+              $('<td>').text(data.time),
+              $('<td>').html(data.button.replace(/'/g,'"'))))
 
           # one is supposed to have this "empty return" so that you
           # don't unnecessarily waste memory (and confuse yourself)

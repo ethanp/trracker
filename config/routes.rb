@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'static/about', as: :about
   get 'static/help'
   resources :users
+
   shallow do
     resources :categories do
       resources :tasks, except: [:index] do
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
   get   '/tasks' => 'tasks#index', as: :list_tasks
   post  '/tasks/:task_id/intervals-ajax' => 'intervals#create_from_ajax' # the record button
 

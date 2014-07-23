@@ -1,5 +1,5 @@
 <div class="row">
-    <%= simple_form_for @interval, url: task_intervals_path(params[:id]) do |f| %>
+    <%= simple_form_for @interval, url: task_intervals_path(params[:id]), html: { id: 'interval-create-form' } do |f| %>
         <%= render partial: 'layouts/datetime', locals: {f: f, column: :start} %>
         <%= render partial: 'layouts/datetime', locals: {f: f, column: :end} %>
         <%= f.button :submit, 'Create', class: 'btn-primary' %>

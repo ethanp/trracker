@@ -52,13 +52,13 @@ class IntervalsController < ApplicationController
     @interval = Interval.new(start: start_end.first,
                              end: start_end.last,
                              task_id: params[:task_id])
-    if @interval.save
+      if @interval.save
       # TODO what this should actually do is respond with the new interval entry for the table
-      redirect_to(Task.find(params[:task_id]), notice: 'Interval was successfully created.')
-    else
-      redirect_to(Task.find(params[:task_id]), notice: 'Problem creating interval.')
+        render @interval
+      else
+        redirect_to(Task.find(params[:task_id]), notice: 'Problem creating interval.')
+      end
     end
-  end
 
   # PATCH/PUT /intervals/1
   # PATCH/PUT /intervals/1.json
