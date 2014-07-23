@@ -22,6 +22,7 @@ ready = ->
               $('<td>').text(data.start),
               $('<td>').text(data.end),
               $('<td>').text(data.time),
+              $('<td>').text(data.date),
               $('<td>').html(data.button.replace(/'/g,'"'))))
 
           # one is supposed to have this "empty return" so that you
