@@ -1,0 +1,16 @@
+%tr
+  %td
+    %h4= link_to task.name, task
+  %td
+    %h5= task.duedate.strftime("%A, %B %e at %l:%M %p")
+  %td
+
+  %td= link_to 'Edit <span class="glyphicon glyphicon-file"></span>'.html_safe,
+    edit_task_path(task),
+    class: 'btn btn-warning'
+
+  %td= link_to '<span class="glyphicon glyphicon-minus"></span>'.html_safe,
+    task,
+    method: :delete,
+    data: { confirm: 'Are you sure?' },
+    class: 'btn btn-danger'

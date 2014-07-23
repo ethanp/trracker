@@ -1,7 +1,8 @@
 {
-    "start":"<%= @interval.start.strftime("%l:%M %p") %>",
-    "end":"<%= @interval.end.strftime("%l:%M %p") %>",
-    "time":"<%= distance_of_time_in_words(interval.end,interval.start) %>",
-    "date":"<%= interval.start.strftime("%A, %B %e") %>",
-    "button":"<%= link_to('Delete', interval_path(@interval), method: :delete, class: 'btn btn-danger btn-sm').gsub(/"/,"'").html_safe %>"
+    "start" :"<%= @interval.start.strftime("%l:%M %p") %>",
+    "end"   :"<%= @interval.end.strftime("%l:%M %p") %>",
+    "time"  :"<%= distance_of_time_in_words(interval.end,interval.start) %>",
+    "date"  :"<%= interval.start.strftime("%A, %B %e") %>",
+    "button":"<%= link_to('Delete', interval_path(@interval), method: :delete,
+                  class: 'btn btn-danger btn-sm').gsub(/"/,"'").html_safe %>"
 }

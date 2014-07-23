@@ -1,0 +1,10 @@
+%h3= locals[:title]
+%table.table.table-hover
+  %thead
+    %tr
+      %th Name
+      %th Duedate
+      %th{colspan: "2"}
+  %tbody
+    - locals[:tasks].each do |task|
+      = render task

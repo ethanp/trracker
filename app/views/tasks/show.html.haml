@@ -12,11 +12,12 @@
         %strong Duedate:
         = @task.duedate.strftime("%A, %B %e at %l:%M %p")
         , or
-        - if @task.duedate > Time.now
-          in
-        = time_ago_in_words(@task.duedate)
-        - if @task.duedate < Time.now
-          ago
+        %strong
+          - if @task.duedate > Time.now
+            in
+          = time_ago_in_words(@task.duedate)
+          - if @task.duedate < Time.now
+            ago
 
       / "Complete task" button sends PATCH
       = form_for @task, url: complete_task_path(@task),          |

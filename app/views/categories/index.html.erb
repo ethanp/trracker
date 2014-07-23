@@ -18,17 +18,17 @@
                 </div>
                 <div class="panel-body">
                     <p class="text-center text-muted"><%= category.description %></p>
-                </div>
-                <div class="text-center">
+                    <div class="text-center">
 
-                    <%= link_to 'Edit',
-                                edit_category_path(category),
-                                class: 'btn btn-warning' %>
-                    <%= link_to 'Delete',
-                                category,
-                                method: :delete,
-                                data: { confirm: 'Are you sure?' },
-                                class: 'btn btn-danger' %>
+                        <%= link_to 'Edit',
+                                    edit_category_path(category),
+                                    class: 'btn btn-warning' %>
+                        <%= link_to 'Delete',
+                                    category,
+                                    method: :delete,
+                                    data: { confirm: 'Are you sure?' },
+                                    class: 'btn btn-danger' %>
+                    </div>
                 </div>
             </div>
         <% end %>
