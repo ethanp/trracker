@@ -4,16 +4,12 @@
 2.  "Trick" yourself into getting the things you want done, done
 3.  Stop wasting time buried in distractions and procrastinations
 
-<br/>
-
 ## Motivation for creating this
 
 1.  I have found that this system has been enormously successful as a motivation tool
     *   It does follow various guidelines set out in psychological literature
 2.  I wanted to be able to access it from any computer
 3.  I wanted to allow others to give it a shot and maybe it is a useful organization strategy for you too
-
-<br/>
 
 ## The Trick
 
@@ -27,8 +23,6 @@ of the vision, check out:
 2.  [Crossfilter](http://square.github.io/crossfilter/)
 3.  [dc.js](http://dc-js.github.io/dc.js/)
 
-<br/>
-
 # How To
 
 1.  Group your tasks into categories (e.g. for a student, each class might be a different category)
@@ -37,8 +31,6 @@ of the vision, check out:
 4.  Sit for an **extended period of time** solely focused on accomplishing your task
 5.  Record the time spent _actually_ focused (obviously cheating just defeats the purpose)
 6.  Do this **every time** you work on one of your tasks
-
-<br/>
 
 ## Become obsessive but be picky
 

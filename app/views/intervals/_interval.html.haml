@@ -3,5 +3,8 @@
   %td= interval.end.strftime("%l:%M %p")
   %td= distance_of_time_in_words(interval.end,interval.start)
   %td= interval.start.strftime("%A, %B %e")
-  %td= link_to 'Delete', interval_path(interval), method: :delete, |
-       class: 'btn btn-danger btn-sm'                              |
+  %td
+    = link_to 'Delete',
+      interval_path(interval),
+      method: :delete,
+      class: 'btn btn-danger btn-sm'

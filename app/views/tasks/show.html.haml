@@ -18,10 +18,13 @@
           = time_ago_in_words(@task.duedate)
           - if @task.duedate < Time.now
             ago
+      %p
+        %strong Time spent so far:
+        = time_ago_in_words @task.seconds_spent.ago
 
       / "Complete task" button sends PATCH
-      = form_for @task, url: complete_task_path(@task),          |
-        method: :patch, html: { style: "display:inline;"} do |f| |
+      = form_for @task, url: complete_task_path(@task),
+        method: :patch, html: { style: "display:inline;"} do |f|
 
         / every time I break the next line into two lines it crashes the HAML machine...
         = f.submit @task.complete ? 'Un-Complete' : 'Complete', class: 'btn btn-info btn-lg'
@@ -47,9 +50,13 @@
         - @task.subtasks.each do |subtask|
           %li.list-group-item
             = subtask.name
+
             %span.badge
-              = link_to 'Delete', subtask_path(subtask), method: :delete, |
-                style: 'color:white;font-weight:normal;'                  |
+              = link_to 'Delete',
+                subtask_path(subtask),
+                method: :delete,
+                style: 'color:white;font-weight:normal;'
+
   .panel.panel-default.col-md-1
 
   / ### INTERVALS DIV ###
