@@ -8,4 +8,7 @@ class Task < ActiveRecord::Base
     # 'inject' is the same as foldLeft
     self.intervals.inject(0){ |sum, interval| sum + interval.seconds_spent }.to_i
   end
+  def heatmap_hash_array
+    self.intervals.inject([]) { |arr, h| arr + h.heatmap_hash_array }
+  end
 end
