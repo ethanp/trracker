@@ -31,50 +31,57 @@
 
       = link_to 'Edit', edit_task_path(@task), class: 'btn btn-default btn-lg'
 
-/ design-wise, I have no idea where to put these buttons...
-%button#toggle-subtasks.btn.btn-warning.btn-sm Toggle Subtasks
-%button#toggle-intervals.btn.btn-warning.btn-sm Toggle Intervals
+.row
+  .col-md-4
+    %button#toggle-subtasks.btn.btn-default.btn-sm
+      %b Show/Hide Subtasks
+  .col-md-1
+  .col-md-7
+    %button#toggle-intervals.btn.btn-default.btn-sm
+      %b Show/Hide Intervals
 
 .row
   / these are not in partials because I want to be able to
   / update the styles of both easily
 
   / ### SUBTASKS DIV ###
-  #subtasks.panel.panel-default.col-md-4
-    .panel-heading
-      %h3 Subtasks
-    .panel-body
-      .well.well-sm
-        = render 'subtasks/form'
-      %ul.list-group
-        - @task.subtasks.each do |subtask|
-          %li.list-group-item
-            = subtask.name
+  .col-md-4
+    #subtasks.panel.panel-default
+      .panel-heading
+        %h3 Subtasks
+      .panel-body
+        .well.well-sm
+          = render 'subtasks/form'
+        %ul.list-group
+          - @task.subtasks.each do |subtask|
+            %li.list-group-item
+              = subtask.name
 
-            %span.badge
-              = link_to 'Delete',
-                subtask_path(subtask),
-                method: :delete,
-                style: 'color:white;font-weight:normal;'
+              %span.badge
+                = link_to 'Delete',
+                  subtask_path(subtask),
+                  method: :delete,
+                  style: 'color:white;font-weight:normal;'
 
-  .panel.panel-default.col-md-1
+  .col-md-1
 
   / ### INTERVALS DIV ###
-  #intervals.panel.panel-default.col-md-7
-    .panel-heading
-      %h3 Intervals
-    .panel-body
-      .well.well-sm
-        .row
-          .col-md-2
-            %button#record.btn.btn-success.btn-sm Record
-            %button#cancel.btn.btn-warning.btn-sm Cancel
-          = render 'intervals/form'
-      %table.table#interval-table
-        %tr
-          %th Start
-          %th End
-          %th Time
-          %th Date
-          %th
-        = render @task.intervals
+  .col-md-7
+    #intervals.panel.panel-default
+      .panel-heading
+        %h3 Intervals
+      .panel-body
+        .well.well-sm
+          .row
+            .col-md-2
+              %button#record.btn.btn-success.btn-sm Record
+              %button#cancel.btn.btn-warning.btn-sm Cancel
+            = render 'intervals/form'
+        %table.table#interval-table
+          %tr
+            %th Start
+            %th End
+            %th Time
+            %th Date
+            %th
+          = render @task.intervals
