@@ -46,13 +46,12 @@
               |
               = link_to "Login", new_user_session_path, class: 'navbar-link'
 
-        - if notice
-          %p.alert.alert-success= notice
-
-        - if alert
-          %p.alert.alert-danger= alert
 
     .container
+      - if notice
+        %p.alert.alert-success= notice
+      - if alert
+        %p.alert.alert-danger= alert
       = yield
 
     %br/

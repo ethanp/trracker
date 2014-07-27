@@ -37,7 +37,7 @@ class SubtasksController < ApplicationController
         format.html { redirect_to @subtask.task, notice: 'Subtask was successfully created.' }
         format.json { render :show, status: :created, location: @subtask }
       else
-        format.html { render :new }
+        format.html { redirect_to @subtask.task, notice: 'Subtask was invalid.' }
         format.json { render json: @subtask.errors, status: :unprocessable_entity }
       end
     end

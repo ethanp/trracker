@@ -35,10 +35,10 @@ class IntervalsController < ApplicationController
 
     respond_to do |format|
       if not (my_params[:start].nil? or my_params[:end].nil?) and @interval.save
-        format.html { redirect_to @interval.task, notice: 'Interval was successfully created.' }
+        format.html { redirect_to @interval.task, alert: 'Interval was successfully created.' }
         format.json { render :show, status: :created, location: @interval }
       else
-        format.html { render :new }
+        format.html { redirect_to @interval.task, notice: 'Interval was invalid' }
         format.json { render json: @interval.errors, status: :unprocessable_entity }
       end
     end
