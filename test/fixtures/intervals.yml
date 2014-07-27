@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  start: 2014-07-06 23:39:24
-  end: 2014-07-06 23:39:24
-  task_id: 
+  start: <%= 2.days.ago %>
+  end: <%= 2.days.ago + 1.hour + 25.minutes %>
+  task_id: 1
 
 two:
-  start: 2014-07-06 23:39:24
-  end: 2014-07-06 23:39:24
-  task_id: 
+  start: <%= 2.days.ago %>
+  end: <%= 1.day.ago %>
+  task_id: 1

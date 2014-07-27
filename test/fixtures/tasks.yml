@@ -4,10 +4,10 @@ one:
   name: MyString
   complete: false
   duedate: 2014-07-06 23:38:55
-  category_id: 
+  category_id: 1
 
 two:
   name: MyString
   complete: false
   duedate: 2014-07-06 23:38:55
-  category_id: 
+  category_id: 1
