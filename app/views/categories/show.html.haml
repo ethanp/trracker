@@ -6,13 +6,13 @@
 
 / Incomplete Tasks Table
 = render 'tasks/table',
-  locals: { title: 'Incomplete',
-            tasks: @category.tasks.select{ |x| !x.complete } }
+  title: 'Incomplete',
+  tasks: @category.tasks.select{ |x| !x.complete }
 
 / Complete Tasks Table
 = render 'tasks/table',
-  locals: { title: 'Complete',
-            tasks: @category.tasks.select{ |x| x.complete } }
+  title: 'Complete',
+  tasks: @category.tasks.select{ |x| x.complete }
 
 %br/
 = link_to 'New Task', new_category_task_path(@category), class: 'btn btn-success btn-lg'

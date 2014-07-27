@@ -23,7 +23,11 @@ class ApplicationController < ActionController::Base
   end
 
   def parse_datetime_form datetime
-    Time.strptime(datetime, "%m/%d/%Y %l:%M %p")
+    begin
+      Time.strptime(datetime, "%m/%d/%Y %l:%M %p")
+    rescue
+      nil
+    end
   end
 end
 

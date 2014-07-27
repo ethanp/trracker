@@ -34,7 +34,7 @@ class IntervalsController < ApplicationController
     @interval.task_id = params[:task_id]
 
     respond_to do |format|
-      if @interval.save
+      if not (my_params[:start].nil? or my_params[:end].nil?) and @interval.save
         format.html { redirect_to @interval.task, notice: 'Interval was successfully created.' }
         format.json { render :show, status: :created, location: @interval }
       else

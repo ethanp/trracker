@@ -1,4 +1,4 @@
-%h3= locals[:title]
+%h3= title
 %table.table.table-hover
   %thead
     %tr
@@ -7,5 +7,5 @@
       %th Time Spent
       %th{colspan: "2"}
   %tbody
-    - locals[:tasks].each do |task|
+    - tasks.each do |task|
       = render task

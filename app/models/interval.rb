@@ -1,6 +1,9 @@
 class Interval < ActiveRecord::Base
   belongs_to :task
 
+  # validations
+  validates_presence_of :start, :end
+
   def start_time
     Time.parse(self.start.to_s)
   end
@@ -18,24 +21,25 @@ class Interval < ActiveRecord::Base
 
     total_seconds = self.seconds_spent.to_f
     curr_time = self.start_time
-    vals = []
+    rows = []
 
     while total_seconds - curr_time.seconds_to_next_hour > 0 do
-      vals << {
-          day:    curr_time.wday,
-          time:   curr_time.hour,
-          value:  curr_time.hour_fraction_to_next_hour
+      rows << {
+          day:   curr_time.wday,
+          time:  curr_time.hour,
+          value: curr_time.seconds_to_next_hour / 60 / 60
       }
       total_seconds -= curr_time.seconds_to_next_hour
-      curr_time += curr_time.hour_fraction_to_next_hour.hours
+      curr_time     += curr_time.seconds_to_next_hour.seconds
     end
 
     if total_seconds > 0
-      vals << {
-          day:    curr_time.wday,
-          time:   curr_time.hour,
-          value:  total_seconds / (60*60)
+      rows << {
+          day:   curr_time.wday,
+          time:  curr_time.hour,
+          value: total_seconds / 60 / 60
       }
     end
+    rows
   end
 end
