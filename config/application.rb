@@ -26,5 +26,10 @@ module Trracker
     I18n.enforce_available_locales = false
 
     config.autoload_paths += %W(#{config.root}/lib)
+
+    # set test_framework to rspec
+    config.generators do |g|
+      g.test_framework :rspec
+    end
   end
 end

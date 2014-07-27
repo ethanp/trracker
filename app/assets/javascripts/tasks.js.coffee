@@ -39,16 +39,16 @@ ready = ->
       recordButton.html "DISABLED"
     return
 
-  # TODO this counterID variable must be global. not sure how to do that in coffeescript
   beginIncrementer = ->
-    counterID = window.setInterval(updateReading, 1000)
+    root.counterID = window.setInterval updateReading, 1000
 
 
   updateReading = ->
-    startTime = localStorage.getItem(currentUrl)
-    startVal = Number.parseInt(startTime)
+    startTime = localStorage.getItem currentUrl
+    startVal = Number.parseInt startTime
     return unless startTime?
-    reading.text (($.now() - startVal) / 1000)
+    # TODO there's no nice way to do it, just do it manually
+    reading.text ($.now() - startVal) / 1000
 
   initialize = ->
     if Storage?
@@ -71,13 +71,15 @@ ready = ->
       .addClass "btn-success"
       .removeClass "btn-danger"
     reading.text ""
-#    clearInterval(counterID) # TODO get this working via global var
+    clearInterval(root.counterID)
     return
 
   # initializations
   currentUrl = window.location.pathname
   recordButton = $("#record")
   reading = $("#timer-reading")
+  root = exports ? this # finagling to create "global(ish)" variable
+  root.counterID = null
   initialize()
 
   # click handlers
@@ -89,5 +91,9 @@ ready = ->
   # enable DataTable
   $("#tasks-list").dataTable sPaginationType: "bootstrap"
 
-$(document).ready(ready)
+# These *are* both necessary.
+# The first one is for when you reload the page.
+# The second is for when you link to the page.
+# This guess comes from some "controlled" experiments.
+$(ready)
 $(document).on 'page:load', ready
