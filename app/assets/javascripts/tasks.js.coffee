@@ -14,6 +14,8 @@ ready = ->
     if Storage?
       if startingToRecord
         localStorage.setItem currentUrl, $.now()
+        reading.text "0:00"
+        beginIncrementer()
       else
         timeSpan = interval: localStorage.getItem(currentUrl) + " " + $.now()
         $.post currentUrl + "/intervals-ajax.json", timeSpan, (data) ->
@@ -26,6 +28,7 @@ ready = ->
               $('<td>').text(data.date),
               $('<td>').html(data.button.replace(/'/g,'"'))))
 
+          cancelRecording()
           # one is supposed to have this "empty return" so that you
           # don't unnecessarily waste memory (and confuse yourself)
           # by returning the result of your last statement
@@ -36,13 +39,25 @@ ready = ->
       recordButton.html "DISABLED"
     return
 
-  initializeRecordButton = ->
+  # TODO this counterID variable must be global. not sure how to do that in coffeescript
+  beginIncrementer = ->
+    counterID = window.setInterval(updateReading, 1000)
+
+
+  updateReading = ->
+    startTime = localStorage.getItem(currentUrl)
+    startVal = Number.parseInt(startTime)
+    return unless startTime?
+    reading.text (($.now() - startVal) / 1000)
+
+  initialize = ->
     if Storage?
       if localStorage.getItem(currentUrl)?
         recordButton
           .html "Stop"
           .addClass "btn-danger"
           .removeClass "btn-success"
+        beginIncrementer()
       else
         cancelRecording()
     else
@@ -50,20 +65,20 @@ ready = ->
     return
 
   cancelRecording = ->
-    if Storage?
-      localStorage.removeItem currentUrl
-      recordButton
-        .html "Record"
-        .addClass "btn-success"
-        .removeClass "btn-danger"
-    else
-      recordButton.html "DISABLED"
+    localStorage.removeItem currentUrl
+    recordButton
+      .html "Record"
+      .addClass "btn-success"
+      .removeClass "btn-danger"
+    reading.text ""
+#    clearInterval(counterID) # TODO get this working via global var
     return
 
   # initializations
   currentUrl = window.location.pathname
   recordButton = $("#record")
-  initializeRecordButton()
+  reading = $("#timer-reading")
+  initialize()
 
   # click handlers
   recordButton.click -> recordButtonPressed()

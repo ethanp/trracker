@@ -76,9 +76,14 @@
         .well.well-sm
           .row
             .col-md-2
-              %button#record.btn.btn-success.btn-sm Record
-              %button#cancel.btn.btn-warning.btn-sm Cancel
-            = render 'intervals/form'
+              %button#record.btn.btn-success.btn-md Record
+              %button#cancel.btn.btn-warning.btn-md Cancel
+            .col-md-2
+              %h1#timer-reading 1:34
+          %br/
+          .row
+            .col-md-10
+              = render 'intervals/form'
         %table.table#interval-table
           %tr
             %th Start
