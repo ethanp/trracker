@@ -8,7 +8,6 @@ class Task < ActiveRecord::Base
   validates_uniqueness_of :name, scope: [:category_id]
   validates_length_of :name, maximum: 30, too_long: 'That name is too long (30 chars max)'
 
-  # scopes (enables e.g. Task.due_within_two_weeks)
   scope :due_within_two_weeks, -> {
     where("tasks.duedate > ? AND tasks.duedate < ?",
           DateTime.now, 2.weeks.from_now.to_date)
@@ -17,6 +16,8 @@ class Task < ActiveRecord::Base
     where("tasks.duedate > ? AND tasks.duedate < ?",
           DateTime.now, datetime)
   }
+  scope :complete, -> { where('tasks.complete = ?', true) }
+  scope :incomplete, -> { where("tasks.complete = ? OR tasks.complete IS NULL", false) }
 
   def seconds_spent
     self.intervals.inject(0){ |sum, interval| sum + interval.seconds_spent }.to_i

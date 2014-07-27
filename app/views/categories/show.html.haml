@@ -7,12 +7,12 @@
 / Incomplete Tasks Table
 = render 'tasks/table',
   title: 'Incomplete',
-  tasks: @category.tasks.select{ |x| !x.complete }
+  tasks: @category.tasks.incomplete
 
 / Complete Tasks Table
 = render 'tasks/table',
   title: 'Complete',
-  tasks: @category.tasks.select{ |x| x.complete }
+  tasks: @category.tasks.complete
 
 %br/
 = link_to 'New Task', new_category_task_path(@category), class: 'btn btn-success btn-lg'

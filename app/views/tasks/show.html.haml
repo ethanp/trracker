@@ -59,8 +59,9 @@
 
               %span.badge
                 = link_to 'Delete',
-                  subtask_path(subtask),
+                  subtask,
                   method: :delete,
+                  confirm: 'Are you sure?',
                   style: 'color:white;font-weight:normal;'
 
   .col-md-1
