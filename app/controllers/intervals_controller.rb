@@ -82,6 +82,7 @@ class IntervalsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to task_url(task), notice: 'Interval was successfully destroyed.' }
       format.json { head :no_content }
+      format.js
     end
   end
 

@@ -17,8 +17,9 @@ ready = ->
       else
         timeSpan = interval: localStorage.getItem(currentUrl) + " " + $.now()
         $.post currentUrl + "/intervals-ajax.json", timeSpan, (data) ->
+
           $("#interval-table").append(
-            $("<tr>").append(
+            $("<tr>").attr("id", data.id).append(
               $('<td>').text(data.start),
               $('<td>').text(data.end),
               $('<td>').text(data.time),

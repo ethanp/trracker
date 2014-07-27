@@ -44,7 +44,7 @@
   / these are not in partials because I want to be able to
   / update the styles of both easily
 
-  / ### SUBTASKS DIV ###
+  / ### SUBTASKS AREA ###
   .col-md-4
     #subtasks.panel.panel-default
       .panel-heading
@@ -59,14 +59,15 @@
 
               %span.badge
                 = link_to 'Delete',
-                  subtask,
+                  subtask_path(subtask),
                   method: :delete,
                   confirm: 'Are you sure?',
                   style: 'color:white;font-weight:normal;'
 
+
   .col-md-1
 
-  / ### INTERVALS DIV ###
+  / ### INTERVALS AREA ###
   .col-md-7
     #intervals.panel.panel-default
       .panel-heading
