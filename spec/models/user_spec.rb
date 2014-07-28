@@ -1,9 +1,8 @@
-# require 'spec_helper'
+require 'rails_helper'
 
 describe 'My behaviour' do
 
   it 'should do something' do
-
-    true.should == true
+    expect(true).to eq(true)
   end
 end

@@ -8,12 +8,14 @@ gem 'rails', '4.1.4'
 group :development, :test do
   # Use sqlite3 as the database for Active Record locally
   gem 'sqlite3',     '~> 1.3.9'
-  gem 'rspec-rails', '~> 3.0.1'
+  gem 'rspec', '~> 3.0.0'
+  gem 'rspec-rails', '~> 3.0.2'
+  gem 'nokogiri', '~> 1.6.2.1'
   # The following optional lines are part of the advanced setup.
-  # gem 'guard-rspec'
-  # gem 'spork-rails', '4.0.0'
-  # gem 'guard-spork', '1.5.0'
-  # gem 'childprocess', '0.3.6'
+  gem 'guard-rspec'
+  gem 'spork-rails', '4.0.0'
+  gem 'guard-spork', '1.5.1'
+  gem 'childprocess', '~> 0.5.3'
 end
 
 # Bootstrap 3
