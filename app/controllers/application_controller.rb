@@ -5,7 +5,9 @@ class ApplicationController < ActionController::Base
 
   # http://stackoverflow.com/questions/16297797/add-custom-field-column-to-devise-with-rails-4
   before_filter :configure_permitted_parameters, if: :devise_controller?
-
+  def load_key!
+    redirect_to(key_path) unless session[:master_key]
+  end
   protected
 
   def configure_permitted_parameters
@@ -13,11 +15,11 @@ class ApplicationController < ActionController::Base
 
     if params[:action] == 'update'
       devise_parameter_sanitizer.for(:account_update) {
-        |u| u.permit(registration_params << :current_password)
+          |u| u.permit(registration_params << :current_password)
       }
     elsif params[:action] == 'create'
       devise_parameter_sanitizer.for(:sign_up) {
-        |u| u.permit(registration_params)
+          |u| u.permit(registration_params)
       }
     end
   end

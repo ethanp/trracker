@@ -67,6 +67,8 @@ gem 'jquery-datatables-rails', '~> 2.1.10.0.3'
 
 group :test do
   gem 'selenium-webdriver', '~> 2.42.0'
+  gem 'faker'
+  gem 'launchy'
   gem 'capybara',           '~> 2.4.1'
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'cucumber-rails',     '1.4.0', :require => false
