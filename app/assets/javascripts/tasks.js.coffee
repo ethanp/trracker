@@ -47,8 +47,22 @@ ready = ->
     startTime = localStorage.getItem currentUrl
     startVal = Number.parseInt startTime
     return unless startTime?
-    # TODO there's no nice way to do it, just do it manually
-    reading.text ($.now() - startVal) / 1000
+
+    # figure out time to display
+    total_seconds = Math.floor ($.now() - startVal) / 1000
+    total_minutes = Math.floor total_seconds / 60
+    hours = Math.floor total_minutes / 60
+    minutes = total_minutes % 60
+    seconds = total_seconds % 60
+
+    # pad with zeros if need-be
+    seconds = '0'+seconds if seconds < 10
+    minutes = '0'+minutes if minutes < 10 and hours > 0
+    time = minutes+":"+seconds
+    time = hours+":"+time if hours > 0
+
+    reading.text time
+    return
 
   initialize = ->
     if Storage?
