@@ -20,7 +20,7 @@
             ago
       %p
         %strong Time spent so far:
-        = time_ago_in_words @task.seconds_spent.ago
+        = time_ago_in_words @task.seconds_spent.seconds.ago
 
       / "Complete task" button sends PATCH
       = form_for @task, url: complete_task_path(@task),

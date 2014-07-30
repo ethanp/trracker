@@ -16,9 +16,9 @@ module Trracker
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Eastern Time (US & Canada)'
     # TODO uncomment this upon arriving in Texas
-    # config.time_zone = 'Central Time (US & Canada)'
+    config.time_zone = 'Central Time (US & Canada)'
     # TODO shouldn't it be using the *user's* timezone?
-    config.time_zone = 'Pacific Time (US & Canada)'
+    # config.time_zone = 'Pacific Time (US & Canada)'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]

@@ -19,6 +19,11 @@ class TasksController < ApplicationController
   end
 
   def show_heatmap_data
+    puts Task.find(params[:task_id]).heatmap_hash_array.as_json
+    respond_to do |format|
+      format.html # show_heatmap_data.html.erb (doesn't exist)
+      format.json { render json: Task.find(params[:task_id]).heatmap_hash_array }
+    end
   end
 
   # GET /tasks/new
