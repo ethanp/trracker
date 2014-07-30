@@ -18,6 +18,9 @@ class TasksController < ApplicationController
     @subtask = Subtask.new
   end
 
+  def show_heatmap_data
+  end
+
   # GET /tasks/new
   def new
     @task = Task.new

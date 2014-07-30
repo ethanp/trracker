@@ -31,6 +31,10 @@
 
       = link_to 'Edit', edit_task_path(@task), class: 'btn btn-default btn-lg'
 
+-# ### HEATMAP AREA ###
+.row
+  = render 'heatmap', path_prefix: "#{@task.id}"
+
 .row
   .col-md-4
     %button#toggle-subtasks.btn.btn-default.btn-sm
@@ -79,7 +83,7 @@
               %button#record.btn.btn-success.btn-md Record
               %button#cancel.btn.btn-warning.btn-md Cancel
             .col-md-2
-              %h1#timer-reading 1:34
+              %h1#timer-reading
           %br/
           .row
             .col-md-10

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   # looked this up and PATCH seems to best-describe the situation
   patch '/tasks/:task_id/complete' => 'tasks#complete', as: :complete_task
 
+  get '/tasks/:task_id/heatmap' => 'tasks#show_heatmap_data', as: :show_task_heatmap_data
 
   # The priority is based upon order of creation: first created -> highest priority.
 
