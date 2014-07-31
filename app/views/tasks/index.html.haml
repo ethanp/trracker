@@ -3,6 +3,7 @@
     %tr
       %th Duedate
       %th Name
+      %th Priority
       %th Category
       %th Time spent so far
       %th
@@ -13,6 +14,7 @@
         %td= task.duedate.strftime("%A, %B %e at %l:%M %p")
         %td
           %strong= link_to task.name, task_path(task)
+        %td= task.priority
         %td= task.category.name
         %td= time_ago_in_words task.seconds_spent.ago
         %td= link_to 'Delete', task, method: :delete, data: { confirm: 'Are you sure?' }

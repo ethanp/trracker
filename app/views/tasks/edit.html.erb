@@ -15,9 +15,11 @@
         <%= render partial: 'layouts/datetime', locals: {f: f, column: :duedate} %>
     </div>
     <%= f.association :category, selected: current_user.categories.first.id %>
+    <%= f.input :priority, collection: -5..5, selected: 0 %>
     <%= f.input :complete %>
     <%= f.button :submit %>
 <% end %>
 
-<%= link_to 'Show', @task %> |
+<%= link_to 'Show', @task %>
+|
 <%= link_to 'Back', category_tasks_path(@task) %>

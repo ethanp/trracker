@@ -5,6 +5,8 @@
         Task: #{@task.name}
       %h3
         Category: #{link_to @task.category.name, category_path(@task.category)}
+      %h3
+        Priority: #{@task.priority}
       %p
         %b
           %i= @task.complete ? "Complete" : "Incomplete"

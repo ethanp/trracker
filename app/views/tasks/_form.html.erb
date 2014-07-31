@@ -1,8 +1,0 @@
-<%= simple_form_for @task, url: category_tasks_path, wrapper: :horizontal_form do |f| %>
-    <%= f.input :name %>
-    <label class="string col-sm-3 control-label" for="duedate">Duedate</label>
-    <%= render partial: 'layouts/datetime', locals: {f: f, column: :duedate} %>
-    <div class="wrap-center input-group" style="">
-    <%= f.button :submit %>
-        </div>
-<% end %>
