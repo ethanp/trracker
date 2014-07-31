@@ -22,14 +22,18 @@
         %strong Time spent so far:
         = time_ago_in_words @task.seconds_spent.seconds.ago
 
-      / "Complete task" button sends PATCH
-      = form_for @task, url: complete_task_path(@task),
-        method: :patch, html: { style: "display:inline;"} do |f|
+      / "Complete task" button
+      = form_for @task,
+        url: complete_task_path(@task),
+        method: :patch,
+        html: { style: "display:inline;"} do |f|
 
-        / every time I break the next line into two lines it crashes the HAML machine...
-        = f.submit @task.complete ? 'Un-Complete' : 'Complete', class: 'btn btn-info btn-lg'
+        = f.submit @task.complete ? 'Un-Complete' : 'Complete',
+          class: 'btn btn-info btn-lg'
 
-      = link_to 'Edit', edit_task_path(@task), class: 'btn btn-default btn-lg'
+      = link_to 'Edit',
+        edit_task_path(@task),
+        class: 'btn btn-default btn-lg'
 
 -# ### HEATMAP AREA ###
 .row

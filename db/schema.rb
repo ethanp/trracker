@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714051516) do
+ActiveRecord::Schema.define(version: 20140730235936) do
 
   create_table "categories", force: true do |t|
     t.string   "name",        null: false
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20140714051516) do
     t.integer  "category_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "priority",    null: false
   end
 
   add_index "tasks", ["category_id"], name: "index_tasks_on_category_id"

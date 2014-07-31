@@ -19,10 +19,10 @@ class Interval < ActiveRecord::Base
   # { day:int, time:int, value:float }
   def heatmap_hash_array
 
-    def weekday_num day
+    def weekday_num(day)
       day == 0 ? 7 : day
     end
-    def hour_num hour
+    def hour_num(hour)
       hour == 0 ? 24 : hour
     end
 
