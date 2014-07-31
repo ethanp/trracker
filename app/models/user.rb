@@ -15,4 +15,9 @@ class User < ActiveRecord::Base
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  # for each category, have the total amount of time for each day
+  def time_per_category_per_day
+    self.categories.map { |x| x.time_per_task_per_day }
+  end
 end

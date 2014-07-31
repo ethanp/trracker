@@ -22,7 +22,14 @@ class Task < ActiveRecord::Base
   def seconds_spent
     self.intervals.inject(0){ |sum, interval| sum + interval.seconds_spent }.to_i
   end
+
+  # collect all intervals' hash-representations into one array
   def heatmap_hash_array
     self.intervals.inject([]) { |arr, h| arr + h.heatmap_hash_array }
+  end
+
+  # { :date, :name (task.name), :value }
+  def time_per_day
+    self.heatmap_hash_array.todo_name(self)
   end
 end

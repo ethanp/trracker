@@ -1,25 +1,23 @@
 .row
   .container-fluid
     .jumbotron
-      %h1
-        Task: #{@task.name}
-      %h3
-        Category: #{link_to @task.category.name, category_path(@task.category)}
-      %h3
-        Priority: #{@task.priority}
+      %h1 Task: #{@task.name}
+      %h3 Category: #{link_to @task.category.name, category_path(@task.category)}
+      %h3 Priority: #{@task.priority}
       %p
         %b
           %i= @task.complete ? "Complete" : "Incomplete"
-      %p
-        %strong Duedate:
-        = @task.duedate.strftime("%A, %B %e at %l:%M %p")
-        , or
-        %strong
-          - if @task.duedate > Time.now
-            in
-          = time_ago_in_words(@task.duedate)
-          - if @task.duedate < Time.now
-            ago
+      - unless @task.duedate.nil?
+        %p
+          %strong Duedate:
+          = @task.duedate.strftime("%A, %B %e at %l:%M %p")
+          , or
+          %strong
+            - if @task.duedate > Time.now
+              in
+            = time_ago_in_words(@task.duedate)
+            - if @task.duedate < Time.now
+              ago
       %p
         %strong Time spent so far:
         = time_ago_in_words @task.seconds_spent.seconds.ago

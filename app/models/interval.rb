@@ -33,6 +33,7 @@ class Interval < ActiveRecord::Base
     while total_seconds - curr_time.seconds_to_next_hour > 0 do
       rows << {
           day:   weekday_num(curr_time.wday),
+          date:  curr_time.strftime("%m/%d/%y"),
           hour:  hour_num(curr_time.hour),
           value: curr_time.seconds_to_next_hour / 60 / 60
       }
@@ -43,6 +44,7 @@ class Interval < ActiveRecord::Base
     if total_seconds > 0
       rows << {
           day:   weekday_num(curr_time.wday),
+          date:  curr_time.strftime("%m/%d/%y"),
           hour:  hour_num(curr_time.hour),
           value: total_seconds / 60 / 60
       }

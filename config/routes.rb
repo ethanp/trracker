@@ -25,6 +25,9 @@ Rails.application.routes.draw do
 
   get '/tasks/:task_id/heatmap' => 'tasks#show_heatmap_data', as: :show_task_heatmap_data
 
+  get '/categories/:category_id/time_per_task_per_day' => 'categories#time_per_task_per_day',
+      as: :time_per_task_per_day
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Example of regular route:

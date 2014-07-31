@@ -8,6 +8,14 @@ class CategoriesController < ApplicationController
     @categories = current_user.categories
   end
 
+  def time_per_task_per_day
+    puts "@category.time_per_task_per_day: #{@category.time_per_task_per_day}"
+    respond_to do |format|
+      format.html # time_per_task_per_day.html.erb (doesn't exist)
+      format.json { render json: @category.time_per_task_per_day }
+    end
+  end
+
   # GET /categories/1
   # GET /categories/1.json
   def show

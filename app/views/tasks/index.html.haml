@@ -11,7 +11,7 @@
   %tbody
     - @tasks.each do |task|
       %tr
-        %td= task.duedate.strftime("%A, %B %e at %l:%M %p")
+        %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
         %td
           %strong= link_to task.name, task_path(task)
         %td= task.priority
