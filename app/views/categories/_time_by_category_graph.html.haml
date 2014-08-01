@@ -79,7 +79,19 @@
       .x(function(d) { return d.date; })
       .y(function(d) { return d.value; });
 
-  /* this allows */
+  /* this turns our single list of objects into the following data structure:
+
+     [
+       {
+         "key":"categ1",
+         "values":[array of data]
+       }, {
+         "key":"categ2",
+         "values":[array of data]
+       }
+     ]
+
+  */
   var nest = d3.nest()
       .key(function(d) { return d.name; });
 
@@ -123,4 +135,21 @@
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis);
-  });
+
+    // add legend -- stackoverflow.com/questions/14775962
+    var legend = svg.selectAll('.g')
+        .data(layers)
+      .enter().append('g')
+        .attr('class', 'legend');
+
+    legend.append('rect')
+        .attr('x', width - 60)
+        .attr('y', function(d, i){ return i *  20;})
+        .attr('width', 10)
+        .attr('height', 10)
+        .style('fill', function(d) {return z(d.key);});
+
+    legend.append('text')
+        .attr('x', width - 40)
+        .attr('y', function(d, i){ return (i *  20) + 9;})
+        .text(function(d){ return d.key; });});
