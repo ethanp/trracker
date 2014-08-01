@@ -13,4 +13,7 @@ class Category < ActiveRecord::Base
     # time_per_day : #<Array> of { :date, :task, :value }
     self.tasks.flat_map { |x| x.time_per_day }.group_by_date_and_sum_by_value(self)
   end
+  def has_task_due_in_a_week
+    tasks.select{ |t| t.pressing_duedate }.size > 0
+  end
 end

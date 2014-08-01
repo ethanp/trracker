@@ -13,7 +13,7 @@
 
   %tbody
     - @tasks.select{ |x| not x.complete }.each do |task|
-      %tr{class:(pressing_duedate(task)) }
+      %tr{class:(task.pressing_duedate) }
         %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
         %td
           %strong= link_to task.name, task_path(task)

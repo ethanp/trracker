@@ -32,4 +32,17 @@ class Task < ActiveRecord::Base
   def time_per_day
     self.heatmap_hash_array.group_by_date_and_sum_by_value(self)
   end
+
+  def pressing_duedate
+    if not self.duedate.nil?
+      due = DateTime.parse(self.duedate.to_s)
+      distance = (due - DateTime.now).to_f
+      case distance
+        when 0..3
+          "danger"
+        when 3..7
+          "warning"
+      end
+    end
+  end
 end
