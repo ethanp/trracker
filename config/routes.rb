@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   get '/categories/:category_id/time_per_task_per_day' => 'categories#time_per_task_per_day',
       as: :time_per_task_per_day
 
+  get '/task_data.json' => 'categories#stacked_chart_data', as: :stacked_chart_data
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Example of regular route:
