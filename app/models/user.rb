@@ -18,6 +18,18 @@ class User < ActiveRecord::Base
 
   # for each category, have the total amount of time for each day
   def time_per_category_per_day
-    self.categories.map { |x| x.time_per_task_per_day }
+    self.categories.flat_map { |x| x.time_per_task_per_day }
+  end
+end
+class Array
+  def group_by_date_and_sum_by_value(parent_instance)
+    arr = self.group_by { |x| x[:date] }.values.map do |x|
+      sum = x.inject(0.0) { |sum, hash| sum + hash[:value] }
+      { date: x.first[:date], name: parent_instance.name, value: sum }
+    end
+    arr.sort_by { |x| x[:date] } # no reason
+  end
+  def to_ids
+    self.map { |x| x.id }
   end
 end

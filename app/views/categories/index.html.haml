@@ -1,0 +1,29 @@
+%h1 My Categories
+%br/
+.container
+  .row
+    = render 'time_by_category_graph'
+  .row
+    - @categories.each do |category|
+      .col-md-4.panel.panel-default
+        .panel-heading
+          %h3.text-center.text-info
+            = link_to(image_tag('Zapatista.jpg',
+              class: 'img-responsive img-rounded') + category.name,
+              category,
+              class: 'text-center text-info')
+        .panel-body
+          %p.text-center.text-muted= category.description
+          .text-center
+            = link_to 'Edit',
+              edit_category_path(category),
+              class: 'btn btn-warning'
+            = link_to 'Delete',
+              category,
+              method: :delete,
+              data: { confirm: 'Are you sure?' },
+              class: 'btn btn-danger'
+%br/
+%br/
+%br/
+= link_to 'New Category', new_category_path, class: 'btn btn-success btn-lg'

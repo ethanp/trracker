@@ -30,6 +30,6 @@ class Task < ActiveRecord::Base
 
   # { :date, :name (task.name), :value }
   def time_per_day
-    self.heatmap_hash_array.todo_name(self)
+    self.heatmap_hash_array.group_by_date_and_sum_by_value(self)
   end
 end

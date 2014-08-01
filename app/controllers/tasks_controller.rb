@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :show_heatmap_data]
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
   # GET /tasks
@@ -19,6 +19,7 @@ class TasksController < ApplicationController
   end
 
   def show_heatmap_data
+    @task = Task.find(params[:task_id])
     puts @task.heatmap_hash_array.as_json
     respond_to do |format|
       format.html # show_heatmap_data.html.erb (doesn't exist)
