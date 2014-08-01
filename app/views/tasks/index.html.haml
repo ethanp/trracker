@@ -1,3 +1,6 @@
+
+%h1{style: "text-align:center;"} Incomplete Tasks
+
 %table.table.table-striped.datatable.table-responsive.table-bordered.table-hover#tasks-list
   %thead
     %tr
@@ -9,8 +12,8 @@
       %th
 
   %tbody
-    - @tasks.each do |task|
-      %tr
+    - @tasks.select{ |x| not x.complete }.each do |task|
+      %tr{class:(pressing_duedate(task)) }
         %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
         %td
           %strong= link_to task.name, task_path(task)
