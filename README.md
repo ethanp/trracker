@@ -15,11 +15,16 @@
 
 The _reason_ it works is that via some very simple data analysis,
 you can **see** the effect your procrastination is having on your
-ability to do the things you actually want. But I haven't implemented
-the graphing tools yet so hold your horses. If you want a sneak preview
-of the vision, check out:
+ability to do the things you actually want. Some of this has already been enabled:
 
-1.  [Calendar heatmap](http://bl.ocks.org/tjdecke/5558084)
+1. [Calendar heatmap](http://bl.ocks.org/tjdecke/5558084) is implemented for visualizing
+   *at what times of day* you do a task
+2. [Stacked area chart](http://bl.ocks.org/mbostock/3020685) is implemented for visualizing
+   how much time is spent on each category, with a vision of how much time is being Tracked
+   in total.
+
+If you want a sneak preview of the vision for the future, check out:
+
 2.  [Crossfilter](http://square.github.io/crossfilter/)
 3.  [dc.js](http://dc-js.github.io/dc.js/)
 
