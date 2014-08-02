@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe 'My behaviour' do
+describe Subtask do
 
-  it 'should do something' do
+  it 'true is true' do
     expect(true).to eq(true)
   end
 end

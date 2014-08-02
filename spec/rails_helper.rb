@@ -8,6 +8,7 @@ require 'capybara/rspec'
 require 'devise'
 require 'devise/test_helpers'
 require 'support/devise'
+require 'support/factory_girl'
 
 Capybara.javascript_driver = :webkit
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
