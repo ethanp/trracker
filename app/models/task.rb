@@ -4,7 +4,7 @@ class Task < ActiveRecord::Base
   has_many :intervals, -> { order('start') }, dependent: :destroy
 
   # validations
-  validates_presence_of :name
+  validates_presence_of :name, :category_id, :priority
   validates_uniqueness_of :name, scope: [:category_id]
   validates_length_of :name, maximum: 30, too_long: 'That name is too long (30 chars max)'
 

@@ -13,8 +13,6 @@ describe Category do
     end
 
     it 'is invalid without a user_id' do
-      # "!" means raise an error if it is not successful,
-      # without an exclamation it will just return "false"
       c = build(:category, user_id: nil)
       expect(c).to_not be_valid
     end
@@ -32,7 +30,7 @@ describe Category do
     end
 
     it 'is invalid when name is longer than 30 characters' do
-      c = build(:category, name: '01234567891123456789212345678931')
+      c = build(:category, name: '1234567891123456789212345678931')
       expect(c).to_not be_valid
     end
   end

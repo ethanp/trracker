@@ -16,8 +16,6 @@ FactoryGirl.define do
   factory :task do
     name "Tisket"
     category_id 1
-    complete false
-    duedate DateTime.now
     priority 0
   end
 
