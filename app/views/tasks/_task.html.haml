@@ -2,12 +2,14 @@
   %td
     %h4= link_to task.name, task
 
-  - unless task.duedate.nil?
-    %td
-      %h5= task.duedate.strftime("%A, %B %e at %l:%M %p")
+  %td
+    %h5= task.duedate.nil? ? "" : task.duedate.strftime("%A, %B %e at %l:%M %p")
 
   %td
     %h5= time_ago_in_words task.seconds_spent.ago
+
+  %td
+    %h5= task.priority
 
   %td= link_to 'Edit <span class="glyphicon glyphicon-file"></span>'.html_safe,
     edit_task_path(task),
