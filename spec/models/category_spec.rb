@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Category do
-  context 'validates correctly' do
+  context 'validations' do
     it 'is valid with a name and user_id' do
       c = build(:category)
       expect(c).to be_valid

@@ -2,7 +2,7 @@ class Interval < ActiveRecord::Base
   belongs_to :task
 
   # validations
-  validates_presence_of :start, :end
+  validates_presence_of :start, :end, :task_id
 
   def start_time
     Time.parse(self.start.to_s)

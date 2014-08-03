@@ -19,4 +19,10 @@ FactoryGirl.define do
     priority 0
   end
 
+  factory :interval do
+    start DateTime.now - 1.hour
+    self.end DateTime.now
+    task_id 1
+  end
+
 end

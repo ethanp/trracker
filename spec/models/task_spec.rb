@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Task do
-  context 'validates correctly' do
+  context 'validations' do
     it 'is valid with just a name, category_id and priority' do
       t = build(:task)
       expect(t).to be_valid
