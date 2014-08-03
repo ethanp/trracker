@@ -28,5 +28,4 @@ RSpec.configure do |config|
     mocks.syntax = :expect
     mocks.verify_partial_doubles = true
   end
-
 end

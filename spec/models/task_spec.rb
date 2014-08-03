@@ -47,25 +47,26 @@ describe Task do
       t1 = create(:task, name: 'A', duedate: DateTime.now + 1.days)
       t2 = create(:task, name: 'B', duedate: DateTime.now + 2.days)
       t3 = create(:task, name: 'C', duedate: DateTime.now + 17.days)
-      expect(Task.due_within_two_weeks).to eq([t1,t2])
+      # :match_array means the order is ignored
+      expect(Task.due_within_two_weeks).to match_array([t1,t2])
     end
     it 'returns only tasks due_before(date)' do
       t1 = create(:task, name: 'A', duedate: DateTime.now + 1.days)
       t2 = create(:task, name: 'B', duedate: DateTime.now + 2.days)
       t3 = create(:task, name: 'C', duedate: DateTime.now + 7.days)
-      expect(Task.due_before(DateTime.now + 6.days)).to eq([t1,t2])
+      expect(Task.due_before(DateTime.now + 6.days)).to match_array([t1,t2])
     end
     it 'returns only complete tasks' do
       t1 = create(:task, name: 'A', complete: true)
       t2 = create(:task, name: 'B', complete: true)
       t3 = create(:task, name: 'C', complete: false)
-      expect(Task.complete).to eq([t1,t2])
+      expect(Task.complete).to match_array([t1,t2])
     end
     it 'returns only incomplete tasks' do
       t1 = create(:task, name: 'A', complete: true)
       t2 = create(:task, name: 'B', complete: true)
       t3 = create(:task, name: 'C', complete: false)
-      expect(Task.incomplete).to eq([t3])
+      expect(Task.incomplete).to match_array([t3])
     end
   end
 

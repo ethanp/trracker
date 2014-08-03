@@ -9,6 +9,7 @@ require 'devise'
 require 'devise/test_helpers'
 require 'support/devise'
 require 'support/factory_girl'
+require 'support/database_cleaner'
 
 Capybara.javascript_driver = :webkit
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
@@ -18,14 +19,14 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = false
   config.infer_spec_type_from_file_location!
-  config.before(:suite)          { DatabaseCleaner.clean_with(:truncation) }
-  config.before(:each)           { DatabaseCleaner.strategy = :transaction }
-  config.before(:each, js: true) { DatabaseCleaner.strategy = :truncation }
-  config.before(:each)           { DatabaseCleaner.start }
-  config.after(:each)            { DatabaseCleaner.clean }
+
   config.mock_with :rspec
-  config.use_transactional_fixtures = true
-  config.use_transactional_examples = true
+  config.use_transactional_fixtures = false
+  config.use_transactional_examples = false
   # config.include HelperMethods, type: :request
   config.extend ControllerMacros, type: :controller
+  config.include Rails.application.routes.url_helpers
 end
+
+include Warden::Test::Helpers
+Warden.test_mode!
