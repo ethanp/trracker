@@ -90,8 +90,8 @@ ready = ->
   # click handlers
   recordButton.click -> recordButtonPressed()
   $("#cancel").click -> cancelRecording()
-  $("#toggle-intervals").click -> $("#intervals").slideToggle("slow")
-  $("#toggle-subtasks").click -> $("#subtasks").slideToggle("slow")
+  $("#toggle-intervals").click -> $("#interval-table").slideToggle("slow")
+  $("#toggle-subtasks").click -> $("#subtasks-list").slideToggle("slow")
 
   # enable DataTable
   $("#tasks-list").dataTable sPaginationType: "bootstrap"

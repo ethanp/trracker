@@ -60,17 +60,18 @@
       .panel-body
         .well.well-sm
           = render 'subtasks/form'
-        %ul.list-group
-          - @task.subtasks.each do |subtask|
-            %li.list-group-item
-              = subtask.name
+        #subtasks-list
+          %ul.list-group
+            - @task.subtasks.each do |subtask|
+              %li.list-group-item
+                = subtask.name
 
-              %span.badge
-                = link_to 'Delete',
-                  subtask_path(subtask),
-                  method: :delete,
-                  confirm: 'Are you sure?',
-                  style: 'color:white;font-weight:normal;'
+                %span.badge
+                  = link_to 'Delete',
+                    subtask_path(subtask),
+                    method: :delete,
+                    confirm: 'Are you sure?',
+                    style: 'color:white;font-weight:normal;'
 
 
   .col-md-1
@@ -92,11 +93,12 @@
           .row
             .col-md-10
               = render 'intervals/form'
-        %table.table#interval-table
-          %tr
-            %th Start
-            %th End
-            %th Time
-            %th Date
-            %th
-          = render @task.intervals
+        #interval-table
+          %table.table
+            %tr
+              %th Start
+              %th End
+              %th Time
+              %th Date
+              %th
+            = render @task.intervals
