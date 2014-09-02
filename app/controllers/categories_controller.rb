@@ -6,6 +6,11 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     @categories = current_user.categories
+
+    # this is for better row-by-row aligned displaying of the categories
+    # this turns [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] => [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9]]
+    # so that each row contains 4 categories
+    @category_rows = @categories.each_slice(4).to_a
   end
 
   def stacked_chart_data
