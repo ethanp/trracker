@@ -4,5 +4,5 @@ class Subtask < ActiveRecord::Base
   # validations
   validates_presence_of :name
   validates_uniqueness_of :name, scope: [:task_id]
-  validates_length_of :name, maximum: 30, too_long: 'That name is too long (30 chars max)'
+  validates_length_of :name, maximum: 60, too_long: 'That name is too long (60 chars max)'
 end

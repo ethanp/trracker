@@ -1,20 +1,18 @@
 source 'https://rubygems.org'
 
 ruby "2.1.2"
-
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record locally
   gem 'sqlite3',     '~> 1.3.9'
-  gem 'rspec', '~> 3.0.0'
+  gem 'rspec',       '~> 3.0.0'
   gem 'rspec-rails', '~> 3.0.2'
-  gem 'nokogiri', '~> 1.6.2.1'
+  gem 'nokogiri',    '~> 1.6.2.1'
   # The following optional lines are part of the advanced setup.
   gem 'guard-rspec'
-  gem 'spork-rails', '4.0.0'
-  gem 'guard-spork', '1.5.1'
+  gem 'spork-rails',  '4.0.0'
+  gem 'guard-spork',  '1.5.1'
   gem 'childprocess', '~> 0.5.3'
 end
 
@@ -38,22 +36,30 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer',  platforms: :ruby
 
 # Use jquery as the JavaScript library
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-# jbuilder: Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# sdoc: bundle exec rake doc:rails generates the API under doc/api.
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-# bcrypt: Use ActiveModel has_secure_password
-# haml: markup language layered on top of HTML, uses indentation
-# redcarpet: markdown parser
-# datatables: nice <table> formatting through javascript
 gem 'jquery-rails', '~> 3.1.1'
+
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks',   '~> 2.2.2'
+
+# jbuilder: Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder',     '~> 2.0'
+
+# sdoc: bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc',         '~> 0.4.0',  group: :doc
+
+# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',       '~> 1.1.3',  group: :development
+
+# bcrypt: Use ActiveModel has_secure_password
 gem 'bcrypt',       '~> 3.1.7'
+
+# haml: markup language layered on top of HTML, uses indentation
 gem 'haml',         '~> 4.0.5'
+
+# redcarpet: markdown parser
 gem 'redcarpet',    '~> 3.1.2'
+
+# datatables: nice <table> formatting through javascript
 gem 'jquery-datatables-rails', '~> 2.1.10.0.3'
 
 # Use unicorn as the app server

@@ -4,22 +4,18 @@
 @import 'dataTables/bootstrap/3/jquery.dataTables.bootstrap';
 
 // this is for the heatmap
-// TODO turn it into nice SASS using online generator
 rect.bordered {
   stroke: #E6E6E6;
-  stroke-width:2px;
+  stroke-width: 2px;
 }
 
-text.mono {
-  font-size: 9pt;
-  font-family: Consolas, courier;
-  fill: #aaa;
-}
-
-text.axis-workweek {
-  fill: #000;
-}
-
-text.axis-worktime {
-  fill: #000;
+text {
+  &.mono {
+    font-size: 9pt;
+    font-family: Consolas, courier;
+    fill: #aaa;
+  }
+  &.axis-workweek, &.axis-worktime {
+    fill: #000;
+  }
 }

@@ -53,7 +53,6 @@ class IntervalsController < ApplicationController
                              end: start_end.last,
                              task_id: params[:task_id])
       if @interval.save
-      # TODO what this should actually do is respond with the new interval entry for the table
         render @interval
       else
         redirect_to(Task.find(params[:task_id]), notice: 'Problem creating interval.')

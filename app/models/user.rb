@@ -43,8 +43,8 @@ class User < ActiveRecord::Base
     not_sure.flatten.sort_by { |x| [x[:date], x[:name]] } # sort by date /then/ name
   end
 end
-class Array
 
+class Array
   # TODO this should go in a /helper/ or something, no?
   # the resulting array is also sorted by date ascending
   def group_by_date_and_sum_by_value(parent_instance)

@@ -6,7 +6,7 @@ class Task < ActiveRecord::Base
   # validations
   validates_presence_of :name, :category_id, :priority
   validates_uniqueness_of :name, scope: [:category_id]
-  validates_length_of :name, maximum: 30, too_long: 'That name is too long (30 chars max)'
+  validates_length_of :name, maximum: 60, too_long: 'That name is too long (60 chars max)'
 
   scope :due_within_two_weeks, -> {
     where("tasks.duedate > ? AND tasks.duedate < ?",
@@ -20,7 +20,7 @@ class Task < ActiveRecord::Base
   scope :incomplete, -> { where("tasks.complete = ? OR tasks.complete IS NULL", false) }
 
   def seconds_spent
-    self.intervals.inject(0){ |sum, interval| sum + interval.seconds_spent }.to_i
+    self.intervals.inject(0) { |sum, interval| sum + interval.seconds_spent }.to_i
   end
 
   # collect all intervals' hash-representations into one array

@@ -1,7 +1,7 @@
 .container-fluid
   .jumbotron
     %h1 My, how time flies!
-    %p Check it out
-    %a.btn.btn-primary.btn-lg Something Here
+    -#%p Check it out
+    -#%a.btn.btn-primary.btn-lg Something Here
 .row
   = render 'time_by_category_graph' if user_signed_in? and current_user.intervals.size > 0
