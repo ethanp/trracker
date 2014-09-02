@@ -79,6 +79,17 @@ ready = ->
     clearInterval(root.counterID)
     return
 
+  startMinute = (earlier) ->
+    startTime = localStorage.getItem currentUrl
+    return unless startTime?
+
+    timeValue = Number.parseInt startTime
+    oneMinute = 1000 * 60 # it's in milliseconds
+    oneMinuteChanged = if earlier then timeValue + oneMinute else timeValue - oneMinute
+    localStorage.setItem(currentUrl, oneMinuteChanged)
+    updateReading()
+    return
+
   # initializations
   currentUrl = window.location.pathname
   recordButton = $("#record")
@@ -91,7 +102,9 @@ ready = ->
   recordButton.click -> recordButtonPressed()
   $("#cancel").click -> cancelRecording()
   $("#toggle-intervals").click -> $("#interval-table").slideToggle("slow")
-  $("#toggle-subtasks").click -> $("#subtasks-list").slideToggle("slow")
+  $("#toggle-subtasks").click  -> $("#subtasks-list").slideToggle("slow")
+  $("#before-decrease").click  -> startMinute true
+  $("#before-increase").click  -> startMinute false
 
   # enable DataTable
   $("#tasks-list").dataTable sPaginationType: "bootstrap"

@@ -14,12 +14,12 @@ class CategoriesController < ApplicationController
   end
 
   def stacked_chart_data
-    puts current_user.time_per_category_per_day.to_json
+    # puts current_user.time_per_category_per_day.to_json
     render json: current_user.time_per_category_per_day
   end
 
   def time_per_task_per_day
-    puts "@category.time_per_task_per_day: #{@category.time_per_task_per_day}"
+    # puts "@category.time_per_task_per_day: #{@category.time_per_task_per_day}"
     respond_to do |format|
       format.html # time_per_task_per_day.html.erb (doesn't exist)
       format.json { render json: @category.time_per_task_per_day }
