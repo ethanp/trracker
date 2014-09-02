@@ -15,11 +15,14 @@
             %p.text-center.text-muted= category.description
             - if category.has_task_due_in_a_week
               %p
-                %strong
-                  Most Pressing:
-                  = category.tasks.first.name
-                due
-                = category.tasks.first.duedate.strftime("<b>%A</b> at %l:%M %p").html_safe
+                %strong Most Pressing:
+                = category.first_incomplete_task.name
+                %br
+                %strong Due:
+                - if category.first_incomplete_duedate.nil?
+                  No duedate
+                - else
+                  = category.first_incomplete_duedate.strftime("<b>%A</b> at %l:%M %p").html_safe
             .text-center
               = link_to 'Edit',
                 edit_category_path(category),
