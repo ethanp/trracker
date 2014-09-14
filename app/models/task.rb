@@ -37,9 +37,10 @@ class Task < ActiveRecord::Base
     if not self.duedate.nil?
       due = DateTime.parse(self.duedate.to_s)
       distance = (due - DateTime.now).to_f
+      return "danger" if distance < 0
       case distance
         when 0..3
-          "danger"
+          "info"
         when 3..7
           "warning"
       end

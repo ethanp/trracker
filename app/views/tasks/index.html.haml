@@ -2,6 +2,7 @@
 %h1{style: "text-align:center;"} Incomplete Tasks
 
 -# TODO use Coffeescript to get this to switch it to "Complete Tasks"
+-# see tbody for more
 -#%button{class: "btn btn-info btn-large"} Switch (#TODO)
 
 %table.table.table-striped.datatable.table-responsive.table-bordered.table-hover#tasks-list
@@ -15,6 +16,8 @@
       %th
 
   %tbody
+    -# TODO this should print all of them, and then in the Coffeescript
+    -# they should be selectively hidden (if(complete) addClass('complete'))
     - @tasks.select{ |x| not x.complete }.each do |task|
       %tr{class:(task.pressing_duedate) }
         %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
