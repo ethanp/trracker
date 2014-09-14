@@ -1,4 +1,3 @@
-
 %h1#tasks-list-title{style: "text-align:center;"} Not Turned In
 %button{id: "switch-hide-turned-in", class: "btn btn-info btn-large"} Switch Turned-In
 
@@ -22,6 +21,6 @@
         %td= task.priority
         %td= task.category.name
         %td= time_ago_in_words task.seconds_spent.ago
-        %td= link_to (task.complete ? 'Un-Complete' : 'Complete'), complete_task_path(task, show: false)
-        %td= link_to (task.turned_in ? 'Un-Turn In' : 'Turn-in'), turn_in_task_path(task, show: false)
+        %td= link_to (task.complete ? 'Un-Complete' : 'Complete'), complete_task_path(task, show: false), method: :patch
+        %td= link_to (task.turned_in ? 'Un-Turn In' : 'Turn-in'), turn_in_task_path(task, show: false), method: :patch
         %td= link_to 'Delete', task, method: :delete, data: { confirm: 'Are you sure?' }

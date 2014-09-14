@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140914051150) do
+ActiveRecord::Schema.define(version: 20140914064147) do
 
   create_table "categories", force: true do |t|
     t.string   "name",        null: false
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20140914051150) do
     t.boolean  "complete"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "url"
   end
 
   add_index "subtasks", ["task_id"], name: "index_subtasks_on_task_id"

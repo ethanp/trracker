@@ -25,11 +25,13 @@
       / "Complete task" button
       = link_to @task.complete ? 'Un-Complete' : 'Complete',
         complete_task_path(@task, show: true),
-        class: 'btn btn-info btn-lg'
+        class: 'btn btn-info btn-lg',
+        method: :patch
 
       = link_to @task.turned_in ? 'Un-Turn-in' : 'Turn-in',
         turn_in_task_path(@task, show: true),
-        class: 'btn btn-success btn-lg'
+        class: 'btn btn-success btn-lg',
+        method: :patch
 
       = link_to 'Edit',
         edit_task_path(@task),
@@ -65,6 +67,13 @@
             - @task.subtasks.each do |subtask|
               %li.list-group-item
                 = subtask.name
+
+                %span.label{class:(subtask.complete ? 'label-success' : 'label-info')}
+                  = link_to (subtask.complete ? 'Un-Complete' : 'Complete'),
+                    complete_subtask_path(subtask),
+                    method: :patch,
+                    confirm: 'Are you sure?',
+                    style: 'color:white;font-weight:normal;'
 
                 %span.badge
                   = link_to 'Delete',

@@ -1,5 +1,5 @@
 class SubtasksController < ApplicationController
-  before_action :set_subtask, only: [:show, :edit, :update, :destroy]
+  before_action :set_subtask, only: [:show, :edit, :update, :destroy, :complete]
   before_action :authenticate_user!
 
   # GET /subtasks
@@ -55,6 +55,12 @@ class SubtasksController < ApplicationController
         format.json { render json: @subtask.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def complete
+    @subtask.complete = !@subtask.complete
+    @subtask.save
+    redirect_to(@subtask.task)
   end
 
   # DELETE /subtasks/1
