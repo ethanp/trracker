@@ -11,12 +11,12 @@ ready = ->
       localStorage.setItem currentUrl, $.now()
       reading.text "0:00"
       beginIncrementer()
-    else
+    else # pressed "Stop", send interval and render response
       timeSpan = interval: localStorage.getItem(currentUrl) + " " + $.now()
       $.post currentUrl + "/intervals-ajax.json", timeSpan, (data) ->
 
         $("#interval-table").append(
-          $("<tr>").attr("id", data.id).append(
+          $("<tr>").addClass("interval").attr("id", data.id).append(
             $('<td>').text(data.start),
             $('<td>').text(data.end),
             $('<td>').text(data.time),

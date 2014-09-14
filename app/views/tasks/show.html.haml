@@ -98,12 +98,12 @@
           .row
             .col-md-10
               = render 'intervals/form'
-        #interval-table
-          %table.table
-            %tr
-              %th Start
-              %th End
-              %th Time
-              %th Date
-              %th
-            = render @task.intervals
+
+        %table.table#interval-table
+          %tr
+            %th Start
+            %th End
+            %th Time
+            %th Date
+            %th
+          = render @task.intervals
