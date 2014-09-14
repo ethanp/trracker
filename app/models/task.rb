@@ -18,6 +18,7 @@ class Task < ActiveRecord::Base
   }
   scope :complete, -> { where('tasks.complete = ?', true) }
   scope :incomplete, -> { where("tasks.complete = ? OR tasks.complete IS NULL", false) }
+  scope :turned_in, -> { where('tasks.turned_in = ?', true) }
 
   def seconds_spent
     self.intervals.inject(0) { |sum, interval| sum + interval.seconds_spent }.to_i
@@ -45,5 +46,9 @@ class Task < ActiveRecord::Base
           "warning"
       end
     end
+  end
+
+  def turned_in_css_class
+    self.turned_in ? 'turned-in' : 'not-turned-in'
   end
 end

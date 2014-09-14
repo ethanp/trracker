@@ -1,9 +1,6 @@
 
-%h1{style: "text-align:center;"} Incomplete Tasks
-
--# TODO use Coffeescript to get this to switch it to "Complete Tasks"
--# see tbody for more
--#%button{class: "btn btn-info btn-large"} Switch (#TODO)
+%h1#tasks-list-title{style: "text-align:center;"} Not Turned In
+%button{id: "switch-hide-turned-in", class: "btn btn-info btn-large"} Switch Turned-In
 
 %table.table.table-striped.datatable.table-responsive.table-bordered.table-hover#tasks-list
   %thead
@@ -14,16 +11,17 @@
       %th Category
       %th Time spent so far
       %th
+      %th
 
   %tbody
-    -# TODO this should print all of them, and then in the Coffeescript
-    -# they should be selectively hidden (if(complete) addClass('complete'))
-    - @tasks.select{ |x| not x.complete }.each do |task|
-      %tr{class:(task.pressing_duedate) }
+    - @tasks.each do |task|
+      %tr{class:[task.pressing_duedate, task.turned_in_css_class] }
         %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
         %td
           %strong= link_to task.name, task_path(task)
         %td= task.priority
         %td= task.category.name
         %td= time_ago_in_words task.seconds_spent.ago
+        %td= link_to (task.complete ? 'Un-Complete' : 'Complete'), complete_task_path(task, show: false)
+        %td= link_to (task.turned_in ? 'Un-Turn In' : 'Turn-in'), turn_in_task_path(task, show: false)
         %td= link_to 'Delete', task, method: :delete, data: { confirm: 'Are you sure?' }

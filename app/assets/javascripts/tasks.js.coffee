@@ -96,18 +96,30 @@ ready = ->
   reading = $("#timer-reading")
   root = exports ? this # finagling to create "global(ish)" variable
   root.counterID = null
+  $tableTitle = $("#tasks-list-title")
+  $(".turned-in").hide()
   initialize()
-
   # click handlers
   recordButton.click -> recordButtonPressed()
   $("#cancel").click -> cancelRecording()
   $("#toggle-intervals").click -> $("#interval-table").slideToggle("slow")
-  $("#toggle-subtasks").click  -> $("#subtasks-list").slideToggle("slow")
-  $("#before-decrease").click  -> startMinute true
-  $("#before-increase").click  -> startMinute false
+  $("#toggle-subtasks").click -> $("#subtasks-list").slideToggle("slow")
+  $("#before-decrease").click -> startMinute true
+  $("#before-increase").click -> startMinute false
+  $("#switch-hide-turned-in").click ->
+      $(".turned-in").toggle()
+      $(".not-turned-in").toggle()
+      if $tableTitle.text().match /Not/
+        $tableTitle.text "Turned In"
+      else
+        $tableTitle.text "Not Turned In"
+      return
 
-  # enable DataTable
+  # enable DataTable on '/tasks'
   $("#tasks-list").dataTable sPaginationType: "bootstrap"
+  return
+
+# switch Turned-In/Not for table on '/tasks'
 
 # These *are* both necessary.
 # The first one is for when you reload the page.

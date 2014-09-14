@@ -1,5 +1,7 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy,
+                                  :complete, :turn_in]
+
   before_action :authenticate_user!
 
   # GET /tasks
@@ -58,10 +60,23 @@ class TasksController < ApplicationController
   end
 
   def complete
-    @task = Task.find(params[:task_id])
     @task.complete = !@task.complete
     @task.save
-    redirect_to @task
+    if params[:show] == 'true'
+      redirect_to @task
+    else
+      redirect_to list_tasks_path
+    end
+  end
+
+  def turn_in
+    @task.turned_in = !@task.turned_in
+    @task.save
+    if params[:show] == 'true'
+      redirect_to @task
+    else
+      redirect_to list_tasks_path
+    end
   end
 
   # PATCH/PUT /tasks/1

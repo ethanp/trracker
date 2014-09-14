@@ -23,13 +23,13 @@
         = time_ago_in_words @task.seconds_spent.seconds.ago
 
       / "Complete task" button
-      = form_for @task,
-        url: complete_task_path(@task),
-        method: :patch,
-        html: { style: "display:inline;"} do |f|
+      = link_to @task.complete ? 'Un-Complete' : 'Complete',
+        complete_task_path(@task, show: true),
+        class: 'btn btn-info btn-lg'
 
-        = f.submit @task.complete ? 'Un-Complete' : 'Complete',
-          class: 'btn btn-info btn-lg'
+      = link_to @task.turned_in ? 'Un-Turn-in' : 'Turn-in',
+        turn_in_task_path(@task, show: true),
+        class: 'btn btn-success btn-lg'
 
       = link_to 'Edit',
         edit_task_path(@task),

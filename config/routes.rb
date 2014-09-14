@@ -21,7 +21,8 @@ Rails.application.routes.draw do
   post  '/tasks/:task_id/intervals-ajax' => 'intervals#create_from_ajax' # the record button
 
   # looked this up and PATCH seems to best-describe the situation
-  patch '/tasks/:task_id/complete' => 'tasks#complete', as: :complete_task
+  get '/tasks/:id/complete' => 'tasks#complete', as: :complete_task
+  get '/tasks/:id/turn_in' => 'tasks#turn_in', as: :turn_in_task
 
   get '/tasks/:task_id/heatmap' => 'tasks#show_heatmap_data', as: :show_task_heatmap_data
 

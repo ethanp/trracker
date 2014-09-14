@@ -6,13 +6,18 @@
 
 / Incomplete Tasks Table
 = render 'tasks/table',
-  title: 'Incomplete',
+  title: 'Do These',
   tasks: @category.tasks.incomplete
 
-/ Complete Tasks Table
+/ Complete but Not Turned-In Tasks Table
 = render 'tasks/table',
   title: 'Complete',
-  tasks: @category.tasks.complete
+  tasks: @category.tasks.complete - @category.tasks.turned_in
+
+/ Turned-In Tasks Table
+= render 'tasks/table',
+  title: 'Turned In',
+  tasks: @category.tasks.turned_in
 
 %br/
 = link_to 'New Task', new_category_task_path(@category), class: 'btn btn-success btn-lg'

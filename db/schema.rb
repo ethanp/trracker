@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730235936) do
+ActiveRecord::Schema.define(version: 20140914051150) do
 
   create_table "categories", force: true do |t|
     t.string   "name",        null: false
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20140730235936) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "priority",    null: false
+    t.boolean  "turned_in"
   end
 
   add_index "tasks", ["category_id"], name: "index_tasks_on_category_id"
