@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   devise_for :users
-  root to: "static#landing", as: :homepage
+  root to: redirect('static/landing'), as: :homepage
 
   get 'static/landing', as: :home
   get 'static/about', as: :about
