@@ -4,6 +4,7 @@
 %table.table.table-striped.datatable.table-responsive.table-bordered.table-hover#tasks-list
   %thead
     %tr
+      %th
       %th Duedate
       %th Name
       %th Priority
@@ -11,10 +12,12 @@
       %th Time spent so far
       %th
       %th
+      %th
 
   %tbody
-    - @tasks.each do |task|
+    - @tasks.each_with_index do |task, idx|
       %tr{class:[task.pressing_duedate, task.turned_in_css_class] }
+        %td=idx
         %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
         %td
           %strong= link_to task.name, task_path(task)

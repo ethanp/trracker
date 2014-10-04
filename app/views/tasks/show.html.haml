@@ -1,12 +1,9 @@
 .row
   .container-fluid
     .jumbotron
-      %h1 Task: #{@task.name}
+      %h1 #{@task.name}
       %h3 Category: #{link_to @task.category.name, category_path(@task.category)}
       %h3 Priority: #{@task.priority}
-      %p
-        %b
-          %i= @task.complete ? "Complete" : "Incomplete"
       - unless @task.duedate.nil?
         %p
           %strong Duedate:
@@ -68,8 +65,8 @@
               %li.list-group-item
                 = subtask.name
 
-                %span.label{class:(subtask.complete ? 'label-success' : 'label-info')}
-                  = link_to (subtask.complete ? 'Un-Complete' : 'Complete'),
+                %span.label{class:(subtask.complete ? 'label-success' : 'label-danger')}
+                  = link_to (subtask.complete ? 'Complete' : 'Incomplete'),
                     complete_subtask_path(subtask),
                     method: :patch,
                     confirm: 'Are you sure?',
