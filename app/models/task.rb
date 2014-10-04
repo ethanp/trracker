@@ -46,31 +46,42 @@ class Task < ActiveRecord::Base
     if todays_hash.empty?
       0.seconds
     else
-      # `first` because select returns an array
-      # (which ought to have up to one element in this context)
-      # then we must convert hours to seconds
-      (todays_hash.first[:value] * 60 * 60).seconds
+      # today's hash is an array with up to one value
+      # it is in units of hours, so we convert to seconds
+      total = todays_hash.first[:value] * 60 * 60
+      total.seconds
     end
+  end
+
+  def duedate_as_datetime
+    return nil if self.duedate.nil?
+    DateTime.parse(self.duedate.to_s)
+  end
+
+  def duedate_distance_in_days
+    return nil if self.duedate.nil?
+    (self.duedate_as_datetime - DateTime.now).to_f
   end
 
   def due_within_a_week
     return false if self.duedate.nil?
-    duedate = DateTime.parse(self.duedate.to_s)
-    distance = (duedate - DateTime.now).to_f
-    return distance < 7
+    return self.duedate_distance_in_days < 7
   end
 
   def index_css_class
-    return "success" if self.complete
-    return "" if self.duedate.nil?
-    duedate = DateTime.parse(self.duedate.to_s)
-    distance = (duedate - DateTime.now).to_f
-    return "danger" if distance < 0
-    case distance
-      when 0..3
-        "info"
-      when 3..7
-        "warning"
+    if self.complete
+      "success"
+    elsif self.duedate.nil?
+      ""
+    elsif self.duedate_distance_in_days < 0
+      "danger"
+    else
+      case self.duedate_distance_in_days
+        when 0..3
+          "info"
+        when 3..7
+          "warning"
+      end
     end
   end
 
