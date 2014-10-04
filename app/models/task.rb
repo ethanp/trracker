@@ -29,9 +29,21 @@ class Task < ActiveRecord::Base
     self.intervals.inject([]) { |arr, h| arr + h.heatmap_hash_array }
   end
 
-  # { :date, :name (task.name), :value }
+  # { date: '%m/%d/%y', name: task.name, value: hours }
   def time_per_day
     self.heatmap_hash_array.group_by_date_and_sum_by_value(self)
+  end
+
+
+  # in seconds
+  def time_spent_today
+    today_str = Date.today.strftime('%m/%d/%y')
+    todays_hash = self.time_per_day.select { |h| h[:date] == today_str }
+
+    # `first` because select returns an array
+    # (which ought to have one element in this context)
+    # then we must convert hours to seconds
+    todays_hash.first[:value] * 60 * 60
   end
 
   def due_within_a_week
