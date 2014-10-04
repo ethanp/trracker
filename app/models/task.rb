@@ -21,7 +21,9 @@ class Task < ActiveRecord::Base
   scope :turned_in, -> { where('tasks.turned_in = ?', true) }
 
   def seconds_spent
-    self.intervals.inject(0) { |sum, interval| sum + interval.seconds_spent }.to_i
+    self.intervals.inject(0) {
+        |sum, interval| sum + interval.seconds_spent
+    }.to_i.seconds
   end
 
   # collect all intervals' hash-representations into one array
@@ -35,15 +37,20 @@ class Task < ActiveRecord::Base
   end
 
 
-  # in seconds
-  def time_spent_today
+  # returns num seconds of class Seconds
+  # sometimes just having static types is nice.
+  def seconds_spent_today
     today_str = Date.today.strftime('%m/%d/%y')
     todays_hash = self.time_per_day.select { |h| h[:date] == today_str }
 
-    # `first` because select returns an array
-    # (which ought to have one element in this context)
-    # then we must convert hours to seconds
-    todays_hash.first[:value] * 60 * 60
+    if todays_hash.empty?
+      0.seconds
+    else
+      # `first` because select returns an array
+      # (which ought to have up to one element in this context)
+      # then we must convert hours to seconds
+      (todays_hash.first[:value] * 60 * 60).seconds
+    end
   end
 
   def due_within_a_week

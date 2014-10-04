@@ -16,11 +16,11 @@
             - if @task.duedate < Time.now
               ago
       %p
-        %strong Time spent so far:
-        = time_ago_in_words @task.seconds_spent.seconds.ago
-      %p
         %strong Time spent today:
-        = time_ago_in_words @task.time_spent_today.seconds.ago
+        = time_ago_in_words @task.seconds_spent_today.ago
+      %p
+        %strong Total time spent so far:
+        = time_ago_in_words @task.seconds_spent.ago
 
       / "Complete task" button
       = link_to @task.complete ? 'Un-Complete' : 'Complete',

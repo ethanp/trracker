@@ -11,6 +11,7 @@ class CategoriesController < ApplicationController
     # this turns [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] => [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9]]
     # so that each row contains 4 categories
     @category_rows = @categories.each_slice(4).to_a
+    @page_title = "Categories"
   end
 
   def stacked_chart_data
@@ -32,6 +33,7 @@ class CategoriesController < ApplicationController
     unless current_user.categories.to_ids.include? Integer(params[:id])
       redirect_to homepage_path
     end
+    @page_title = @category.name
   end
 
   # GET /categories/new

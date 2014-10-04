@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title Trracker
+    %title= @page_title ? @page_title : "Trracker"
     / this is to set the initial width of the page to the width of the device
     %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true

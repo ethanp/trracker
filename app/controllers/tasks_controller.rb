@@ -8,6 +8,7 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
     @tasks = current_user.tasks
+    @page_title = "Tasks"
   end
 
   # GET /tasks/1
@@ -18,6 +19,7 @@ class TasksController < ApplicationController
     end
     @interval = Interval.new
     @subtask = Subtask.new
+    @page_title = @task.name
   end
 
   def show_heatmap_data
