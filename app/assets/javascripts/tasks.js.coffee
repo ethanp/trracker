@@ -35,7 +35,6 @@ ready = ->
   beginIncrementer = ->
     root.counterID = window.setInterval updateReading, 1000
 
-
   updateReading = ->
     startTime = localStorage.getItem currentUrl
     return unless startTime?
@@ -106,6 +105,8 @@ ready = ->
   $("#toggle-subtasks").click -> $("#subtasks-list").slideToggle("slow")
   $("#before-decrease").click -> startMinute true
   $("#before-increase").click -> startMinute false
+
+  # switch Turned-In/Not for table on '/tasks'
   $("#switch-hide-turned-in").click ->
       $(".turned-in").toggle()
       $(".not-turned-in").toggle()
@@ -116,10 +117,20 @@ ready = ->
       return
 
   # enable DataTable on '/tasks'
-  $("#tasks-list").dataTable sPaginationType: "bootstrap"
+  $("#tasks-list").dataTable
+    sPaginationType: "bootstrap"
+    "iDisplayLength": -1 # default to showing all rows
+    "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+
+  # create sorting column for tasks/index
+  addSorts = (items) ->
+    items.each (idx, elem) ->
+      $(elem).find('.sort-col').text(idx+1)
+  addSorts $('.turned-in')
+  addSorts $('.not-turned-in')
+
   return
 
-# switch Turned-In/Not for table on '/tasks'
 
 # These *are* both necessary.
 # The first one is for when you reload the page.
