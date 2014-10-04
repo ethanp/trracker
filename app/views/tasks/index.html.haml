@@ -16,7 +16,7 @@
 
   %tbody
     - @tasks.each_with_index do |task, idx|
-      %tr{class:[task.pressing_duedate, task.turned_in_css_class] }
+      %tr{class:[task.index_css_class, task.turned_in_css_class] }
         %td=idx
         %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
         %td

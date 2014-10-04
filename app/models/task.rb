@@ -34,17 +34,24 @@ class Task < ActiveRecord::Base
     self.heatmap_hash_array.group_by_date_and_sum_by_value(self)
   end
 
-  def pressing_duedate
-    if not self.duedate.nil?
-      due = DateTime.parse(self.duedate.to_s)
-      distance = (due - DateTime.now).to_f
-      return "danger" if distance < 0
-      case distance
-        when 0..3
-          "info"
-        when 3..7
-          "warning"
-      end
+  def due_within_a_week
+    return false if self.duedate.nil?
+    duedate = DateTime.parse(self.duedate.to_s)
+    distance = (duedate - DateTime.now).to_f
+    return distance < 7
+  end
+
+  def index_css_class
+    return "success" if self.complete
+    return "" if self.duedate.nil?
+    duedate = DateTime.parse(self.duedate.to_s)
+    distance = (duedate - DateTime.now).to_f
+    return "danger" if distance < 0
+    case distance
+      when 0..3
+        "info"
+      when 3..7
+        "warning"
     end
   end
 

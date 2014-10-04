@@ -75,18 +75,19 @@ describe Task do
     it 'returns an appropriate heatmap_hash_array'
     it 'returns an appropriate time_per_day hash'
 
-    context 'pressing_duedate' do
-      it 'returns "danger" if task is due within 3 days' do
+    # TODO this is out of date
+    context 'index_css_class' do
+      it 'returns "danger" if task is incomplete and due within 3 days' do
         t1 = create(:task, duedate: DateTime.now + 2.days)
-        expect(t1.pressing_duedate).to eq("danger")
+        expect(t1.index_css_class).to eq("danger")
       end
-      it 'returns "warning" if task is due between 3 and 7 days' do
+      it 'returns "warning" if task is incomplete and due between 3 and 7 days' do
         t1 = create(:task, duedate: DateTime.now + 4.days)
-        expect(t1.pressing_duedate).to eq("warning")
+        expect(t1.index_css_class).to eq("warning")
       end
-      it 'returns "nil" if task is due in more than 7 days' do
+      it 'returns "nil" if task is incomplete and due in more than 7 days' do
         t1 = create(:task, duedate: DateTime.now + 8.days)
-        expect(t1.pressing_duedate).to be_nil
+        expect(t1.index_css_class).to be_nil
       end
     end
   end

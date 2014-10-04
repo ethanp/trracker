@@ -15,7 +15,7 @@ class Category < ActiveRecord::Base
     self.tasks.flat_map { |x| x.time_per_day }.group_by_date_and_sum_by_value(self)
   end
   def has_task_due_in_a_week
-    self.tasks.incomplete.select{ |t| t.pressing_duedate }.size > 0
+    self.tasks.incomplete.select{ |t| t.due_within_a_week }.size > 0
   end
 
   def first_incomplete_task
