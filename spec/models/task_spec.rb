@@ -28,8 +28,9 @@ describe Task do
       t = build(:task, category_id: 2, priority: 3)
       expect(t).to be_valid
     end
-    it 'is invalid if the name is longer than 30 characters' do
-      t = build(:task, name: '1234567891123456789212345678931')
+    it 'is invalid if the name is longer than 60 characters' do
+      v = '1234567891123456789212345678931234567891123456789212345678931'
+      t = build(:task, name: v)
       expect(t).to_not be_valid
     end
     it 'can take a complete field' do
@@ -75,19 +76,26 @@ describe Task do
     it 'returns an appropriate heatmap_hash_array'
     it 'returns an appropriate time_per_day hash'
 
-    # TODO this is out of date
     context 'index_css_class' do
-      it 'returns "danger" if task is incomplete and due within 3 days' do
+      it 'returns "warning" if task is incomplete and due within 3 days' do
         t1 = create(:task, duedate: DateTime.now + 2.days)
-        expect(t1.index_css_class).to eq("danger")
-      end
-      it 'returns "warning" if task is incomplete and due between 3 and 7 days' do
-        t1 = create(:task, duedate: DateTime.now + 4.days)
         expect(t1.index_css_class).to eq("warning")
+      end
+      it 'returns "info" if task is incomplete and due between 3 and 7 days' do
+        t1 = create(:task, duedate: DateTime.now + 4.days)
+        expect(t1.index_css_class).to eq("info")
       end
       it 'returns "nil" if task is incomplete and due in more than 7 days' do
         t1 = create(:task, duedate: DateTime.now + 8.days)
         expect(t1.index_css_class).to be_nil
+      end
+      it 'returns "nil" if task is has no duedate' do
+        t1 = create(:task, duedate: nil)
+        expect(t1.index_css_class).to be_nil
+      end
+      it 'returns "success" if task is has no duedate' do
+        t1 = create(:task, complete: true)
+        expect(t1.index_css_class).to eq("success")
       end
     end
   end

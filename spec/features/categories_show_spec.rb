@@ -4,7 +4,6 @@ feature "Categories Show" do
   describe 'Buttons' do
     let(:u) { create :user }
     let(:c) { create :category }
-    create
     before do
       let (:ta) { create :task }
       let (:tb) { create :task, name: 'Tasket' }

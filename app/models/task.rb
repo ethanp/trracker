@@ -69,18 +69,20 @@ class Task < ActiveRecord::Base
   end
 
   def index_css_class
-    if self.complete
+    if self.turned_in
+      nil
+    elsif self.complete
       "success"
     elsif self.duedate.nil?
-      ""
+      nil
     elsif self.duedate_distance_in_days < 0
       "danger"
     else
       case self.duedate_distance_in_days
         when 0..3
-          "info"
-        when 3..7
           "warning"
+        when 3..7
+          "info"
       end
     end
   end
