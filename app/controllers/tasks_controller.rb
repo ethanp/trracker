@@ -11,6 +11,13 @@ class TasksController < ApplicationController
     @page_title = "Tasks"
   end
 
+  def worked_on_today
+    @tasks = current_user.tasks.select do |task|
+      task.seconds_spent_today > 0.seconds
+    end
+    @page_title = "Today's Time"
+  end
+
   # GET /tasks/1
   # GET /tasks/1.json
   def show

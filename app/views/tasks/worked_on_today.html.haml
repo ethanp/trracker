@@ -1,0 +1,13 @@
+%h3 Tasks Worked On Today
+%table.table.table-striped.datatable.table-responsive.table-bordered.table-hover#tasks-list
+  %thead
+    %tr
+      %th Category
+      %th Task
+      %th Time Spent
+  %tbody
+    - @tasks.each do |t|
+      %tr
+        %td= link_to t.category.name, t.category
+        %td= link_to t.name, t
+        %td= time_ago_in_words t.seconds_spent_today.ago

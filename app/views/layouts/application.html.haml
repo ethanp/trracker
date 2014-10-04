@@ -30,6 +30,12 @@
                 = link_to                                                            |
                 '<span class="glyphicon glyphicon-th-list"></span> Tasks'.html_safe, |
                   list_tasks_path                                                    |
+              %li
+                = link_to                                                             |
+                '<span class="glyphicon glyphicon-forward"></span> Today'.html_safe, |
+                tasks_today_path                                                      |
+
+            -# shows up even if user is not signed in
             %li
               = link_to '<span class="glyphicon glyphicon-user"></span> About'.html_safe, |
                 about_path                                                                |

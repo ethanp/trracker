@@ -26,12 +26,15 @@ Rails.application.routes.draw do
 
   patch '/subtasks/:id/complete' => 'subtasks#complete', as: :complete_subtask
 
+  get 'today' => 'tasks#worked_on_today', as: :tasks_today
+
   get '/tasks/:task_id/heatmap' => 'tasks#show_heatmap_data', as: :show_task_heatmap_data
 
   get '/categories/:category_id/time_per_task_per_day' => 'categories#time_per_task_per_day',
       as: :time_per_task_per_day
 
   get '/static/task_data.json' => 'categories#stacked_chart_data', as: :stacked_chart_data
+
 
   # The priority is based upon order of creation: first created -> highest priority.
 
