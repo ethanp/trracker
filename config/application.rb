@@ -17,7 +17,7 @@ module Trracker
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Eastern Time (US & Canada)'
     # config.time_zone = 'Central Time (US & Canada)'# (this only served to screw things up)
-    config.active_record.default_timezone = :local
+    config.active_record.default_timezone = :local # this actually worked!
     # config.time_zone = 'Pacific Time (US & Canada)'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
