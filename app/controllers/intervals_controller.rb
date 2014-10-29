@@ -28,10 +28,12 @@ class IntervalsController < ApplicationController
 
   # POST /intervals
   # POST /intervals.json
+  # this one gets called by the interval form using the bootstrap-datepicker
   def create
     my_params = parse_times(interval_params)
     @interval = Interval.new(my_params)
     @interval.task_id = params[:task_id]
+    puts "'create' interval from bootstrap-datepicker: #{@interval.start}, #{@interval.end}"
 
     respond_to do |format|
       if not (my_params[:start].nil? or my_params[:end].nil?) and @interval.save
@@ -52,12 +54,13 @@ class IntervalsController < ApplicationController
     @interval = Interval.new(start: start_end.first,
                              end: start_end.last,
                              task_id: params[:task_id])
-      if @interval.save
-        render @interval
-      else
-        redirect_to(Task.find(params[:task_id]), notice: 'Problem creating interval.')
-      end
+    puts "'create_from_ajax' interval from record button: #{@interval.start}, #{@interval.end}"
+    if @interval.save
+      render @interval
+    else
+      redirect_to(Task.find(params[:task_id]), notice: 'Problem creating interval.')
     end
+  end
 
   # PATCH/PUT /intervals/1
   # PATCH/PUT /intervals/1.json

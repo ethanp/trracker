@@ -22,7 +22,8 @@ Rails.application.routes.draw do
   get   '/tasks' => 'tasks#index', as: :list_tasks
 
   # accept intervals via ajax
-  post  '/tasks/:task_id/intervals-ajax' => 'intervals#create_from_ajax' # the record button
+  # the record/stop button
+  post  '/tasks/:task_id/intervals-ajax' => 'intervals#create_from_ajax'
 
   # PATCH is for the buttons that edit a resource
   patch '/tasks/:id/complete' => 'tasks#complete', as: :complete_task
