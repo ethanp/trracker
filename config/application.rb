@@ -18,7 +18,7 @@ module Trracker
     # config.time_zone = 'Eastern Time (US & Canada)'
     # config.time_zone = 'Pacific Time (US & Canada)'
     config.time_zone = 'Central Time (US & Canada)'
-    config.active_record.default_timezone = 'Central Time (US & Canada)'
+    config.active_record.default_timezone = :local
 
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.

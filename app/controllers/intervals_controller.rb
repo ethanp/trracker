@@ -49,7 +49,7 @@ class IntervalsController < ApplicationController
   def create_from_ajax
     puts params
     start_end = params[:interval].split.map { |milli|
-      DateTime.strptime((milli.to_f / 1000).to_s, '%s')
+      DateTime.strptime((milli.to_f / 1000).to_s, '%s').change(:offset => "+0000")
     }
     @interval = Interval.new(start: start_end.first,
                              end: start_end.last,
@@ -102,8 +102,8 @@ class IntervalsController < ApplicationController
 
     def parse_times(p)
       my_params = p
-      my_params[:start] = parse_datetime_form(p[:start])
-      my_params[:end] = parse_datetime_form(p[:end])
+      my_params[:start] = parse_datetime_form(p[:start]).change(:offset => "+0000")
+      my_params[:end] = parse_datetime_form(p[:end]).change(:offset => "+0000")
       my_params
     end
 end
