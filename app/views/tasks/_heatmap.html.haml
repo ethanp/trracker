@@ -28,10 +28,20 @@
   // The :path_prefix is passed in as a param to this partial.
   // It is something like "tasks/13".
   d3.json("#{path_prefix}/heatmap.json", function(error, data) {
+
+    // we're asking for 9 buckets (configured above)
+    // evenly breaking up the values from 0 to max_value
+    // using the array of colors we created above
     var colorScale = d3.scale.quantile()
       .domain([0, buckets - 1, d3.max(data, function(d) { return d.value; })])
       .range(colors);
 
+    //  create the svg container of the chart with
+    //  <div id="chart">
+    //      with width/height/margins configured above
+    //      <svg wdth="" ht="">
+    //          centered within the frame
+    //          <g tranform="translate(to,center)">
     var svg = d3.select("#chart")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -39,6 +49,13 @@
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    // go through the array of day-names, and
+    // on the very left (x=0) of the chart div
+    // create <text> elems
+    // on the y-tick grid boundaries but translated up a bit (magic number 6)
+    // add the css class "axis-workweek" to Mo-Fr to make those labels black
+    // for everyone else add "mono" to make them grey
+    // these are defined in application.css.scss
     var dayLabels = svg.selectAll(".dayLabel")
       .data(days)
       .enter()
@@ -54,6 +71,7 @@
           "dayLabel mono axis");
       });
 
+    // along the top (y=0) of the chart, create <text>s for the hour labels
     var timeLabels = svg.selectAll(".timeLabel")
       .data(times)
       .enter()
@@ -69,6 +87,11 @@
           "timeLabel mono axis");
       });
 
+    // TODO part 2 of fixing the heatmap tile ordering (issue #70)
+    // plop the colored squares
+    // using <rect> elems of width and height = (magic number) 4
+    // in (x=hour_slot,y=day_slot)
+    // all start out with the default color
     var heatMap = svg.selectAll(".hour")
       .data(data)
       .enter()
@@ -82,26 +105,38 @@
       .attr("height", gridSize)
       .style("fill", colors[0]);
 
+    // take 1 second to fade the colors to their real "bucketed" value
     heatMap.transition()
       .duration(1000)
       .style("fill", function(d) { return colorScale(d.value); });
 
+    // I don't think I'm using this...it looks like it's supposed to
+    // add the value as text to the tiles? I don't really want that anyway.
     heatMap.append("title")
       .text(function(d) { return d.value; });
 
     var legend = svg.selectAll(".legend")
+      // see here: github.com/mbostock/d3/wiki/Arrays#d3_quantile
+      // this produces 0, 7 inner values separated evenly by sorted index, max
+      // this is to produce a (more) even distribution of colors on the chart
       .data([0].concat(colorScale.quantiles()), function(d) { return d; })
       .enter()
+      // create a <g> elem for each quantile
       .append("g")
-      .attr("class", "legend");
+        .attr("class", "legend");
 
+    // inside each <g>, add a <rect> for the color key
     legend.append("rect")
+      // each evenly spaced apart from the last
       .attr("x", function(d, i) { return legendElementWidth * i; })
+      // at the bottom of the chart
       .attr("y", height)
       .attr("width", legendElementWidth)
       .attr("height", gridSize / 2)
       .style("fill", function(d, i) { return colors[i]; });
 
+    // inside each <g> add a <text> for the legend labels
+    // styled the same as the non-workhour axis-labels
     legend.append("text")
       .attr("class", "mono")
       .text(function(d) { return "≥ " + Math.round(d); })

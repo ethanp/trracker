@@ -10,11 +10,13 @@ rect.bordered {
 }
 
 text {
+  // make the heatmap chart labels light grey
   &.mono {
     font-size: 9pt;
     font-family: Consolas, courier;
     fill: #aaa;
   }
+  // except make the hours 8a-5p and days Mo-Fr jet black
   &.axis-workweek, &.axis-worktime {
     fill: #000;
   }
