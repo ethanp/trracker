@@ -16,7 +16,7 @@ module Trracker
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Eastern Time (US & Canada)'
-    config.time_zone = 'Central Time (US & Canada)'# (this only served to screw things up)
+    # config.time_zone = 'Central Time (US & Canada)'# (this only served to screw things up)
     config.active_record.default_timezone = :local
     # config.time_zone = 'Pacific Time (US & Canada)'
 
