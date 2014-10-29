@@ -1,6 +1,7 @@
 %h1#tasks-list-title{style: "text-align:center;"} Not Turned In
 %button{id: "switch-hide-turned-in", class: "btn btn-info btn-large"} Switch Turned-In
 
+-# TODO can I typedef this thing?
 %table.table.table-striped.datatable.table-responsive.table-bordered.table-hover#tasks-list
   %thead
     %tr
@@ -21,7 +22,7 @@
   %tbody
     - @tasks.each do |task|
       %tr{ class: [task.index_css_class, task.turned_in_css_class] }
-        -# this sorting column is made with javascript in tasks.js
+        -# this sorting column is made with javascript in tasks.js (though it's broken...)
         %td{ class: 'sort-col' }
         %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
         %td

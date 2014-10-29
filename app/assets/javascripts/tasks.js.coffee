@@ -1,15 +1,15 @@
 ready = ->
 
   recordButtonPressed = ->
-    startingToRecord = recordButton.html() is "Record"
-    recordButton
+    startingToRecord = $recordButton.html() is "Record"
+    $recordButton
       .html (if startingToRecord then "Stop" else "Record")
       .toggleClass "btn-success"
       .toggleClass "btn-danger"
     return unless Storage?
     if startingToRecord
       localStorage.setItem currentUrl, $.now()
-      reading.text "0:00"
+      $timerReading.text "0:00"
       beginIncrementer()
     else # pressed "Stop", send interval and render response
       timeSpan = interval: localStorage.getItem(currentUrl) + " " + $.now()
@@ -53,13 +53,13 @@ ready = ->
     time = minutes+":"+seconds
     time = hours+":"+time if hours > 0
 
-    reading.text time
+    $timerReading.text time
     return
 
   initialize = ->
     return unless Storage?
     if localStorage.getItem(currentUrl)?
-      recordButton
+      $recordButton
         .html "Stop"
         .addClass "btn-danger"
         .removeClass "btn-success"
@@ -70,11 +70,11 @@ ready = ->
 
   cancelRecording = ->
     localStorage.removeItem currentUrl
-    recordButton
+    $recordButton
       .html "Record"
       .addClass "btn-success"
       .removeClass "btn-danger"
-    reading.text ""
+    $timerReading.text ""
     clearInterval(root.counterID)
     return
 
@@ -91,16 +91,17 @@ ready = ->
 
   # initializations
   currentUrl = window.location.pathname
-  recordButton = $("#record")
-  reading = $("#timer-reading")
+  $recordButton = $("#record")
+  $cancelButton = $("#cancel")
+  $timerReading = $("#timer-reading")
   root = exports ? this # finagling to create "global(ish)" variable
   root.counterID = null
   $tableTitle = $("#tasks-list-title")
   $(".turned-in").hide()
   initialize()
   # click handlers
-  recordButton.click -> recordButtonPressed()
-  $("#cancel").click -> cancelRecording()
+  $recordButton.click -> recordButtonPressed()
+  $cancelButton.click -> cancelRecording()
   $("#toggle-intervals").click -> $("#interval-table").slideToggle("slow")
   $("#toggle-subtasks").click -> $("#subtasks-list").slideToggle("slow")
   $("#before-decrease").click -> startMinute true
@@ -119,15 +120,18 @@ ready = ->
   # enable DataTable on '/tasks'
   $("#tasks-list").dataTable
     sPaginationType: "bootstrap"
-    "iDisplayLength": -1 # default to showing all rows
-    "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+    iDisplayLength: -1 # default to showing all rows
+    bLengthChange: false # hide "records per page selector"
+#    aLengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
 
   # create sorting column for tasks/index
-  addSorts = (items) ->
+  # TODO this doesn't actually add sort functionality
+  # possibly because the data table is initialized before this runs
+  addSortValues = (items) ->
     items.each (idx, elem) ->
       $(elem).find('.sort-col').text(idx+1)
-  addSorts $('.turned-in')
-  addSorts $('.not-turned-in')
+  addSortValues $('.turned-in')
+  addSortValues $('.not-turned-in')
 
   return
 
