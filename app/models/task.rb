@@ -115,20 +115,20 @@ class Task < ActiveRecord::Base
       if self.complete
         nil
       else
-        warning
+        'warning'
       end
     elsif self.complete
-      "success"
+      'success'
     elsif self.duedate.nil?
       nil
     elsif self.duedate_distance_in_days < 0
-      "danger"
+      'danger'
     else
       case self.duedate_distance_in_days
         when 0..3
-          "warning"
+          'warning'
         when 3..7
-          "info"
+          'info'
       end
     end
   end
