@@ -27,15 +27,33 @@ class Task < ActiveRecord::Base
   end
 
   # collect all intervals' hash-representations into one array
+  # TODO rename this thing with an IDE (didn't work in Sublime)
   def heatmap_hash_array
     self.intervals.inject([]) { |arr, h| arr + h.heatmap_hash_array }
+  end
+
+  # this is the heatmap_hash_array summed by :day and :hour (:date is gone)
+  # code from http://stackoverflow.com/questions/18421422
+  def real_heatmap_hash_array
+    self.heatmap_hash_array.group_by do |elem|
+      # produces array [day_val, hour_val] for this hash
+      elem.values_at :day, :hour
+    end.map do |(day, hour), elem|
+      # At this point, attached to each [day_val, hour_val], we have
+      # a list of the original hashes, like {[d, h] => [{h1}, {h2}, ...], ... }
+      # So now we turn that into {[d, h] => [v1, v2, ...], ... }
+      values = elem.map{ |p| p[:value] }
+      # then if the list is non empty we sum it up
+      value = values.all? ? values.reduce(:+) : nil
+      # and create a new hash "elem" out of it for the d3 chart
+      { day: day, hour: hour, value: value }
+    end
   end
 
   # { date: '%m/%d/%y', name: task.name, value: hours }
   def time_per_day
     self.heatmap_hash_array.group_by_date_and_sum_by_value(self)
   end
-
 
   # returns num seconds of class Seconds
   # sometimes just having static types is nice.

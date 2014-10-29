@@ -32,14 +32,14 @@ Rails.application.routes.draw do
   # special 'today' table
   get 'today' => 'tasks#worked_on_today', as: :tasks_today
 
-  # heatmap data via ajax (for tasks#show)
+  # heatmap data via ajax (for tasks#show) [comes in from d3 path "#{path_prefix}/heatmap.json"]
   get '/tasks/:task_id/heatmap' => 'tasks#show_heatmap_data', as: :show_task_heatmap_data
 
   # category-graph data via ajax (for homepage)
   get '/categories/:category_id/time_per_task_per_day' => 'categories#time_per_task_per_day',
       as: :time_per_task_per_day
 
-  # TODO what's this?
+  # TODO this must be for something I never finished
   get '/static/task_data.json' => 'categories#stacked_chart_data', as: :stacked_chart_data
 
   # The priority is based upon order of creation: first created -> highest priority.
