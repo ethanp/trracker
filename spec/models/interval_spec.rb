@@ -29,7 +29,7 @@ describe Interval do
       s = "Sat, 02 Aug 2014 19:30:00 -0500".to_datetime
       e = s + 1.hour
       i = build(:interval, start: s, end: e)
-      expect(i.heatmap_hash_array).to eq(
+      expect(i.heatmap_base_data).to eq(
         [
           {
             day: 6,

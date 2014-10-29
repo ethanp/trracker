@@ -24,8 +24,8 @@ class TasksController < ApplicationController
     unless current_user.tasks.to_ids.include? Integer(params[:id])
       redirect_to homepage_path
     end
-    @interval = Interval.new
-    @subtask = Subtask.new
+    @interval   = Interval.new
+    @subtask    = Subtask.new
     @page_title = @task.name
   end
 
@@ -34,7 +34,7 @@ class TasksController < ApplicationController
     # puts @task.heatmap_hash_array.as_json
     respond_to do |format|
       format.html # show_heatmap_data.html.erb (doesn't exist)
-      format.json { render json: @task.real_heatmap_hash_array }
+      format.json { render json: @task.final_heatmap_data }
     end
   end
 

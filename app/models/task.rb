@@ -13,7 +13,7 @@ class Task < ActiveRecord::Base
   # ######
   # These are saved SQL queries that allow you to do
   #   Task.due_within_two_weeks
-  # to retrieve all tasks that fit the creteria
+  # to retrieve all tasks that fit the criteria
 
   scope :due_within_two_weeks, -> {
     where("tasks.duedate > ? AND tasks.duedate < ?",
@@ -28,7 +28,7 @@ class Task < ActiveRecord::Base
   scope :turned_in,   -> { where('tasks.turned_in = ?', true) }
 
   def seconds_spent
-    # this is a foldleft
+    # this is a fold_left
     self.intervals.inject(0) do
         |sum, interval| sum + interval.seconds_spent
     end.to_i.seconds
@@ -37,7 +37,7 @@ class Task < ActiveRecord::Base
   # TODO rename this thing with an IDE (didn't work in Sublime)
   # collect all intervals' hash-representations into one array
   # [{day: int[0..6], date:str['%m/%d/%y'], hour: int[1..24], value: float[0..1]}, ... ]
-  def heatmap_hash_array
+  def heatmap_base_data
     self.intervals.inject([]) do
       |arr, h| arr + h.heatmap_hash_array
     end
@@ -47,10 +47,10 @@ class Task < ActiveRecord::Base
   # summed by :day and :hour to produce
   # [{day:int[0..6], hour:int[1..24], value:float[nil,0..]}, ... ]
   # code from stackoverflow.com/questions/18421422
-  def real_heatmap_hash_array
+  def final_heatmap_data
 
     # {[day, hour] => [{hash1}, {hash2}, ...], ... }
-    grouped = self.heatmap_hash_array.group_by do |elem|
+    grouped = self.heatmap_base_data.group_by do |elem|
       elem.values_at :day, :hour # this gives you [day, hour]
     end
 
@@ -69,10 +69,10 @@ class Task < ActiveRecord::Base
 
   # { date: '%m/%d/%y', name: task.name, value: hours }
   def time_per_day
-    self.heatmap_hash_array.group_by_date_and_sum_by_value(self)
+    self.heatmap_base_data.group_by_date_and_sum_by_value(self)
   end
 
-  def hours_to_seconds d
+  def hours_to_seconds(d)
     d * 60 * 60
   end
   # returns num seconds of class Seconds
