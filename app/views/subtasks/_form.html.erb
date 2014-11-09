@@ -1,5 +1,6 @@
 <%#= simple_form_for([@task, @task.subtasks.new]) do |f| DIDN'T WORK %>
 <%= simple_form_for @subtask, url: task_subtasks_path(params[:id]) do |f| %>
     <%= f.input :name, label: false, placeholder: 'Name', wrapper_html: { class: 'col-md-12' } %><br>
+    <%= f.input :url, label: false, placeholder: 'http://', wrapper_html: { class: 'col-md-12' } %><br>
     <%= f.button :submit, 'Create', class: 'btn-primary' %>
 <% end %>

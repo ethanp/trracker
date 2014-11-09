@@ -66,7 +66,11 @@
           %ul.list-group
             - @task.subtasks.each do |subtask|
               %li.list-group-item
-                = subtask.name
+                - if subtask.url.nil?
+                  = subtask.name
+                - else
+                  %a{href: subtask.url}
+                    = subtask.name
 
                 %span.label{class:(subtask.complete ? 'label-success' : 'label-danger')}
                   = link_to (subtask.complete ? 'Complete' : 'Incomplete'),

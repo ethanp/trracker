@@ -25,7 +25,7 @@
                   = category.first_incomplete_duedate.strftime("<b>%A</b> at %l:%M %p").html_safe
             - if category.avg_secs_per_day > 0
               %p
-                %strong Avg Hours per Day:
+                %strong Hrs per Day:
                 -# print num seconds as HH:MM
                 = Time.at(category.avg_secs_per_day).gmtime.strftime('%R')
             .text-center
