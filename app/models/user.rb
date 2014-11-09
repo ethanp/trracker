@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
 
   # for each category, have the total amount of time for each day
   def time_per_category_per_day
-    times_per_category = self.categories.flat_map { |x| x.time_per_task_per_day }
+    times_per_category = self.categories.flat_map { |x| x.time_per_day }
     fill_missing_dates times_per_category
   end
 
@@ -47,7 +47,7 @@ end
 class Array
   # TODO this should go in a /helper/ or something, no?
   # the resulting array is also sorted by date ascending
-  def group_by_date_and_sum_by_value(parent_instance)
+  def group_by_date_and_sum_hours(parent_instance)
     arr = self.group_by { |x| x[:date] }.values.map do |x|
       sum = x.inject(0.0) { |sum, hash| sum + hash[:value] }
       { date: x.first[:date], name: parent_instance.name, value: sum }

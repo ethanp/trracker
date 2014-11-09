@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
   # category-graph data via ajax (for homepage)
   get '/categories/:category_id/time_per_task_per_day' => 'categories#time_per_task_per_day',
-      as: :time_per_task_per_day
+      as: :time_per_day
 
   # TODO this must be for something I never finished
   get '/static/task_data.json' => 'categories#stacked_chart_data', as: :stacked_chart_data

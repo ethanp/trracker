@@ -13,7 +13,7 @@
                 class: 'text-center text-info')
           .panel-body
             %p.text-center.text-muted= category.description
-            - if category.has_task_due_in_a_week
+            - if category.has_task_due_within_a_week
               %p
                 %strong Most Pressing:
                 = category.first_incomplete_task.name
@@ -23,6 +23,11 @@
                   No duedate
                 - else
                   = category.first_incomplete_duedate.strftime("<b>%A</b> at %l:%M %p").html_safe
+            - if category.avg_secs_per_day > 0
+              %p
+                %strong Avg Hours per Day:
+                -# print num seconds as HH:MM
+                = Time.at(category.avg_secs_per_day).gmtime.strftime('%R')
             .text-center
               = link_to 'Edit',
                 edit_category_path(category),

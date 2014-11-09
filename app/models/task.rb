@@ -69,7 +69,7 @@ class Task < ActiveRecord::Base
 
   # { date: '%m/%d/%y', name: task.name, value: hours }
   def time_per_day
-    self.heatmap_base_data.group_by_date_and_sum_by_value(self)
+    self.heatmap_base_data.group_by_date_and_sum_hours(self)
   end
 
   def hours_to_seconds(d)

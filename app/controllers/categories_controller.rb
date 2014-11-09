@@ -23,7 +23,7 @@ class CategoriesController < ApplicationController
     # puts "@category.time_per_task_per_day: #{@category.time_per_task_per_day}"
     respond_to do |format|
       format.html # time_per_task_per_day.html.erb (doesn't exist)
-      format.json { render json: @category.time_per_task_per_day }
+      format.json { render json: @category.time_per_day }
     end
   end
 
