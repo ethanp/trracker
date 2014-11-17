@@ -12,10 +12,10 @@
     <%= f.input :name%>
     <div class="form-group form-horizontal duedate">
         <label class="string duedate col-sm-3 control-label" for="duedate">Duedate</label>
-        <%= render partial: 'layouts/datetime', locals: {f: f, column: :duedate} %>
+        <%= render partial: 'layouts/datetime', locals: {f: f, column: :duedate, task: @task} %>
     </div>
-    <%= f.association :category, selected: current_user.categories.first.id %>
-    <%= f.input :priority, collection: -5..5, selected: 0 %>
+    <%= f.association :category, selected: @task.category.id %>
+    <%= f.input :priority, collection: -5..5, selected: @task.priority %>
     <%= f.input :complete %>
     <%= f.button :submit %>
 <% end %>
