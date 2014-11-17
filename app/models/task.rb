@@ -109,6 +109,7 @@ class Task < ActiveRecord::Base
     return self.duedate_distance_in_days < 7
   end
 
+  # TODO this code belongs elsewhere (but where?)
   # produces the Bootstrap 3 css classes for items in the /tasks list
   def index_css_class
     if self.turned_in

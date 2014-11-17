@@ -26,6 +26,8 @@ class ApplicationController < ActionController::Base
 
   def parse_datetime_form datetime
     begin
+      # TODO this datetime-picker format should be some sort of global variable
+      #   I'm not sure where to put it though
       Time.strptime(datetime, "%m/%d/%Y %l:%M %p")
     rescue
       nil
