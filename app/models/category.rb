@@ -44,10 +44,9 @@ class Category < ActiveRecord::Base
     # but it's string-formatted at this point
     return 0 if tasks.count == 0 or intervals.count == 0
     first_date = Date.strptime(time_per_day.first[:date], "%m/%d/%y")
-    today = Date.today
-    num_days = (today - first_date).to_i
+    num_days = (Date.today - first_date).to_i
     return 0 if num_days < 0
-    hrs = time_per_day.inject(0.0) { |sum, h| sum + h[:value] }
+    hrs = time_per_day.inject(0) { |sum, h| sum + h[:value] }
     secs = hrs * 60 * 60
     return secs / num_days
   end
