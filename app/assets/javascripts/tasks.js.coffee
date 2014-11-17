@@ -33,6 +33,7 @@ ready = ->
     return
 
   beginIncrementer = ->
+    $cancelButton.show()
     root.counterID = window.setInterval updateReading, 1000
 
   updateReading = ->
@@ -76,6 +77,7 @@ ready = ->
       .removeClass "btn-danger"
     $timerReading.text ""
     clearInterval(root.counterID)
+    $cancelButton.hide()
     return
 
   startMinute = (earlier) ->
