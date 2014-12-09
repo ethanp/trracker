@@ -34,6 +34,7 @@ ready = ->
 
   beginIncrementer = ->
     $cancelButton.show()
+    $plusAndMinus.show()
     root.counterID = window.setInterval updateReading, 1000
 
   updateReading = ->
@@ -78,15 +79,16 @@ ready = ->
     $timerReading.text ""
     clearInterval(root.counterID)
     $cancelButton.hide()
+    $plusAndMinus.hide()
     return
 
   startMinute = (earlier) ->
     startTime = localStorage.getItem currentUrl
     return unless startTime?
 
-    timeValue = Number.parseInt startTime
-    oneMinute = 1000 * 60 # it's in milliseconds
-    oneMinuteChanged = if earlier then timeValue + oneMinute else timeValue - oneMinute
+    time = Number.parseInt startTime
+    minute = 1000 * 60 # it's in milliseconds
+    oneMinuteChanged = if earlier then time + minute else time - minute
     localStorage.setItem(currentUrl, oneMinuteChanged)
     updateReading()
     return
@@ -95,6 +97,7 @@ ready = ->
   currentUrl = window.location.pathname
   $recordButton = $("#record")
   $cancelButton = $("#cancel")
+  $plusAndMinus = $("#incrementers")
   $timerReading = $("#timer-reading")
   root = exports ? this # finagling to create "global(ish)" variable
   root.counterID = null
