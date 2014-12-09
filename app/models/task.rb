@@ -34,7 +34,6 @@ class Task < ActiveRecord::Base
     end.to_i.seconds
   end
 
-  # TODO rename this thing with an IDE (didn't work in Sublime)
   # collect all intervals' hash-representations into one array
   # [{day: int[0..6], date:str['%m/%d/%y'], hour: int[1..24], value: float[0..1]}, ... ]
   def heatmap_base_data
@@ -107,31 +106,6 @@ class Task < ActiveRecord::Base
   def due_within_a_week
     return false if self.duedate.nil?
     return self.duedate_distance_in_days < 7
-  end
-
-  # TODO this code belongs elsewhere (but where?)
-  # produces the Bootstrap 3 css classes for items in the /tasks list
-  def index_css_class
-    if self.turned_in
-      if self.complete
-        nil
-      else
-        'warning'
-      end
-    elsif self.complete
-      'success'
-    elsif self.duedate.nil?
-      nil
-    elsif self.duedate_distance_in_days < 0
-      'danger'
-    else
-      case self.duedate_distance_in_days
-        when 0..3
-          'warning'
-        when 3..7
-          'info'
-      end
-    end
   end
 
   def turned_in_css_class

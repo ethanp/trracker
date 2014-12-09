@@ -26,10 +26,10 @@ class ApplicationController < ActionController::Base
 
   def parse_datetime_form datetime
     begin
-      # TODO this datetime-picker format should be some sort of global variable
-      #   I'm not sure where to put it though
-      Time.strptime(datetime, "%m/%d/%Y %l:%M %p")
+      # Find this DATE_FORMAT definition in initializers/date_format.rb
+      Time.strptime(datetime, Time::DATE_FORMATS[:datetimepicker])
     rescue
+      puts "couldn't parse the given datetime string: #{datetime}"
       nil
     end
   end

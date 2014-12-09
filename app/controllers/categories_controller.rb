@@ -14,10 +14,6 @@ class CategoriesController < ApplicationController
     @page_title = "Categories"
   end
 
-  def stacked_chart_data
-    # puts current_user.time_per_category_per_day.to_json
-    render json: current_user.time_per_category_per_day
-  end
 
   def time_per_task_per_day
     # puts "@category.time_per_task_per_day: #{@category.time_per_task_per_day}"

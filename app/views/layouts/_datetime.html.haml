@@ -1,6 +1,7 @@
+-# TODO the task shouldn't be in here.
 .col-sm-3.date.datetimepicker1
   = f.text_field column,
     class: 'form-control',
-    value: (task.nil? or task.duedate.nil?) ? "" : task.duedate.strftime('%m/%d/%Y %I:%M %p')
+    value: (task.nil? or task.duedate.nil?) ? "" : task.duedate.strftime(Time::DATE_FORMATS[:datetimepicker])
   %span.input-group-addon
     %span.glyphicon.glyphicon-calendar
