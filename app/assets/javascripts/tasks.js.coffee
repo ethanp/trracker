@@ -131,7 +131,7 @@ ready = ->
 
   # create sorting column for tasks/index
   # TODO this doesn't actually add sort functionality
-  # possibly because the data table is initialized before this runs
+  # probably because the data table is init'd by "datatables before this runs
   addSortValues = (items) ->
     items.each (idx, elem) ->
       $(elem).find('.sort-col').text(idx+1)
