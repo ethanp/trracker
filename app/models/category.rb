@@ -56,26 +56,16 @@ class Category < ActiveRecord::Base
     # but it's string-formatted at this point
     return 0 if tasks.count == 0 or intervals.count == 0
     first_date = Date.strptime(time_per_day.first[:date], "%m/%d/%y")
-    # unless self.end_date.nil?
-    #   num_days = (self.end_date - first_date).to_i
-    # else
-    #   num_days = (Date.today - first_date).to_i
-    # end
-    unless self.end_date.nil?
-      num_days = (self.end_date.to_date - first_date).to_i
-    else
-      num_days = (Date.today - first_date).to_i
-    end
+    last_date = self.end_date.nil? ? Date.today : self.end_date.to_date
+    num_days = (last_date - first_date).to_i
     return 0 if num_days < 0
     hrs = time_per_day.inject(0) { |sum, h| sum + h[:value] }
     secs = hrs * 60 * 60
     return secs / num_days
   end
 
-  # TODO this should only be considering those tasks with actual duedates
-  #      bc otw it makes no sense
   def first_incomplete_task
-    self.tasks.incomplete.first
+    self.tasks.incomplete.select{ |t| !t.duedate.nil? }.first || self.tasks.incomplete.first
   end
   def first_incomplete_duedate
     self.first_incomplete_task.duedate
