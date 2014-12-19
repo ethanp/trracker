@@ -2,6 +2,6 @@
 .col-sm-3.date.datetimepicker1
   = f.text_field column,
     class: 'form-control',
-    value: (task.nil? or task.duedate.nil?) ? "" : task.duedate.strftime(Time::DATE_FORMATS[:datetimepicker])
+    value: default_date.nil? ? "" : default_date
   %span.input-group-addon
     %span.glyphicon.glyphicon-calendar

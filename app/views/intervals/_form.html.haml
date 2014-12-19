@@ -5,6 +5,6 @@
 
     -# we'd pass the task if we wanted it to pre-fill with the task duedate
     -# we must pass nil bc one can't pass nothing at all
-    = render partial: 'layouts/datetime', locals: {f: f, column: :start, task: nil}
-    = render partial: 'layouts/datetime', locals: {f: f, column: :end, task: nil}
+    = render partial: 'layouts/datetime', locals: {f: f, column: :start, default_date: nil}
+    = render partial: 'layouts/datetime', locals: {f: f, column: :end, default_date: nil}
     = f.button :submit, 'Create', class: 'btn-primary'

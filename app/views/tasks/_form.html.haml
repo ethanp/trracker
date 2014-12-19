@@ -10,7 +10,7 @@
   = f.input :name
   .form-group.form-horizontal.duedate
     %label.string.duedate.col-sm-3.control-label{for: "duedate"} Duedate
-    = render partial: 'layouts/datetime', locals: {f: f, column: :duedate, task: nil}
+    = render partial: 'layouts/datetime', locals: {f: f, column: :duedate, default_date: nil}
   = f.input :priority, collection: -5..5, selected: 0
   = f.input :complete
   .row
