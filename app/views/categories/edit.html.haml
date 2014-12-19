@@ -1,0 +1,7 @@
+%h1 Edit category "#{@category.name}"
+= render 'form'
+%hr
+%h4
+  = link_to @category.name, @category
+  |
+  = link_to 'Categories Page', categories_path
