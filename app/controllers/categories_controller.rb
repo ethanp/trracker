@@ -62,7 +62,7 @@ class CategoriesController < ApplicationController
   # PATCH/PUT /categories/1.json
   def update
     respond_to do |format|
-      if @category.update(category_params)
+      if @category.update(parse_dates(category_params))
         format.html { redirect_to @category, notice: 'Category was successfully updated.' }
         format.json { render :show, status: :ok, location: @category }
       else
@@ -90,6 +90,13 @@ class CategoriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def category_params
-      params.require(:category).permit(:name, :description)
+      params.require(:category).permit(:name, :description, :start_date, :end_date)
+    end
+
+    def parse_dates(p)
+      my_params = p
+      my_params[:start_date] = parse_datetime_form(p[:start_date])
+      my_params[:end_date] = parse_datetime_form(p[:end_date])
+      my_params
     end
 end

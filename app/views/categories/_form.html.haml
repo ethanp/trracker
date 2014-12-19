@@ -5,6 +5,19 @@
       radio_buttons: :horizontal_radio_and_checkboxes,
       file: :horizontal_file_input,
       boolean: :horizontal_boolean }   do |f|
+
   = f.input :name
+
   = f.input :description
+
+  .form-group.form-horizontal.duedate
+    %label.string.start-date.col-sm-3.control-label{for: "start_date"} Start-Date
+    = render partial: 'layouts/datetime',
+      locals: {f: f, column: :start_date, default_date: datepicker_format(@category.start_date)}
+
+  .form-group.form-horizontal.duedate
+    %label.string.end-date.col-sm-3.control-label{for: "end_date"} End-Date
+    = render partial: 'layouts/datetime',
+      locals: {f: f, column: :end_date, default_date: datepicker_format(@category.end_date)}
+
   = f.button :submit

@@ -1,10 +1,15 @@
 %h1 My Categories
-%br/
+%strong#showing Showing current categories only
+%button.btn.btn-sm.btn-info#show-all-switch Show All
+%br
+%br
 .container
   - @category_rows.each do |cat_row|
     .row
       - cat_row.each do |category|
-        .col-md-3.panel.panel-default
+        -# dead & alive are for the Coffeescript
+        -# TODO it's wrong dough. it *should* be saying whether this category is OUT OF DATE!
+        .col-md-3.panel.panel-default{class: category.has_ended ? 'dead' : 'alive'}
           .panel-heading
             %h3.text-center.text-info
               = link_to(image_tag('Zapatista.jpg',
@@ -12,7 +17,16 @@
                 category,
                 class: 'text-center text-info')
           .panel-body
-            %p.text-center.text-muted= category.description
+            %p.text-center.text-muted
+              = category.description
+
+              - if category.has_date_bounds
+                %p
+                  %strong #{category.has_started ? 'Started' : 'Starts'}
+                  = date_string category.start_date
+                  %strong #{category.has_ended ? 'Ended' : 'Ends'}
+                  = date_string category.end_date
+
             - if category.has_task_due_within_a_week
               %p
                 %strong Most Pressing:
@@ -37,7 +51,7 @@
                 method: :delete,
                 data: { confirm: 'Are you sure?' },
                 class: 'btn btn-danger'
-%br/
-%br/
-%br/
+%br
+%br
+%br
 = link_to 'New Category', new_category_path, class: 'btn btn-success btn-lg'

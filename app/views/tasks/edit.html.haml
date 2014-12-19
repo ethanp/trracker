@@ -8,15 +8,22 @@
           radio_buttons: :horizontal_radio_and_checkboxes,
           file: :horizontal_file_input,
           boolean: :horizontal_boolean } do |f|
+
   = f.input :name
+
   .form-group.form-horizontal.duedate
     %label.string.duedate.col-sm-3.control-label{:for => "duedate"} Duedate
     = render partial: 'layouts/datetime',
       locals: { f: f,
       column: :duedate,
-      default_date: @task.duedate.nil? ? nil : @task.duedate.strftime(Time::DATE_FORMATS[:datetimepicker])}
+      default_date: datepicker_format(@task.duedate)}
+
   = f.association :category, selected: @task.category.id
+
   = f.input :priority, collection: -5..5, selected: @task.priority
+
   = f.input :complete
+
   = f.button :submit
-= link_to 'Cancel', @task, class: 'btn btn-info btn-md'
+=
+link_to 'Cancel', @task, class: 'btn btn-info btn-md'

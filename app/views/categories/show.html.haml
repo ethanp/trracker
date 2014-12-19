@@ -1,8 +1,20 @@
 %p#notice= notice
+
 %h1
   = @category.name
   = link_to 'Edit Category', edit_category_path(@category), class: 'btn btn-info btn-md'
   = link_to 'Back', categories_path, class: 'btn btn-default btn-md'
+
+%h5
+  - if @category.has_date_bounds
+    %b Starts:
+    = date_string @category.start_date
+    %br
+    %br
+    %b Ends:
+    = date_string @category.end_date
+  - else
+    %b No start or end dates set
 
 / Incomplete Tasks Table
 = render 'tasks/table',

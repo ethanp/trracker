@@ -34,23 +34,46 @@ class Category < ActiveRecord::Base
     self.tasks.incomplete.select{ |t| t.due_within_a_week }.size > 0
   end
 
+  # bool
+  def has_date_bounds
+    !(self.start_date.nil? || self.end_date.nil?)
+  end
+
+  def has_ended
+    self.has_date_bounds && Date.today > self.end_date
+  end
+
+  def has_started
+    self.has_date_bounds && Date.today > self.start_date
+  end
+
   # double
   # this currently adds up the total number of time spent on this task
   # and divides by the number of days since its first-recorded-interval
-  # TODO I tested it in a empty category, interval-less category, etc.
-  # but it'd sure be nice if that were automated
+  # no idea if the arithmetic on the version WITH an end-date is actually performed as planned
   def avg_secs_per_day
     # array created above has first interval, so we can find the first date
     # but it's string-formatted at this point
     return 0 if tasks.count == 0 or intervals.count == 0
     first_date = Date.strptime(time_per_day.first[:date], "%m/%d/%y")
-    num_days = (Date.today - first_date).to_i
+    # unless self.end_date.nil?
+    #   num_days = (self.end_date - first_date).to_i
+    # else
+    #   num_days = (Date.today - first_date).to_i
+    # end
+    unless self.end_date.nil?
+      num_days = (self.end_date.to_date - first_date).to_i
+    else
+      num_days = (Date.today - first_date).to_i
+    end
     return 0 if num_days < 0
     hrs = time_per_day.inject(0) { |sum, h| sum + h[:value] }
     secs = hrs * 60 * 60
     return secs / num_days
   end
 
+  # TODO this should only be considering those tasks with actual duedates
+  #      bc otw it makes no sense
   def first_incomplete_task
     self.tasks.incomplete.first
   end
