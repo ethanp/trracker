@@ -27,6 +27,10 @@ class Task < ActiveRecord::Base
   scope :incomplete,  -> { where("tasks.complete = ? OR tasks.complete IS NULL", false) }
   scope :turned_in,   -> { where('tasks.turned_in = ?', true) }
 
+  def incomplete_subtasks
+    Subtask.incomplete_for(self)
+  end
+
   def seconds_spent
     # this is a fold_left
     self.intervals.inject(0) do

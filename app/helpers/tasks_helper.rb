@@ -22,4 +22,12 @@ module TasksHelper
       end
     end
   end
+
+  def subtasks_remaining_str task
+    if task.subtasks.count > 0
+      "#{task.incomplete_subtasks.count} out of #{task.subtasks.count}"
+    else
+      ''
+    end
+  end
 end

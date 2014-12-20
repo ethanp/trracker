@@ -11,6 +11,8 @@
   %td
     %h5= task.priority
 
+  %td= subtasks_remaining_str task
+
   %td= link_to 'Edit <span class="glyphicon glyphicon-file"></span>'.html_safe,
     edit_task_path(task),
     class: 'btn btn-warning'
