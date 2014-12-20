@@ -95,6 +95,9 @@ group :production do
   gem 'rails_12factor', '~> 0.0.2'
 end
 
+# This is for Heroku monitoring, devcenter.heroku.com/articles/newrelic
+gem 'newrelic_rpm'
+
 gem 'quiet_assets', '~> 1.0.3'  # pithier logging
 gem 'devise',       '~> 3.2.4'  # simplified authentication
 gem 'simple_form',  '~> 3.1.0rc'
