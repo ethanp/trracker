@@ -1,9 +1,11 @@
 .row
   .container-fluid
     .jumbotron
-      %h1 #{@task.name}
+      %h1= best_in_place @task, :name, cancel_button: "cancel", cancel_button_class: 'btn btn-lg btn-warning'
       %h3 Category: #{link_to @task.category.name, category_path(@task.category)}
-      %h3 Priority: #{@task.priority}
+      %h3
+        Priority:
+        = best_in_place @task, :priority, type: :select, collection: Hash[(0..5).map{|x|x.to_s}.zip((0..5).to_a)]
       - unless @task.duedate.nil?
         %p
           %strong Duedate:
