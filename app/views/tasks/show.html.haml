@@ -67,7 +67,7 @@
             - @task.subtasks.each do |subtask|
               %li.list-group-item
                 - if subtask.url.nil? or (subtask.url =~ /\w/).nil?
-                  = subtask.name
+                  = best_in_place subtask, :name, cancel_button: "cancel", cancel_button_class: 'btn btn-xs btn-warning'
                 - else
                   %a{href: subtask.url}
                     = subtask.name

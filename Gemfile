@@ -39,6 +39,8 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '~> 3.1.1'
 
+gem 'jquery-ui-rails'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks',   '~> 2.2.2'
 
@@ -62,6 +64,9 @@ gem 'redcarpet',    '~> 3.1.2'
 
 # datatables: nice <table> formatting through javascript
 gem 'jquery-datatables-rails', '~> 2.1.10.0.3'
+
+# in-place (formless) AJAX field editing
+gem 'best_in_place', '~> 3.0.1'
 
 # Use unicorn as the app server
 # gem 'unicorn'
