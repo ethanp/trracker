@@ -51,6 +51,7 @@ class Category < ActiveRecord::Base
   # this currently adds up the total number of time spent on this task
   # and divides by the number of days since its first-recorded-interval
   # no idea if the arithmetic on the version WITH an end-date is actually performed as planned
+  # TODO this could REALLY use some testing
   def avg_secs_per_day
     # array created above has first interval, so we can find the first date
     # but it's string-formatted at this point

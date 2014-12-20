@@ -1,6 +1,7 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
+
 ready = ->
 
   $showButton = $('#show-all-switch')
@@ -16,7 +17,9 @@ ready = ->
     $deadCats.hide()
     return
 
-  unshowAll() # this is the default state of the page (retains no memory of how it was before)
+  # the default state is with the dead cats hidden
+  # (it doesn't remember its state from last time)
+  unshowAll()
 
   $showButton.click ->
     $showButton.toggleClass 'showing-all'

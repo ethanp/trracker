@@ -3,8 +3,7 @@
 %table.table.table-striped.datatable.table-responsive.table-bordered.table-hover#tasks-list
   %thead
     %tr
-      -# this first column is for sorting
-      %th
+      %th Sort
       %th Duedate
       %th Name
       %th Priority
@@ -18,10 +17,10 @@
       %th
 
   %tbody
-    - @tasks.each do |task|
+    - @tasks.each_with_index do |task, idx|
       %tr{ class: [index_css_class(task), task.turned_in_css_class] }
         -# this sorting column is made with javascript in tasks.js (though it's broken...)
-        %td{ class: 'sort-col' }
+        %td{ class: 'sort-col' } #{idx}
         %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
         %td
           %strong= link_to task.name, task_path(task)
