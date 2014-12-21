@@ -11,6 +11,8 @@ FactoryGirl.define do
     name "Categ"
     user_id 1
     description "This is a FactoryGirl category"
+    start_date DateTime.now - 5.days
+    end_date DateTime.now
   end
 
   factory :task do
