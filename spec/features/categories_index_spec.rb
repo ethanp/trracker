@@ -23,9 +23,9 @@ feature "Categories Index" do
       click_link 'Delete'
       expect(u.categories.count).to eq(c-1)
     end
-    it 'clicking edit button loads edit category form' do
+    it 'edit button loads edit form' do
       click_link 'Edit'
-      expect(page).to have_text('Editing category')
+      expect(page).to have_text('Edit category')
     end
   end
 end
