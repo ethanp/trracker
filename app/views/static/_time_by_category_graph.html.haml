@@ -1,157 +1,89 @@
-/ base code from http://bl.ocks.org/mbostock/3020685, 7/31/2014
 .row
   .col-md-2
   .col-md-5
     %h1 Time per Category
 
-#chart.chart
+
+
+#chart-div.chart{style: "width: 100%; height: 400px;"}
 
 :css
-  /* this is the font for the x-axis */
-  .chart {
-    font: 10px sans-serif;
+  /* none at this time */
+
+:javascript
+  var chartData = generateChartData();
+
+  var chart = AmCharts.makeChart("chart-div", {
+      "type": "serial",
+      "theme": "none",
+      "pathToImages": "http://www.amcharts.com/lib/3/images/",
+      "legend": {
+          "equalWidths": false,
+          "periodValueText": "[[value.sum]]",
+          "position": "bottom",
+          "valueAlign": "left",
+          "valueWidth": 100
+      },
+      "dataProvider": chartData,
+      "valueAxes": [{
+          "stackType": "regular", // {none, regular, 100%} are valid
+          "position": "left"
+      }],
+      /* this is for parsing the JSON blob */
+      "graphs": [{
+          "title": "Visits",
+          "valueField": "visits",
+          "fillAlphas": 0.4
+      }, {
+          "title": "Hits",
+          "valueField": "hits",
+          "fillAlphas": 0.4
+      }, {
+          "title": "Views",
+          "valueField": "views",
+          "fillAlphas": 0.4
+      }],
+      "chartScrollbar": {},
+      "chartCursor": {},
+      "categoryField": "date",
+      "categoryAxis": {
+          "parseDates": true,
+          "axisColor": "#DADADA",
+          "minorGridEnabled": true
+      }
+  });
+
+  chart.addListener("dataUpdated", zoomChart);
+  zoomChart();
+
+
+  // generate some random data, quite different range
+  function generateChartData() {
+      var chartData = [];
+      var firstDate = new Date();
+      firstDate.setDate(firstDate.getDate() - 100);
+
+      for (var i = 0; i < 100; i++) {
+          // we create date objects here. In your data, you can have date strings
+          // and then set format of your dates using chart.dataDateFormat property,
+          // however when possible, use date objects, as this will speed up chart rendering.
+          var newDate = new Date(firstDate);
+          newDate.setDate(newDate.getDate() + i);
+
+          var visits = Math.round(Math.random() * 100) + 50;
+          var hits = Math.round(Math.random() * 100) + 50;
+          var views = Math.round(Math.random() * 100) + 50;
+
+          chartData.push({
+              date: newDate,
+              visits: visits,
+              hits: hits,
+              views: views
+          });
+      }
+      return chartData;
   }
 
-  /* this colors the axis lines and the axis ticks */
-  .axis path, .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
+  function zoomChart(){
+      chart.zoomToIndexes(chart.dataProvider.length - 20, chart.dataProvider.length - 1);
   }
-
-:coffeescript
-
-  # define std date parser for parsing incoming date
-  format = d3.time.format("%m/%d/%y")
-
-  # Define bounds of the <svg> element containing the chart.
-  #     But give it (req'd) spacing between where the data is rendered,
-  #     and the actual bounds of the <svg> element.
-  margin =
-    top: 20
-    right: 30
-    bottom: 30
-    left: 40
-
-  width = 700 - margin.left - margin.right
-  height = 340 - margin.top - margin.bottom
-
-  # "An extension of d3.scale.linear that uses JavaScript Date objects as the
-  #      domain representation. Provides suitable ticks based on time intervals."
-  #      (https://github.com/mbostock/d3/wiki/Time-Scales)
-  x = d3.time.scale().range([0,width])
-
-  # maps a Domain (which will be determined once the data is received) to an
-  #     appropriate Range, so that higher y values have higher height in the chart,
-  #     and the highest values reach near the top of the chart
-  y = d3.scale.linear().range([height,0])
-
-  # Constructs a new ordinal scale with a range of twenty categorical colors
-  #     (https://github.com/mbostock/d3/wiki/Ordinal-Scales)
-  z = d3.scale.category20c()
-
-  # 1. Create a new axis to go on the bottom.
-  # 2. Scale it according to the scaling-function defined as "x" above.
-  # 3. In particular, use "days" to generate tick values when rendering.
-  xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(d3.time.days)
-  yAxis = d3.svg.axis().scale(y).orient("left")
-
-  # * This graph shall use the "stack" layout, which allows you to render
-  #        elements one above the other (Cartesianally or Radially), starting with
-  #        an initial offset of zero from the x-axis line.
-  #
-  #     * `values()` takes a function which receives the current "layer" of the
-  #          "stack" being created
-  #         -- a "layer" is an array of values
-  #
-  #     * x() specifies:
-  #        For each object being rendered, what is the name of the field that
-  #        contains the value that should be rendered as this object's
-  #        x-coordinate?
-  #
-  stack = d3.layout.stack()
-    .offset("zero")
-    .values((d) -> d.values)
-    .x((d) -> d.date)
-    .y((d) -> d.value)
-
-  # this turns our single list of objects into the following data structure:
-  #
-  #     [
-  #       {
-  #         "key":"categ1",
-  #         "values":[array of data]
-  #       }, {
-  #         "key":"categ2",
-  #         "values":[array of data]
-  #       }
-  #     ]
-  #
-  #
-  nest = d3.nest()
-    .key( (d) -> d.name )
-
-  # Create an "area generator"
-  # was "cardinal", which was better but went below zero
-  area = d3.svg.area()
-    .interpolate("monotone")
-    .x( (d) -> x d.date )
-    .y0( (d) -> y d.y0 )
-    .y1( (d) -> y d.y0 + d.y )
-
-  svg = d3.select("#chart")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-
-  d3.json "task_data.json", (data) ->
-    data.forEach (d) ->
-      d.date = format.parse(d.date)
-      d.value = +d.value
-      d.name = d.name
-      return
-
-    layers = stack(nest.entries(data))
-
-    x.domain d3.extent(data, (d) -> d.date )
-    y.domain [0, d3.max( data, (d) -> d.y0 + d.y )]
-
-    svg.selectAll(".layer")
-      .data(layers)
-      .enter()
-      .append("path")
-      .attr("class", "layer")
-      .attr("d", (d) -> area d.values )
-      .style("fill", (d, i) -> z(d.key))
-
-    svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
-
-    svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-
-    # add legend -- stackoverflow.com/questions/14775962
-    legend = svg.selectAll(".g")
-      .data(layers)
-      .enter()
-      .append("g")
-      .attr("class", "legend")
-
-    legend.append("rect")
-      .attr("x", width - 60)
-      .attr("y", (d, i) -> i * 20)
-      .attr("width", 10)
-      .attr("height", 10)
-      .style "fill", (d) -> z(d.key)
-
-    legend.append("text")
-      .attr("x", width - 40)
-      .attr("y", (d, i) -> (i * 20) + 9)
-      .text (d) -> d.key
-
-    return
