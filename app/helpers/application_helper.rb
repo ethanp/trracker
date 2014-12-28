@@ -24,7 +24,7 @@ module ApplicationHelper
 
   # [
   #   {
-  #     :date ("mm/dd/yy")
+  #     :date ("mm/dd/yyyy" [aka :mdy])
   #     :categ_1_name (hours on this date, defaults to zero)
   #     ...     ...     ...
   #     :categ_n_name (hours on this date)
@@ -45,7 +45,7 @@ module ApplicationHelper
           .group_by { |x| x[:date] }.values
           .map do |x|
             sum = x.inject(0.0) { |sum, hash| sum + hash[:value] }
-            { date: x.first[:date], :"#{c.name}" => sum }
+            { date: x.first[:date], :"#{c.name}" => ("%.2f" % sum) }
       end
     end
        .group_by { |hsh| hsh[:date] }
