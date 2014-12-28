@@ -33,12 +33,12 @@ describe Interval do
         [
           {
             day: 6,
-            date: "08/02/14",
+            date: "08/02/2014",
             hour: 19,
             value: 0.5
           }, {
             day: 6,
-            date: "08/02/14",
+            date: "08/02/2014",
             hour: 20,
             value: 0.5
           }

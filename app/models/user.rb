@@ -30,9 +30,9 @@ class User < ActiveRecord::Base
   def fill_missing_dates(arr)
     # arr is an array of these: { :date, :name (category.name), :value }
     dates = arr.map { |x| x[:date] }
-    f = DateTime.strptime(dates.first, "%m/%d/%y")
-    l = DateTime.strptime(dates.last, "%m/%d/%y")
-    all_dates = (0..(l-f).to_i).map { |i| (f+i).strftime("%m/%d/%y") }
+    f = DateTime.strptime(dates.first, d_fmt(:mdy))
+    l = DateTime.strptime(dates.last, d_fmt(:mdy))
+    all_dates = (0..(l-f).to_i).map { |i| (f+i).strftime(d_fmt :mdy) }
     by_name = arr.group_by { |x| x[:name] }
     not_sure = all_dates.flat_map do |date|
       by_name.map do |name, objects|

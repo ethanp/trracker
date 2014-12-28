@@ -39,7 +39,7 @@ class Task < ActiveRecord::Base
   end
 
   # collect all intervals' hash-representations into one array
-  # [{day: int[0..6], date:str['%m/%d/%y'], hour: int[1..24], value: float[0..1]}, ... ]
+  # [{day: int[0..6], date:str['%m/%d/%Y'], hour: int[1..24], value: float[0..1]}, ... ]
   def heatmap_base_data
     self.intervals.inject([]) do
       |arr, h| arr + h.heatmap_hash_array
@@ -70,7 +70,7 @@ class Task < ActiveRecord::Base
     end
   end
 
-  # { date: '%m/%d/%y', name: task.name, value: hours }
+  # { date: '%m/%d/%Y', name: task.name, value: hours }
   def time_per_day
     self.heatmap_base_data.group_by_date_and_sum_hours(self)
   end
@@ -81,7 +81,7 @@ class Task < ActiveRecord::Base
   # returns num seconds of class Seconds
   # sometimes just having static types is nice.
   def seconds_spent_today
-    today_str = Date.today.strftime('%m/%d/%y')
+    today_str = Date.today.strftime(d_fmt :mdy)
     todays_hash = self.time_per_day.select { |h| h[:date] == today_str }
 
     if todays_hash.empty?

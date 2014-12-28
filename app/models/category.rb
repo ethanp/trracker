@@ -56,7 +56,7 @@ class Category < ActiveRecord::Base
     # array created above has first interval, so we can find the first date
     # but it's string-formatted at this point
     return 0 if tasks.count == 0 or intervals.count == 0
-    first_date = Date.strptime(time_per_day.first[:date], "%m/%d/%y")
+    first_date = Date.strptime(time_per_day.first[:date], d_fmt(:mdy))
     last_date = self.end_date.nil? ? Date.today : self.end_date.to_date
     num_days = (last_date - first_date).to_i
     return 0 if num_days < 0

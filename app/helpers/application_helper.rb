@@ -1,25 +1,25 @@
 module ApplicationHelper
   def datepicker_format(field)
-    field.nil? ? nil : field.strftime(Time::DATE_FORMATS[:datetimepicker])
+    field.nil? ? nil : field.strftime(t_fmt :datetimepicker)
   end
   def date_string(date)
-    date.nil? ? "" : date.strftime(Date::DATE_FORMATS[:full_text])
+    date.nil? ? "" : date.strftime(d_fmt :full_text)
   end
 
-  def add_missing_dates(arr)
-    # arr is an array of these: { :date, :name (category.name), :value }
+  def add_missing_dates arr
+    # @arr is an array of: { date: :mdy, categ1.name: sum, categ2.name: sum, ...}
     dates = arr.map { |x| x[:date] }
-    f = DateTime.strptime(dates.first, "%m/%d/%y")
-    l = DateTime.strptime(dates.last, "%m/%d/%y")
-    all_dates = (0..(l-f).to_i).map { |i| (f+i).strftime("%m/%d/%y") }
-    by_name = arr.group_by { |x| x[:name] }
-    not_sure = all_dates.flat_map do |date|
-      by_name.map do |name, objects|
-        value_zero_hash = { date: date, name: name, value: 0 }
-        objects.select{ |x| x[:date] == date }.give_default(value_zero_hash)
+    f = DateTime.strptime(dates.first, d_fmt(:mdy))
+    l = DateTime.strptime(dates.last, d_fmt(:mdy))
+    all_date_strs = (0..(l-f).to_i).map { |i| (f+i).strftime(d_fmt :mdy) }
+    by_date_str = arr.group_by { |x| x[:date] }
+    all_date_strs.map do |date_str|
+      if by_date_str.has_key? date_str
+        by_date_str[date_str][0]
+      else
+        base_hash.merge date: date_str
       end
     end
-    not_sure.flatten.sort_by { |x| [x[:date], x[:name]] } # sort by date /then/ name
   end
 
   # [
@@ -39,21 +39,25 @@ module ApplicationHelper
   #     => [{:a=>1, :b=>2, :c=>3}, {:a=>2, :b=>3}]
   #
   def landing_page_data
-    date_name_sum_hashes = Category.all.flat_map do |c|
-      times_per_task = c.tasks.flat_map { |x| x.time_per_day }
-      times_by_date = times_per_task.group_by { |x| x[:date] }.values
-      times_by_date.map do |x|
-        sum = x.inject(0.0) { |sum, hash| sum + hash[:value] }
-        { date: x.first[:date], :"#{c.name}" => sum }
+    categs_by_date = Category.all.flat_map do |c|
+      c.tasks
+          .flat_map { |x| x.time_per_day }
+          .group_by { |x| x[:date] }.values
+          .map do |x|
+            sum = x.inject(0.0) { |sum, hash| sum + hash[:value] }
+            { date: x.first[:date], :"#{c.name}" => sum }
       end
     end
-    categs_by_date = date_name_sum_hashes.group_by { |hsh| hsh[:date] }
-    categ_names = Category.all.map { |c| c.name.to_sym }
-    base_hash = categ_names.inject({}) { |agg,sym| agg.merge({sym => 0}) }
-    final = categs_by_date.values.map do |arr|
-      arr.inject(base_hash) { |agg,hsh| agg.merge(hsh) }
+       .group_by { |hsh| hsh[:date] }
+       .values.map { |arr| arr.inject(base_hash) { |agg,hsh| agg.merge(hsh) } }
+       .sort_by { |hsh| hsh[:date] } # sorting turns "Kiki" into graph
+    add_missing_dates(categs_by_date).to_json.html_safe
+  end
+
+  def base_hash
+    Category.all.map { |c| c.name.to_sym }.inject({}) do |agg,sym|
+      agg.merge({sym => 0})
     end
-    return final.to_json
   end
 
   #   We need one entry per Category.
@@ -80,6 +84,6 @@ module ApplicationHelper
           valueField: c.name,
           fillAlphas: 0.4
       }
-    end.to_json
+    end.to_json.html_safe
   end
 end

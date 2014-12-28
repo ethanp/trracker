@@ -21,12 +21,12 @@
 
   var chart = AmCharts.makeChart("chart-div", {
       "type": "serial",
-      dataDateFormat: "MM/DD/YY",
+      dataDateFormat: "MM/DD/YYYY",
       "theme": "none",
       "pathToImages": "http://www.amcharts.com/lib/3/images/",
       "legend": {
           "equalWidths": false,
-          "periodValueText": "[[value.sum]]",
+          "periodValueText": "[[value.sum]]", // TODO format with "valueFunction"
           "position": "bottom",
           "valueAlign": "left",
           "valueWidth": 100

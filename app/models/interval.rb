@@ -26,7 +26,7 @@ class Interval < ActiveRecord::Base
       hour == 0 ? 24 : hour
     end
     def mdy_date(time)
-      time.strftime("%m/%d/%y")
+      time.strftime(d_fmt :mdy)
     end
 
     total_seconds = self.seconds_spent.to_f

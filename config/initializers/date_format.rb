@@ -39,4 +39,12 @@
 
 Date::DATE_FORMATS[:full_text] = "%a, %B %d, %Y"  # Sun, November 3, 2013
 Time::DATE_FORMATS[:datetimepicker] = "%m/%d/%Y %l:%M %p"
-Date::DATE_FORMATS[:mdy] = "%m/%d/%y"
+Date::DATE_FORMATS[:mdy] = "%m/%d/%Y"
+
+def d_fmt sym
+  Date::DATE_FORMATS[sym]
+end
+
+def t_fmt sym
+  Time::DATE_FORMATS[sym]
+end
