@@ -71,4 +71,5 @@ class Category < ActiveRecord::Base
   def first_incomplete_duedate
     self.first_incomplete_task.duedate
   end
+
 end
