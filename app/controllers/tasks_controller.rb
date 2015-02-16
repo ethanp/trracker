@@ -8,6 +8,7 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
     @tasks = current_user.tasks
+    @undated_tasks, @dated_tasks = @tasks.partition { |t| t.duedate.nil?}
     @page_title = "Tasks"
   end
 

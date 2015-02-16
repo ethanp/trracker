@@ -1,0 +1,31 @@
+%thead
+  %tr
+    %th Sort
+    %th Duedate
+    %th Name
+    %th Priority
+    %th Category
+    %th Time spent so far
+    %th Subtasks Todo
+    -# complete
+    %th
+    -#  turned-in
+    %th
+    -# delete
+    %th
+
+%tbody
+  - tasks.each_with_index do |task, idx|
+    %tr{ class: [index_css_class(task), task.turned_in_css_class] }
+      -# this sorting column is made with javascript in tasks.js (though it's broken...)
+      %td{ class: 'sort-col' } #{idx}
+      %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
+      %td
+        %strong= link_to task.name, task_path(task)
+      %td= task.priority
+      %td= link_to task.category.name, category_path(task.category)
+      %td= time_ago_in_words task.seconds_spent.ago
+      %td= subtasks_remaining_str task
+      %td= link_to (task.complete ? 'Un-Complete' : 'Complete'), complete_task_path(task, show: false), method: :patch
+      %td= link_to (task.turned_in ? 'Un-Turn In' : 'Turn-in'), turn_in_task_path(task, show: false), method: :patch
+      %td= link_to 'Delete', task, method: :delete, data: { confirm: 'Are you sure?' }
