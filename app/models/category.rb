@@ -17,13 +17,14 @@ class Category < ActiveRecord::Base
   validates_uniqueness_of :name, scope: [:user_id]
   validates_length_of :name, maximum: 30, too_long: 'That name is too long (30 chars max)'
 
-  # [
-  #   {
+  # @returns the following structure (sorted by :date)
+  # Array[
+  #   Hash{
   #     :date ("mm/dd/yy"),
   #     :name (this_category's.name),
   #     :value (hours:Double)
   #   }
-  # ]     # sorted by :date
+  # ]
   def time_per_day
     # time_per_day : #<Array> of { :date, :task, :value }
     self.tasks.flat_map { |x| x.time_per_day }.group_by_date_and_sum_hours(self)
@@ -57,9 +58,11 @@ class Category < ActiveRecord::Base
     # but it's string-formatted at this point
     return 0 if tasks.count == 0 or intervals.count == 0
     first_date = Date.strptime(time_per_day.first[:date], d_fmt(:mdy))
-    last_date = self.end_date.nil? ? Date.today : self.end_date.to_date
+    no_end_date = self.end_date.nil?
+    hasnt_ended = Date.today < self.end_date unless no_end_date
+    last_date = (no_end_date or hasnt_ended) ? Date.today : self.end_date.to_date
     num_days = (last_date - first_date).to_i
-    return 0 if num_days < 0
+    return 0 unless num_days > 0
     hrs = time_per_day.inject(0) { |sum, h| sum + h[:value] }
     secs = hrs * 60 * 60
     return secs / num_days
@@ -72,4 +75,28 @@ class Category < ActiveRecord::Base
     self.first_incomplete_task.duedate
   end
 
+end
+
+# this is used above
+class Array
+  # the resulting array is also sorted by date ascending
+  def group_by_date_and_sum_hours(a_category)
+    # for each set of hashes belonging to a particular date
+    arr = self.group_by { |x| x[:date] }.values.map do |x|
+      # add up the total number of hours for that date
+      sum = x.inject(0.0) { |sum, hash| sum + hash[:value] }
+      # make a (single) new hash for this date with the sum of this category's hours
+      { date: x.first[:date], name: a_category.name, value: sum }
+    end
+    arr.sort_by { |x| Date.strptime(x[:date], d_fmt(:mdy)) }
+  end
+
+  def to_ids
+    self.map { |x| x.id }
+  end
+
+  # this parameter should be lazily evaluated
+  def give_default(default)
+    self.empty? ? self << default : self
+  end
 end

@@ -40,7 +40,7 @@
             - if category.avg_secs_per_day > 0
               %p
                 %strong Hrs per Day:
-                -# print num seconds as HH:MM
+                -# this prints the given num seconds as HH:MM
                 = Time.at(category.avg_secs_per_day).gmtime.strftime('%R')
             .text-center
               = link_to 'Edit',

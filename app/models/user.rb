@@ -43,24 +43,3 @@ class User < ActiveRecord::Base
     not_sure.flatten.sort_by { |x| [x[:date], x[:name]] } # sort by date /then/ name
   end
 end
-
-class Array
-  # TODO this should go in a /helper/ or something, no?
-  # the resulting array is also sorted by date ascending
-  def group_by_date_and_sum_hours(parent_instance)
-    arr = self.group_by { |x| x[:date] }.values.map do |x|
-      sum = x.inject(0.0) { |sum, hash| sum + hash[:value] }
-      { date: x.first[:date], name: parent_instance.name, value: sum }
-    end
-    arr.sort_by { |x| x[:date] }
-  end
-
-  def to_ids
-    self.map { |x| x.id }
-  end
-
-  # this parameter should be lazily evaluated
-  def give_default(default)
-    self.empty? ? self << default : self
-  end
-end
