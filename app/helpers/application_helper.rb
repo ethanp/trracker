@@ -8,7 +8,7 @@ module ApplicationHelper
 
   def add_missing_dates arr
     # @arr is an array of: { date: :mdy, categ1.name: sum, categ2.name: sum, ...}
-    dates = arr.map { |x| x[:date] }
+    dates = arr.map { |x| x[:date] }.sort_by { |x| Date.strptime(x, d_fmt(:mdy)) }
     f = DateTime.strptime(dates.first, d_fmt(:mdy))
     l = DateTime.strptime(dates.last, d_fmt(:mdy))
     all_date_strs = (0..(l-f).to_i).map { |i| (f+i).strftime(d_fmt :mdy) }
