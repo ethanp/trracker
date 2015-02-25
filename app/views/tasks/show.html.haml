@@ -20,9 +20,27 @@
       %p
         %strong Time spent today:
         = time_ago_in_words @task.seconds_spent_today.ago
-      %p
-        %strong Total time spent so far:
-        = time_ago_in_words @task.seconds_spent.ago
+
+      #total-time
+        %p#in-words
+          %strong Total time spent so far:
+          = time_ago_in_words @task.seconds_spent.ago
+        %p#in-hours
+          %strong Total time spent so far:
+          about #{@task.seconds_spent / (60 * 60)} hours
+
+      -# click total-time to switch format between words and num hours
+      :coffeescript
+        $hours = $('#in-hours')
+        $hours.hide()
+        $words = $('#in-words')
+        $words.click -> switch_format()
+        $hours.click -> switch_format()
+        switch_format = ->
+          $words.toggle()
+          $hours.toggle()
+
+
 
       / "Complete task" button
       = link_to @task.complete ? 'Un-Complete' : 'Complete',

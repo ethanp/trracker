@@ -6,7 +6,7 @@ module ApplicationHelper
     date.nil? ? "" : date.strftime(d_fmt :full_text)
   end
 
-  def add_missing_dates arr
+  def add_missing_dates_and_sort_by_date arr
     # @arr is an array of: { date: :mdy, categ1.name: sum, categ2.name: sum, ...}
     dates = arr.map { |x| x[:date] }.sort_by { |x| Date.strptime(x, d_fmt(:mdy)) }
     f = DateTime.strptime(dates.first, d_fmt(:mdy))
@@ -50,8 +50,7 @@ module ApplicationHelper
     end
        .group_by { |hsh| hsh[:date] }
        .values.map { |arr| arr.inject(base_hash) { |agg,hsh| agg.merge(hsh) } }
-       .sort_by { |hsh| hsh[:date] } # sorting turns "Kiki" into graph
-    add_missing_dates(categs_by_date).to_json.html_safe
+    add_missing_dates_and_sort_by_date(categs_by_date).to_json.html_safe
   end
 
   def base_hash
