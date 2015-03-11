@@ -40,4 +40,5 @@ Rails.application.routes.draw do
   get '/categories/:category_id/time_per_task_per_day' => 'categories#time_per_task_per_day',
       as: :time_per_day
 
+  delete '/tasks/:id/delete_from_tasks_list' => 'tasks#delete_from_index', as: :delete_from_tasks_list
 end

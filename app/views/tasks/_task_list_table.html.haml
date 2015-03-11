@@ -28,7 +28,7 @@
       %td= subtasks_remaining_str task
       %td= link_to (task.complete ? 'Un-Complete' : 'Complete'), complete_task_path(task, show: false), method: :patch
       %td= link_to (task.turned_in ? 'Un-Turn In' : 'Turn-in'), turn_in_task_path(task, show: false), method: :patch
-      %td.delete-tasks-button= link_to 'Delete', task, method: :delete, data: { confirm: 'Are you sure?' }
+      %td.delete-tasks-button= link_to 'Delete', delete_from_tasks_list_path(task), method: :delete, data: { confirm: 'Are you sure?' }
 
 :sass
   .delete-tasks-button a:hover

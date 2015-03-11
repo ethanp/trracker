@@ -1,6 +1,8 @@
 class TasksController < ApplicationController
+  respond_to :html, :xml, :json
+
   before_action :set_task, only: [:show, :edit, :update, :destroy,
-                                  :complete, :turn_in]
+                                  :complete, :turn_in, :delete_from_index]
 
   before_action :authenticate_user!
 
@@ -113,6 +115,11 @@ class TasksController < ApplicationController
       format.html { redirect_to category_url(cat), notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def delete_from_index
+    @task.destroy
+    redirect_to list_tasks_path
   end
 
   private
