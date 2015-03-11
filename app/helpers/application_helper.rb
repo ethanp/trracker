@@ -85,4 +85,18 @@ module ApplicationHelper
       }
     end.to_json.html_safe
   end
+
+  def hours_and_minutes seconds
+    minutes = (seconds / 60).to_i
+    hours = minutes / 60
+    m = pluralize(minutes % 60, 'minute')
+    h = "#{pluralize(hours, 'hour')}, "
+    if minutes == 0
+      'None'
+    elsif hours == 0
+      m
+    else
+      h+m
+    end
+  end
 end
