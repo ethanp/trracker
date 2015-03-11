@@ -19,7 +19,7 @@
               ago
       %p
         %strong Time spent today:
-        = hours_and_minutes @task.seconds_spent_today
+        = hours_and_minutes_string_from_seconds @task.seconds_spent_today
 
       #total-time
         %p#in-words
