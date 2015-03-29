@@ -14,11 +14,10 @@ class CategoriesController < ApplicationController
     @page_title = "Categories"
   end
 
-
-  def time_per_task_per_day
+  # GET /categories/:category_id/time_per_day
+  def time_per_day
     # puts "@category.time_per_task_per_day: #{@category.time_per_task_per_day}"
     respond_to do |format|
-      # format.html  # time_per_task_per_day.html.erb (doesn't exist)
       format.json { render json: @category.time_per_day }
     end
   end

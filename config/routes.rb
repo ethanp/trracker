@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   get '/tasks/:task_id/heatmap' => 'tasks#show_heatmap_data', as: :show_task_heatmap_data
 
   # category-graph data via ajax (for homepage)
-  get '/categories/:category_id/time_per_task_per_day' => 'categories#time_per_task_per_day',
+  get '/categories/:category_id/time_per_day' => 'categories#time_per_day',
       as: :time_per_day
 
   delete '/tasks/:id/delete_from_tasks_list' => 'tasks#delete_from_index', as: :delete_from_tasks_list

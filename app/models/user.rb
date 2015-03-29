@@ -22,8 +22,6 @@ class User < ActiveRecord::Base
     fill_missing_dates times_per_category
   end
 
-  private
-
   # for every date where a name doesn't have a value,
   # create a data-point with value 0
   #
@@ -41,5 +39,75 @@ class User < ActiveRecord::Base
       end
     end
     not_sure.flatten.sort_by { |x| [x[:date], x[:name]] } # sort by date /then/ name
+  end
+
+  # 1. get an array like
+  #     [
+  #       {:date, :task, :time_spent},
+  #       ...
+  #     ]
+  #
+  # 2. find the task, and get it's priority, to calculate
+  #     [
+  #       {:date, :productivity},
+  #       ...
+  #     ]
+  #
+  # 3. group-by date, to obtain
+  #     {
+  #       date_val => [
+  #                     {:date, :productivity},
+  #                     ...
+  #                   ],
+  #       ...
+  #     }
+  #
+  # 4. sum values to obtain
+  #     [
+  #       { :date, :value },
+  #       ...
+  #     ]
+  #
+  # 5. sort by date
+  #
+  # 6. do the rolling average to obtain (sorted by :date)
+  #     [
+  #       { :date, :rolling_avg },
+  #       ...
+  #     ]
+  #
+  def weekly_productivity_per_day
+    def productivity(value, priority)
+      value * (1 + priority / 10.0)
+    end
+    step_1 = tasks.flat_map { |t| t.time_per_day }
+    step_2 = step_1.map { |h| {
+        date: h[:date],
+        productivity: productivity(h[:value], Task.find_by_name(h[:name]).priority)
+    }}
+    step_3 = step_2.group_by { |h| h[:date] }
+    step_4 = step_3.map { |k,v| {
+        date: Date.strptime(k, d_fmt(:mdy)),
+        value: v.inject(0) { |sum, a| sum + a[:productivity] }
+    }}
+    step_5 = step_4.sort_by { |h| h[:date] }
+
+    rolling_avg_arr = []
+    last_seven_arr = []
+
+    step_5.each { |h|
+      if last_seven_arr.count < 7
+        last_seven_arr << h
+      else
+        rolling_avg_arr << {
+            date: last_seven_arr.last[:date],
+            rolling_avg: last_seven_arr.inject(0) { |sum, a| sum + a[:value] }
+        }
+        last_seven_arr.shift # discard first element
+        last_seven_arr << h
+      end
+    }
+    puts rolling_avg_arr
+    rolling_avg_arr
   end
 end

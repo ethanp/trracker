@@ -14,10 +14,10 @@ class TasksController < ApplicationController
     @page_title = "Tasks"
   end
 
+  # GET /today
+  # @tasks : array of all tasks for which some time was spent today
   def worked_on_today
-    @tasks = current_user.tasks.select do |task|
-      task.seconds_spent_today > 0.seconds
-    end
+    @tasks = current_user.tasks.select { |task| task.seconds_spent_today > 0.seconds }
     @page_title = "Today's Time"
   end
 
@@ -36,7 +36,6 @@ class TasksController < ApplicationController
     @task = Task.find(params[:task_id])
     # puts @task.heatmap_hash_array.as_json
     respond_to do |format|
-      format.html # show_heatmap_data.html.erb (doesn't exist)
       format.json { render json: @task.final_heatmap_data }
     end
   end

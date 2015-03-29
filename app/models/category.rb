@@ -17,7 +17,7 @@ class Category < ActiveRecord::Base
   validates_uniqueness_of :name, scope: [:user_id]
   validates_length_of :name, maximum: 30, too_long: 'That name is too long (30 chars max)'
 
-  # @returns the following structure (sorted by :date)
+  # @returns the following array (sorted by :date)
   # Array[
   #   Hash{
   #     :date ("mm/dd/yy"),
@@ -30,12 +30,10 @@ class Category < ActiveRecord::Base
     self.tasks.flat_map { |x| x.time_per_day }.group_by_date_and_sum_hours(self)
   end
 
-  # bool
   def has_task_due_within_a_week
     self.tasks.incomplete.select{ |t| t.due_within_a_week }.size > 0
   end
 
-  # bool
   def has_date_bounds
     !(self.start_date.nil? || self.end_date.nil?)
   end

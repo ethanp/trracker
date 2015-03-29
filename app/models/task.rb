@@ -23,14 +23,18 @@ class Task < ActiveRecord::Base
     where("tasks.duedate > ? AND tasks.duedate < ?",
           DateTime.now, datetime)
   }
-  scope :complete,    -> { where('tasks.complete = ?', true) }
-  scope :incomplete,  -> { where("tasks.complete = ? OR tasks.complete IS NULL", false) }
-  scope :turned_in,   -> { where('tasks.turned_in = ?', true) }
+  scope :complete,     -> { where('tasks.complete = ?', true) }
+  scope :incomplete,   -> { where("tasks.complete = ? OR tasks.complete IS NULL", false) }
+  scope :turned_in,    -> { where('tasks.turned_in = ?', true) }
+  scope :current_user, -> { where('tasks.user_id = ?', current_user.id) }
 
   def incomplete_subtasks
     Subtask.incomplete_for(self)
   end
 
+  # total seconds spent on this task EVER
+  # @return object of type Second
+  #
   def seconds_spent
     # this is a fold_left
     self.intervals.inject(0) do
@@ -39,17 +43,26 @@ class Task < ActiveRecord::Base
   end
 
   # collect all intervals' hash-representations into one array
-  # [{day: int[0..6], date:str['%m/%d/%Y'], hour: int[1..24], value: float[0..1]}, ... ]
+  # => [
+  #   {day: int[0..6], date:str['%m/%d/%Y'], hour: int[1..24], value: float[0..1]},
+  #   ...
+  # ]
+  #
   def heatmap_base_data
     self.intervals.inject([]) do
       |arr, h| arr + h.heatmap_hash_array
     end
   end
 
-  # this is the heatmap_hash_array (above), but
+  # this is the heatmap_base_data (above), but
   # summed by :day and :hour to produce
-  # [{day:int[0..6], hour:int[1..24], value:float[nil,0..]}, ... ]
+  # => [
+  #   {day:int[0..6], hour:int[1..24], value:float[nil,0..]},
+  #   ...
+  # ]
+  #
   # code from stackoverflow.com/questions/18421422
+  #
   def final_heatmap_data
 
     # {[day, hour] => [{hash1}, {hash2}, ...], ... }
@@ -70,7 +83,13 @@ class Task < ActiveRecord::Base
     end
   end
 
-  # { date: '%m/%d/%Y', name: task.name, value: hours }
+  # 2.1.2 :043 > Task.first.time_per_day
+  # => [
+  #   {:date=>"07/21/2014", :name=>"Anoath", :value=>0.0775},
+  #   {:date=>"07/24/2014", :name=>"Anoath", :value=>0.0008333333333333334},
+  #   {:date=>"10/04/2014", :name=>"Anoath", :value=>0.16722222222222222}
+  # ]
+  #
   def time_per_day
     self.heatmap_base_data.group_by_date_and_sum_hours(self)
   end
@@ -78,8 +97,10 @@ class Task < ActiveRecord::Base
   def hours_to_seconds(d)
     d * 60 * 60
   end
+
   # returns num seconds of class Seconds
-  # sometimes just having static types is nice.
+  # sometimes just having static types is nice
+  # i.e. a *comment* feels like the wrong place to document a function's return type
   def seconds_spent_today
     today_str = Date.today.strftime(d_fmt :mdy)
     todays_hash = self.time_per_day.select { |h| h[:date] == today_str }
