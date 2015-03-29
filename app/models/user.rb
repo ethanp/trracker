@@ -70,7 +70,9 @@ class User < ActiveRecord::Base
   #
   # 5. sort by date
   #
-  # 6. do the rolling average to obtain (sorted by :date)
+  # 6. fill missing dates with zeros
+  #
+  # 7. do the rolling average to obtain (sorted by :date)
   #     [
   #       { :date, :rolling_avg },
   #       ...
@@ -81,33 +83,31 @@ class User < ActiveRecord::Base
       value * (1 + priority / 10.0)
     end
     step_1 = tasks.flat_map { |t| t.time_per_day }
-    step_2 = step_1.map { |h| {
-        date: h[:date],
-        productivity: productivity(h[:value], Task.find_by_name(h[:name]).priority)
-    }}
+    step_2 = step_1.map do |h|
+      {
+          date: h[:date],
+          productivity: productivity(h[:value], Task.find_by_name(h[:name]).priority)
+      }
+    end
     step_3 = step_2.group_by { |h| h[:date] }
-    step_4 = step_3.map { |k,v| {
-        date: Date.strptime(k, d_fmt(:mdy)),
-        value: v.inject(0) { |sum, a| sum + a[:productivity] }
-    }}
+    step_4 = step_3.map do |k, v|
+      {
+          date: Date.strptime(k, d_fmt(:mdy)),
+          value: v.inject(0) { |sum, a| sum + a[:productivity] }
+      }
+    end
     step_5 = step_4.sort_by { |h| h[:date] }
 
-    rolling_avg_arr = []
-    last_seven_arr = []
+    # TODO step_6 = fill missing dates with zeros
 
-    step_5.each { |h|
-      if last_seven_arr.count < 7
-        last_seven_arr << h
-      else
-        rolling_avg_arr << {
-            date: last_seven_arr.last[:date],
-            rolling_avg: last_seven_arr.inject(0) { |sum, a| sum + a[:value] }
-        }
-        last_seven_arr.shift # discard first element
-        last_seven_arr << h
-      end
-    }
-    puts rolling_avg_arr
-    rolling_avg_arr
+    step_7 = (0..step_5.count-7).map do |i|
+      last_seven_arr = step_5[i...i+7]
+      {
+          date: last_seven_arr.last[:date],
+          rolling_avg: last_seven_arr.inject(0) { |sum, a| sum + a[:value] } / 7
+      }
+    end
+    puts step_7
+    step_7
   end
 end
