@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
     not_sure.flatten.sort_by { |x| [x[:date], x[:name]] } # sort by date /then/ name
   end
 
-  # 1. get an array like
+  # starts with an array like
   #     [
   #       {:date, :task, :time_spent},
   #       ...
@@ -62,17 +62,8 @@ class User < ActiveRecord::Base
   #       ...
   #     }
   #
-  # 4. sum values to obtain
-  #     [
-  #       { :date, :value },
-  #       ...
-  #     ]
-  #
-  # 5. sort by date
-  #
-  # 6. fill missing dates with zeros
-  #
-  # 7. do the rolling average to obtain (sorted by :date)
+  # 4. get every date between start and today, and
+  #    do the rolling average to obtain (sorted by :date)
   #     [
   #       { :date, :rolling_avg },
   #       ...
@@ -83,31 +74,39 @@ class User < ActiveRecord::Base
       value * (1 + priority / 10.0)
     end
     step_1 = tasks.flat_map { |t| t.time_per_day }
+
+    f = Date.today
+    l = Date.today
+
     step_2 = step_1.map do |h|
-      {
-          date: h[:date],
-          productivity: productivity(h[:value], Task.find_by_name(h[:name]).priority)
-      }
+      d = Date.strptime(h[:date], d_fmt(:mdy))
+      f = d if d < f
+      { date: d, productivity: productivity(h[:value], Task.find_by_name(h[:name]).priority) }
     end
+
     step_3 = step_2.group_by { |h| h[:date] }
-    step_4 = step_3.map do |k, v|
-      {
-          date: Date.strptime(k, d_fmt(:mdy)),
-          value: v.inject(0) { |sum, a| sum + a[:productivity] }
-      }
-    end
-    step_5 = step_4.sort_by { |h| h[:date] }
 
-    # TODO step_6 = fill missing dates with zeros
+    # fill missing dates with zeros (similar to the method fill_missing_dates, but not the same)
+    # and get rolling avg result
 
-    step_7 = (0..step_5.count-7).map do |i|
-      last_seven_arr = step_5[i...i+7]
-      {
-          date: last_seven_arr.last[:date],
-          rolling_avg: last_seven_arr.inject(0) { |sum, a| sum + a[:value] } / 7
-      }
+    last_seven_arr = []
+    result = []
+    (0..(l-f).to_i).each do |i|
+      d = f+i
+      last_seven_arr <<
+        if step_3.has_key? d
+          step_3[d].inject(0.0) { |s, a| s+a[:productivity] }
+        else
+          0.0
+        end
+      if last_seven_arr.count >= 7
+        result << {
+            date: d,
+            rolling_avg: last_seven_arr[-7..-1].inject(0) { |s, a| s + a } / 7
+        }
+      end
     end
-    puts step_7
-    step_7
+    puts result
+    result
   end
 end
