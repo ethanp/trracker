@@ -39,7 +39,7 @@ module ApplicationHelper
   #     => [{:a=>1, :b=>2, :c=>3}, {:a=>2, :b=>3}]
   #
   def landing_page_data
-    categs_by_date = Category.all.flat_map do |c|
+    categs_by_date = current_user.categories.flat_map do |c|
       c.tasks
           .flat_map { |x| x.time_per_day }
           .group_by { |x| x[:date] }.values
@@ -54,7 +54,7 @@ module ApplicationHelper
   end
 
   def base_hash
-    Category.all.map { |c| c.name.to_sym }.inject({}) do |agg,sym|
+    current_user.categories.map { |c| c.name.to_sym }.inject({}) do |agg,sym|
       agg.merge({sym => 0})
     end
   end
@@ -77,7 +77,7 @@ module ApplicationHelper
   #   },
   #
   def landing_page_graphs
-    Category.all.map do |c|
+    current_user.categories.map do |c|
       {
           title: c.name,
           valueField: c.name,
