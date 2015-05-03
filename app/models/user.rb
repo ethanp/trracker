@@ -105,6 +105,7 @@ class User < ActiveRecord::Base
             rolling_avg: last_seven_arr[-7..-1].inject(0) { |s, a| s + a } / 7
         }
       end
+      last_seven_arr = last_seven_arr[-6..-1] if last_seven_arr.count > 50 # opt; not surely helpful
     end
     puts result
     result
