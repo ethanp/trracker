@@ -32,7 +32,9 @@ class Task < ActiveRecord::Base
     Subtask.incomplete_for(self)
   end
 
-  # total seconds spent on this task EVER
+  ### TODO maybe this should all be more "object oriented"
+
+  #  total seconds spent on this task EVER
   # @return object of type Second
   #
   def seconds_spent
@@ -94,14 +96,14 @@ class Task < ActiveRecord::Base
     self.heatmap_base_data.group_by_date_and_sum_hours(self)
   end
 
-  def hours_to_seconds(d)
-    d * 60 * 60
-  end
-
   # returns num seconds of class Seconds
   # sometimes just having static types is nice
   # i.e. a *comment* feels like the wrong place to document a function's return type
   def seconds_spent_today
+    def hours_to_seconds(d)
+      d * 60 * 60
+    end
+
     today_str = Date.today.strftime(d_fmt :mdy)
     todays_hash = self.time_per_day.select { |h| h[:date] == today_str }
 
@@ -117,20 +119,29 @@ class Task < ActiveRecord::Base
   # e.g. duedate = my_task.duedate_as_datetime
   # @returns :: either the date or nil
   def duedate_as_datetime
-    return nil if self.duedate.nil?
-    DateTime.parse(self.duedate.to_s)
+    if self.duedate.nil?
+      nil
+    else
+      DateTime.parse(self.duedate.to_s)
+    end
   end
 
   # float
   def duedate_distance_in_days
-    return nil if self.duedate.nil?
-    (self.duedate_as_datetime - DateTime.now).to_f
+    if self.duedate.nil?
+      nil
+    else
+      (self.duedate_as_datetime - DateTime.now).to_f
+    end
   end
 
   # bool
   def due_within_a_week
-    return false if self.duedate.nil?
-    return self.duedate_distance_in_days < 7
+    if self.duedate.nil?
+      false
+    else
+      self.duedate_distance_in_days < 7
+    end
   end
 
   def turned_in_css_class

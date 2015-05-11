@@ -19,7 +19,7 @@
 / Incomplete Tasks Table
 = render 'tasks/table',
   title: 'Do These',
-  tasks: @category.tasks.incomplete
+  tasks: @category.tasks.incomplete - @category.tasks.turned_in
 
 / Complete but Not Turned-In Tasks Table
 = render 'tasks/table',

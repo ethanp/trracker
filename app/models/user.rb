@@ -28,9 +28,9 @@ class User < ActiveRecord::Base
   def fill_missing_dates(arr)
     # arr is an array of these: { :date, :name (category.name), :value }
     dates = arr.map { |x| x[:date] }
-    f = DateTime.strptime(dates.first, d_fmt(:mdy))
-    l = DateTime.strptime(dates.last, d_fmt(:mdy))
-    all_dates = (0..(l-f).to_i).map { |i| (f+i).strftime(d_fmt :mdy) }
+    first_date = DateTime.strptime(dates.first, d_fmt(:mdy))
+    last_date = DateTime.strptime(dates.last, d_fmt(:mdy))
+    all_dates = (0..(last_date-first_date).to_i).map { |i| (first_date+i).strftime(d_fmt :mdy) }
     by_name = arr.group_by { |x| x[:name] }
     not_sure = all_dates.flat_map do |date|
       by_name.map do |name, objects|
@@ -41,7 +41,47 @@ class User < ActiveRecord::Base
     not_sure.flatten.sort_by { |x| [x[:date], x[:name]] } # sort by date /then/ name
   end
 
-  # starts with an array like
+  # TODO I don't enjoy the piece of code that exists here.
+  #
+  #  I believe the GOAL is to find the weekly productivity per day,
+  #     which should be pretty straightforward.
+  #
+  #  How about something like the equivalent
+  #
+  #     intervals_by_date = my_intervals.group_by(_.date).sorted
+  #     this_date = intervals_by_date.first.date
+  #     last_date = intervals_by_date.last.date
+  #     past_week = [0] * 7  # that's Python
+  #     i = 0
+  #     averages = []
+  #     while this_date <= last_date do
+  #       if intervals_by_date.has_key? this_date
+  #         past_week[i%7] = intervals_by_date[this_date].inject(0.0){|s,a|s+a.productivity}
+  #       else
+  #         past_week[i%7] = 0.0
+  #       end
+  #       i += 1
+  #       this_date += 1 # or however you advance to the next day
+  #       averages << {
+  #         date: this_date - 1
+  #         running_avg_prod: past_week.sum / 7.0
+  #       }
+  #     end
+  #
+  #  Note how an_interval.productivity just "worked",
+  #       and group_by(_.date).sorted just "worked".
+  #    The code for that in this file should actually be that simple.
+  #    The code below has way too many temporary hashes.
+  #    The code above has ZERO temporary hashes.
+  #       It has much less crap and is mildly more efficient than that below.
+  #       I think it will be much easier to cache what's going on above in
+  #           some sort of caching layer.
+  #
+  #
+  #  This is exactly the type of coding I hope to do more of in this project, so
+  #     figuring out how to write it better is crucial.
+  #
+  #  As it stands, [hopefully, this method] starts with an array like
   #     [
   #       {:date, :task, :time_spent},
   #       ...
@@ -73,15 +113,25 @@ class User < ActiveRecord::Base
     def productivity(value, priority)
       value * (1 + priority / 10.0)
     end
-    step_1 = tasks.flat_map { |t| t.time_per_day }
+    time_per_days = tasks.flat_map { |t| t.time_per_day }
 
-    f = Date.today
-    l = Date.today
+    first_date = Date.today
+    last_date = Date.today
 
-    step_2 = step_1.map do |h|
-      d = Date.strptime(h[:date], d_fmt(:mdy))
-      f = d if d < f
-      { date: d, productivity: productivity(h[:value], Task.find_by_name(h[:name]).priority) }
+    # get a [{date, productivity}] array
+    # also, find the first date
+    step_2 = time_per_days.map do |h|
+      this_date = Date.strptime(h[:date], d_fmt(:mdy))
+      if this_date < first_date
+        first_date = this_date
+      end
+      {
+        date: this_date,
+        productivity: productivity(
+          h[:value],
+          Task.find_by_name(h[:name]).priority
+        )
+      }
     end
 
     step_3 = step_2.group_by { |h| h[:date] }
@@ -91,23 +141,29 @@ class User < ActiveRecord::Base
 
     last_seven_arr = []
     result = []
-    (0..(l-f).to_i).each do |i|
-      d = f+i
+    (0..(last_date-first_date).to_i).each do |day_offset|
+      this_date = first_date+day_offset
       last_seven_arr <<
-        if step_3.has_key? d
-          step_3[d].inject(0.0) { |s, a| s+a[:productivity] }
+        # if this date has productivity data, sum it all up
+        if step_3.has_key? this_date
+          step_3[this_date].inject(0.0) { |s, a| s+a[:productivity] }
         else
           0.0
         end
       if last_seven_arr.count >= 7
         result << {
-            date: d,
+            date: this_date,
             rolling_avg: last_seven_arr[-7..-1].inject(0) { |s, a| s + a } / 7
         }
       end
-      last_seven_arr = last_seven_arr[-6..-1] if last_seven_arr.count > 50 # opt; not surely helpful
+
+      # optimization to save on memory, not surely useful
+      # truncate the rolling-sum array once it gets long
+      if last_seven_arr.count > 500
+        last_seven_arr = last_seven_arr[-6..-1]
+      end
+
     end
-    puts result
     result
   end
 end
