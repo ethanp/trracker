@@ -1,7 +1,10 @@
 %tr
   %td
-    %h4= link_to task.name, task
-
+    %h4
+      - if task.turned_in && !task.complete
+        %s= link_to task.name, task
+      - else
+        = link_to task.name, task
   %td
     %h5= task.duedate.nil? ? "" : task.duedate.strftime("%A, %B %e at %l:%M %p")
 
