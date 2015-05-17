@@ -21,11 +21,7 @@
       %td{ class: 'sort-col' } #{idx}
       %td= task.duedate.strftime("%A, %B %e at %l:%M %p") unless task.duedate.nil?
       %td
-        %strong
-          - if task.turned_in && !task.complete
-            %s= link_to task.name, task_path(task)
-          - else
-            = link_to task.name, task_path(task)
+        %strong= render 'task_link_maybe_crossed', task: task
       %td= task.priority
       %td= link_to task.category.name, category_path(task.category)
       %td= time_ago_in_words task.seconds_spent.ago

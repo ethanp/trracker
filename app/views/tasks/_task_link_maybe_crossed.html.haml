@@ -1,0 +1,4 @@
+- if task.turned_in && !task.complete
+  %s= link_to task.name, task
+- else
+  = link_to task.name, task

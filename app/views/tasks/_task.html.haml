@@ -1,10 +1,6 @@
 %tr
   %td
-    %h4
-      - if task.turned_in && !task.complete
-        %s= link_to task.name, task
-      - else
-        = link_to task.name, task
+    %h4= render 'task_link_maybe_crossed', task: task
   %td
     %h5= task.duedate.nil? ? "" : task.duedate.strftime("%A, %B %e at %l:%M %p")
 
