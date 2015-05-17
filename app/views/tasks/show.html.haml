@@ -41,7 +41,6 @@
           $hours.toggle()
 
 
-
       / "Complete task" button
       = link_to @task.complete ? 'Un-Complete' : 'Complete',
         complete_task_path(@task, show: true),

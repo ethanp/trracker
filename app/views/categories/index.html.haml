@@ -7,8 +7,7 @@
   - @category_rows.each do |cat_row|
     .row
       - cat_row.each do |category|
-        -# dead & alive are for the Coffeescript
-        -# TODO it's wrong dough. it *should* be saying whether this category is OUT OF DATE!
+        -# 'dead' & 'alive' are for the Coffeescript
         .col-md-3.panel.panel-default{class: category.has_ended ? 'dead' : 'alive'}
           .panel-heading
             %h3.text-center.text-info

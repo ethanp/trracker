@@ -7,10 +7,13 @@ class CategoriesController < ApplicationController
   def index
     @categories = current_user.categories
 
+    # sort by end_date in reverse for better alignment of the table
+    sorted_cats = @categories.sort_by{|c| c.end_date || DateTime.now}.reverse!
+    
     # this is for better row-by-row aligned displaying of the categories
     # this turns [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] => [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9]]
     # so that each row contains 4 categories
-    @category_rows = @categories.each_slice(4).to_a
+    @category_rows = sorted_cats.each_slice(4).to_a
     @page_title = "Categories"
   end
 
