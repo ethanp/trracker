@@ -47,14 +47,19 @@ class IntervalsController < ApplicationController
   end
 
   def create_from_ajax
-    puts params
-    start_end = params[:interval].split.map { |milli|
+    puts params # e.g. {"interval"=>"1431844134591 1431844136841", "task_id"=>"17"}
+
+    # convert interval from milliseconds to [start-datetime, end-datetime] array
+    start_end = params[:interval].split.map do |milli|
       DateTime.strptime((milli.to_f / 1000).to_s, '%s')
-    }
+    end
+
     @interval = Interval.new(start: start_end.first,
                              end: start_end.last,
                              task_id: params[:task_id])
+
     puts "'create_from_ajax' interval from record button: #{@interval.start}, #{@interval.end}"
+
     if @interval.save
       render @interval
     else

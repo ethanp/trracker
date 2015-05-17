@@ -11,10 +11,13 @@ ready = ->
       localStorage.setItem currentUrl, $.now()
       $timerReading.text "0:00"
       beginIncrementer()
-    else # pressed "Stop", send interval and render response
+    else
+      # pressed "Stop", send interval and render response
       timeSpan = interval: localStorage.getItem(currentUrl) + " " + $.now()
+
       $.post currentUrl + "/intervals-ajax.json", timeSpan, (data) ->
 
+        # add row to interval table
         $("#interval-table").append(
           $("<tr>").addClass("interval").attr("id", data.id).append(
             $('<td>').text(data.start),
@@ -22,6 +25,11 @@ ready = ->
             $('<td>').text(data.time),
             $('<td>').text(data.date),
             $('<td>').html(data.button.replace(/'/g,'"'))))
+
+        # update states on time spent today this is where I use them
+        $("#tt").html(data.tt) # [updated] time today
+        $("#iw").html(data.iw) # [updated] total time in words
+        $("#ih").html(data.ih) # [updated] total time in hours
 
         cancelRecording()
         # one is supposed to have this "empty return" so that you

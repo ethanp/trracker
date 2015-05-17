@@ -9,8 +9,8 @@
       - unless @task.duedate.nil?
         %p
           %strong Duedate:
-          = @task.duedate.strftime("%A, %B %e at %l:%M %p")
-          , or
+          #{@task.duedate.strftime "%A, %B %e at %l:%M %p"},
+          or
           %strong
             - if @task.duedate > Time.now
               in
@@ -19,15 +19,15 @@
               ago
       %p
         %strong Time spent today:
-        = hours_and_minutes_string_from_seconds @task.seconds_spent_today
+        %span#tt #{hours_and_minutes_string_from_seconds @task.seconds_spent_today}
 
       #total-time
         %p#in-words
           %strong Total time spent so far:
-          = time_ago_in_words @task.seconds_spent.ago
+          %span#iw #{time_ago_in_words @task.seconds_spent.ago}
         %p#in-hours
           %strong Total time spent so far:
-          about #{@task.seconds_spent / (60 * 60)} hours
+          %span#ih about #{@task.seconds_spent / (60 * 60)} hours
 
       -# click total-time to switch format between words and num hours
       :coffeescript
