@@ -1,6 +1,6 @@
 %tr
   %td
-    %h4= render 'task_link_maybe_crossed', task: task
+    %h4= render 'tasks/task_link_maybe_crossed', task: task
   %td
     %h5= task.duedate.nil? ? "" : task.duedate.strftime("%A, %B %e at %l:%M %p")
 
