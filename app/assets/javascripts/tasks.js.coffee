@@ -146,8 +146,18 @@ ready = ->
   addSortValues $('.turned-in')
   addSortValues $('.not-turned-in')
 
-  return
 
+  # this is for adding subtasks via ajax
+  # it is (quite loosely) based on http://ericlondon.com/2014/01/25/ruby-on-rails-4-ajax-form.html
+  $(document).bind "ajaxSuccess", "form.subtask_form", (event, xhr, settings) ->
+    $('#subtasks-list').append(
+      $('<li>').text(xhr.responseJSON.name+" (new!)").addClass('list-group-item'))
+    return
+
+  # I already get a response with text of reason for failure, I can use it as follows if I want
+  $(document).bind "ajaxError", "form.subtask_form", (event, jqxhr, settings, exception) -> return
+
+  return # this is the `return` from the ready() function all the way from the top of this file!
 
 # These *are* both necessary.
 # The first one is for when you reload the page.

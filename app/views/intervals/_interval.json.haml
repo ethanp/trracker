@@ -3,7 +3,7 @@
 "end"   : "#{@interval.end.strftime("%l:%M %p")}",
 "time"  : "#{distance_of_time_in_words(interval.end,interval.start)}",
 "date"  : "#{interval.start.strftime("%A, %B %e")}",
-"button": "#{link_to('Delete', @interval, method: :delete, class: 'btn btn-danger btn-sm', remote: true ).gsub(/"/,"'").html_safe}",
+"button": "#{link_to('Delete', @interval, method: :delete, class: 'btn btn-danger btn-sm', remote: true).gsub(/"/,"'").html_safe}",
 "id"    : "#{dom_id(@interval).html_safe}",
 -# time today
 "tt" : "#{hours_and_minutes_string_from_seconds @interval.task.seconds_spent_today}",

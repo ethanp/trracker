@@ -1,5 +1,6 @@
 = simple_form_for @subtask,
-  url: task_subtasks_path(params[:id]) do |f|
+  url: task_subtasks_path(params[:id], format: :json),
+  remote: true, html: {class: :subtask_form} do |f|
 
   = f.input :name,
     label: false,
